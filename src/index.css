@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #FDFBF7;
+  --color-ink: #2C2925;
+  --color-sage: #7C8974;
+  --color-clay: #B48464;
+  --color-divider: #E6E2D6;
+  --color-card: #FFFFFF;
+  --color-muted: #6B655F;
+  --color-panel: #F9F7F2;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Georgia', serif;
+}
