@@ -35,14 +35,18 @@ export const GraphView: React.FC<GraphViewProps> = ({ nodes, links }) => {
       .attr('viewBox', [0, 0, width, height])
       .attr('style', 'max-width: 100%; height: auto;');
 
+    // Clone nodes and links to prevent D3 from mutating the prop objects
+    const simNodes = nodes.map(d => ({ ...d }));
+    const simLinks = links.map(d => ({ ...d }));
+
     const simulation = d3
-      .forceSimulation(nodes as any)
+      .forceSimulation(simNodes as any)
       .force(
         'link',
         d3
-          .forceLink(links)
+          .forceLink(simLinks)
           .id((d: any) => d.id)
-          .distance(100)
+          .distance((d: any) => d.target.id?.toString().startsWith('auto-') ? 150 : 100)
       )
       .force('charge', d3.forceManyBody().strength(-400))
       .force('center', d3.forceCenter(width / 2, height / 2))
@@ -53,16 +57,17 @@ export const GraphView: React.FC<GraphViewProps> = ({ nodes, links }) => {
       .attr('stroke', '#E6E2D6') // divider
       .attr('stroke-opacity', 0.8)
       .selectAll('line')
-      .data(links)
+      .data(simLinks)
       .join('line')
-      .attr('stroke-width', 2);
+      .attr('stroke-width', 2)
+      .attr('stroke-dasharray', (d: any) => d.target.id?.toString().startsWith('auto-') ? '5,5' : 'none');
 
     const node = svg
       .append('g')
       .attr('stroke', '#fff')
       .attr('stroke-width', 1.5)
       .selectAll('g')
-      .data(nodes)
+      .data(simNodes)
       .join('g')
       .call(
         d3
@@ -75,15 +80,18 @@ export const GraphView: React.FC<GraphViewProps> = ({ nodes, links }) => {
     node
       .append('circle')
       .attr('r', 20)
-      .attr('fill', (d) => colorMap[d.type] || '#999');
+      .attr('fill', (d: any) => colorMap[d.type] || '#999')
+      .attr('stroke', (d: any) => d.id?.toString().startsWith('auto-') ? '#D4A373' : '#fff')
+      .attr('stroke-dasharray', (d: any) => d.id?.toString().startsWith('auto-') ? '3,3' : 'none');
 
     node
       .append('text')
-      .text((d) => d.label)
+      .text((d: any) => d.label)
       .attr('x', 25)
       .attr('y', 5)
       .attr('font-size', '12px')
-      .attr('fill', '#2C2925') // ink
+      .attr('fill', (d: any) => d.id?.toString().startsWith('auto-') ? '#D4A373' : '#2C2925') // ink
+      .attr('font-weight', (d: any) => d.id?.toString().startsWith('auto-') ? 'bold' : 'normal')
       .attr('stroke', 'none')
       .attr('font-family', 'sans-serif');
 

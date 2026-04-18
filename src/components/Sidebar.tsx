@@ -9,9 +9,11 @@ interface SidebarProps {
   onBookChange: (id: string) => void;
   activeClauseId: string;
   onClauseChange: (id: string) => void;
+  searchQuery: string;
+  onSearchChange: (q: string) => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ books, activeBookId, onBookChange, activeClauseId, onClauseChange }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ books, activeBookId, onBookChange, activeClauseId, onClauseChange, searchQuery, onSearchChange }) => {
   return (
     <div className="border-r border-divider p-6 bg-paper flex flex-col h-full overflow-y-auto">
       <div className="mb-6">
@@ -35,6 +37,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ books, activeBookId, onBookCha
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
           <input 
             type="text" 
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
             placeholder="搜索条文、症状、方剂..." 
             className="w-full bg-card border border-divider text-sm text-ink rounded-md pl-9 pr-3 py-2 outline-none focus:ring-1 focus:ring-sage"
           />

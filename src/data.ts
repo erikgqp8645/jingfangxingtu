@@ -23,7 +23,8 @@ export interface ClauseData {
   translation: string;
   nodes: GraphNode[];
   links: GraphLink[];
-  plugins: {
+  keywords?: string[];
+  plugins?: {
     bingyuan: PluginData[];
     neijing: PluginData[];
     mingli: PluginData[];
