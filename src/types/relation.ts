@@ -6,6 +6,12 @@ export interface ClauseData {
   keywords: string[];
 }
 
+export interface KeywordSaveResponse {
+  ok: boolean;
+  added: boolean;
+  clause: ClauseData;
+}
+
 export interface ClauseListItem {
   id: string;
   title: string;

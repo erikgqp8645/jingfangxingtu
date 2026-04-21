@@ -11,7 +11,7 @@ import {PluginPanel} from './components/PluginPanel';
 import {SearchResults} from './components/SearchResults';
 import {prefetchKnowledgeBase, resolveClauseRelations, searchKnowledgeBase} from './lib/searchUtils';
 import {buildRelationGraph} from './lib/relationGraph';
-import type {BookCatalogItem, ClauseData, VisibleNodeTypes} from './types/relation';
+import type {BookCatalogItem, ClauseData, KeywordSaveResponse, VisibleNodeTypes} from './types/relation';
 
 async function loadClauseData(dataFile?: string | null): Promise<ClauseData | null> {
   if (!dataFile) return null;
@@ -74,15 +74,25 @@ export default function App() {
 
   const activeBook = books.find(book => book.id === activeBookId) || books[0];
 
+  let activeClauseItem = null;
   let activeClauseData: ClauseData | null = null;
   activeBook?.chapters?.forEach(chapter => {
     const found = chapter.clauses.find(clause => clause.id === activeClauseId);
+    if (found) activeClauseItem = found;
     if (found?.data) activeClauseData = found.data;
   });
 
   const fallbackBook = books?.[0];
-  const fallbackClause = fallbackBook?.chapters?.[0]?.clauses?.find(clause => clause.data !== null)?.data || null;
-  const currentData = activeClauseData || fallbackClause;
+  const fallbackClauseItem = fallbackBook?.chapters?.[0]?.clauses?.find(clause => clause.data !== null) || null;
+  const fallbackClause = fallbackClauseItem?.data || null;
+  const activeBookHasData = !!activeBook?.chapters?.some(chapter => chapter.clauses.some(clause => clause.data !== null));
+  const currentData =
+    activeClauseData ||
+    (activeBook?.id === fallbackBook?.id ? fallbackClause : null);
+  const currentDataFile =
+    activeClauseItem?.dataFile ||
+    (activeBook?.id === fallbackBook?.id ? fallbackClauseItem?.dataFile : null) ||
+    null;
   const effectiveKeywords = currentData ? currentData.keywords.filter(keyword => selectedKeywords.includes(keyword)) : [];
   const relationHits = currentData ? resolveClauseRelations(effectiveKeywords) : [];
   const searchResults = searchKnowledgeBase(searchQuery);
@@ -134,7 +144,7 @@ export default function App() {
       }
     }
 
-    if (firstValidId) setActiveClauseId(firstValidId);
+    setActiveClauseId(firstValidId);
   };
 
   const handleClauseChange = (clauseId: string) => {
@@ -173,16 +183,44 @@ export default function App() {
     );
   };
 
+  const handleAddKeyword = async (keyword: string) => {
+    if (!currentDataFile) {
+      throw new Error('当前条文没有可写入的 dataFile');
+    }
+
+    const response = await fetch('/api/keywords/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        dataFile: currentDataFile,
+        keyword,
+      }),
+    });
+
+    const result = (await response.json()) as KeywordSaveResponse & {error?: string};
+    if (!response.ok || !result.ok) {
+      throw new Error(result.error || '关键词保存失败');
+    }
+
+    setBooks(prev =>
+      prev.map(book => ({
+        ...book,
+        chapters: book.chapters.map(chapter => ({
+          ...chapter,
+          clauses: chapter.clauses.map(clause =>
+            clause.id === activeClauseId ? {...clause, data: result.clause} : clause,
+          ),
+        })),
+      })),
+    );
+    setSelectedKeywords(prev => (prev.includes(keyword) ? prev : [...prev, keyword]));
+    return result.added;
+  };
+
   if (isLoading) {
     return <div className="flex h-screen items-center justify-center bg-paper text-ink">Loading Relations...</div>;
-  }
-
-  if (!currentData) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-paper text-ink">
-        当前没有可用条文数据，请检查 data/jingdianconfig.json 与 data/经典/ 目录。
-      </div>
-    );
   }
 
   return (
@@ -208,70 +246,87 @@ export default function App() {
         />
 
         <div className="flex flex-col min-w-0 bg-[radial-gradient(circle_at_center,#ffffff_0%,#FDFBF7_100%)] overflow-y-auto relative">
-          {isSearching && <SearchResults query={searchQuery} results={searchResults} onClear={() => setSearchQuery('')} />}
+          {currentData ? (
+            <>
+              {isSearching && <SearchResults query={searchQuery} results={searchResults} onClear={() => setSearchQuery('')} />}
 
-          <div className="h-1/2 p-6 flex-shrink-0">
-            <div className="mb-3 flex items-center gap-4 text-xs text-ink flex-wrap">
-              <span className="text-clay font-bold">节点显示</span>
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={visibleNodeTypes.clause}
-                  onChange={() => handleToggleNodeType('clause')}
-                  className="h-4 w-4 accent-[var(--color-clay)]"
-                />
-                <span>条文</span>
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={visibleNodeTypes.keyword}
-                  onChange={() => handleToggleNodeType('keyword')}
-                  className="h-4 w-4 accent-[var(--color-clay)]"
-                />
-                <span>关键词</span>
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={visibleNodeTypes.source}
-                  onChange={() => handleToggleNodeType('source')}
-                  className="h-4 w-4 accent-[var(--color-clay)]"
-                />
-                <span>关联结果</span>
-              </label>
-            </div>
-            <div className="w-full h-full relative border border-divider rounded-xl bg-card/50 shadow-sm overflow-hidden">
-              <GraphView nodes={currentGraph.nodes} links={currentGraph.links} />
-            </div>
-          </div>
+              <div className="h-1/2 p-6 flex-shrink-0">
+                <div className="mb-3 flex items-center gap-4 text-xs text-ink flex-wrap">
+                  <span className="text-clay font-bold">节点显示</span>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={visibleNodeTypes.clause}
+                      onChange={() => handleToggleNodeType('clause')}
+                      className="h-4 w-4 accent-[var(--color-clay)]"
+                    />
+                    <span>条文</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={visibleNodeTypes.keyword}
+                      onChange={() => handleToggleNodeType('keyword')}
+                      className="h-4 w-4 accent-[var(--color-clay)]"
+                    />
+                    <span>关键词</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={visibleNodeTypes.source}
+                      onChange={() => handleToggleNodeType('source')}
+                      className="h-4 w-4 accent-[var(--color-clay)]"
+                    />
+                    <span>关联结果</span>
+                  </label>
+                </div>
+                <div className="w-full h-full relative border border-divider rounded-xl bg-card/50 shadow-sm overflow-hidden">
+                  <GraphView nodes={currentGraph.nodes} links={currentGraph.links} />
+                </div>
+              </div>
 
-          <div className="flex-1 p-6 flex flex-col items-center justify-center text-center">
-            <ClauseDetail
-              clause={currentData}
-              relationCount={visibleSelectedRelationHits.length}
-              selectedKeywords={selectedKeywords}
-              onToggleKeyword={handleToggleKeyword}
-            />
-          </div>
+              <div className="flex-1 p-6 flex flex-col items-center justify-center text-center">
+                <ClauseDetail
+                  clause={currentData}
+                  relationCount={visibleSelectedRelationHits.length}
+                  selectedKeywords={selectedKeywords}
+                  onToggleKeyword={handleToggleKeyword}
+                  onAddKeyword={handleAddKeyword}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="flex-1 p-6 flex items-center justify-center text-ink">
+              {activeBookHasData
+                ? '当前条文没有可用数据，请重新选择条文。'
+                : `《${activeBook?.name?.replace(/[《》]/g, '') || '当前经典'}》当前还没有接入条文数据。`}
+            </div>
+          )}
         </div>
 
-        <PluginPanel
-          clause={currentData}
-          relationHits={visibleRelationHits}
-          selectedHitIds={selectedHitIds}
-          sourceVisible={visibleNodeTypes.source}
-          onToggleHit={handleToggleHit}
-          onSelectSource={handleSelectSource}
-          onClearSource={handleClearSource}
-          onResetRecommended={handleResetRecommended}
-        />
+        {currentData ? (
+          <PluginPanel
+            clause={currentData}
+            relationHits={visibleRelationHits}
+            selectedHitIds={selectedHitIds}
+            sourceVisible={visibleNodeTypes.source}
+            onToggleHit={handleToggleHit}
+            onSelectSource={handleSelectSource}
+            onClearSource={handleClearSource}
+            onResetRecommended={handleResetRecommended}
+          />
+        ) : (
+          <div className="border-l border-divider p-6 bg-panel h-full overflow-y-auto w-[320px] shrink-0 text-sm text-muted flex items-center justify-center">
+            当前经典暂无关联结果
+          </div>
+        )}
       </main>
 
       <footer className="h-[40px] border-t border-divider px-10 flex items-center text-[11px] text-muted bg-paper shrink-0">
         <span className="mr-5">● 系统已连接: {books.length} 部经典</span>
-        <span className="mr-5">● 当前关键词: {selectedKeywords.length} / {currentData.keywords.length}</span>
-        <span>● 当前关联命中: {visibleSelectedRelationHits.length} / {visibleRelationHits.length}</span>
+        <span className="mr-5">● 当前关键词: {currentData ? `${selectedKeywords.length} / ${currentData.keywords.length}` : '0 / 0'}</span>
+        <span>● 当前关联命中: {currentData ? `${visibleSelectedRelationHits.length} / ${visibleRelationHits.length}` : '0 / 0'}</span>
       </footer>
     </div>
   );

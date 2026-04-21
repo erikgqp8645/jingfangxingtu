@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import type {ClauseData} from '../types/relation';
 
 interface ClauseDetailProps {
@@ -6,6 +6,7 @@ interface ClauseDetailProps {
   relationCount: number;
   selectedKeywords: string[];
   onToggleKeyword: (keyword: string) => void;
+  onAddKeyword: (keyword: string) => Promise<boolean>;
 }
 
 export const ClauseDetail: React.FC<ClauseDetailProps> = ({
@@ -13,7 +14,66 @@ export const ClauseDetail: React.FC<ClauseDetailProps> = ({
   relationCount,
   selectedKeywords,
   onToggleKeyword,
+  onAddKeyword,
 }) => {
+  const contentRef = useRef<HTMLHeadingElement>(null);
+  const [pendingKeyword, setPendingKeyword] = useState('');
+  const [menuState, setMenuState] = useState<{x: number; y: number} | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [feedback, setFeedback] = useState<string | null>(null);
+  const existingKeywordSet = useMemo(() => new Set(clause.keywords), [clause.keywords]);
+  const keywordAlreadyExists = !!pendingKeyword && existingKeywordSet.has(pendingKeyword);
+
+  useEffect(() => {
+    const handleGlobalClick = () => setMenuState(null);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMenuState(null);
+      }
+    };
+    window.addEventListener('click', handleGlobalClick);
+    window.addEventListener('scroll', handleGlobalClick, true);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('click', handleGlobalClick);
+      window.removeEventListener('scroll', handleGlobalClick, true);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  const canAddPendingKeyword = useMemo(() => {
+    return !!pendingKeyword && pendingKeyword.length <= 30 && !keywordAlreadyExists;
+  }, [pendingKeyword, keywordAlreadyExists]);
+
+  const handleContentContextMenu = (event: React.MouseEvent<HTMLHeadingElement>) => {
+    const selection = window.getSelection();
+    const text = selection?.toString().trim() || '';
+    if (!text) return;
+
+    const anchorNode = selection?.anchorNode;
+    if (!anchorNode || !contentRef.current?.contains(anchorNode)) return;
+
+    event.preventDefault();
+    setPendingKeyword(text);
+    setMenuState({x: event.clientX, y: event.clientY});
+    setFeedback(null);
+  };
+
+  const handleConfirmAddKeyword = async () => {
+    if (!canAddPendingKeyword) return;
+    setIsSaving(true);
+    try {
+      const added = await onAddKeyword(pendingKeyword);
+      setFeedback(added ? `已添加关键词：${pendingKeyword}` : `关键词已存在：${pendingKeyword}`);
+      setMenuState(null);
+      setPendingKeyword('');
+    } catch (error) {
+      setFeedback(error instanceof Error ? error.message : '关键词保存失败');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <div className="flex flex-col items-start justify-center text-left max-w-4xl w-full mx-auto gap-5">
       <div className="flex gap-3 flex-wrap">
@@ -23,7 +83,11 @@ export const ClauseDetail: React.FC<ClauseDetailProps> = ({
 
       <h2 className="text-[18px] tracking-[1px] text-clay font-semibold">{clause.title}</h2>
 
-      <h1 className="text-[28px] leading-[1.8] font-serif text-[#1a1a1a] w-full text-left">
+      <h1
+        ref={contentRef}
+        onContextMenu={handleContentContextMenu}
+        className="text-[28px] leading-[1.8] font-serif text-[#1a1a1a] w-full text-left"
+      >
         {clause.content.split('。').map((sentence, idx, arr) => (
           <React.Fragment key={idx}>
             {sentence}
@@ -32,6 +96,44 @@ export const ClauseDetail: React.FC<ClauseDetailProps> = ({
           </React.Fragment>
         ))}
       </h1>
+      <div className="text-xs text-muted">在正文原文区选中文字后右键，可添加为关键词</div>
+      {feedback && <div className={`text-xs ${feedback.includes('失败') ? 'text-red-600' : 'text-sage'}`}>{feedback}</div>}
+
+      {menuState && (
+        <div
+          className="fixed z-50 bg-white border border-divider rounded-lg shadow-lg p-2 min-w-[180px]"
+          style={{left: menuState.x, top: menuState.y}}
+          onClick={event => event.stopPropagation()}
+        >
+          <div className="text-xs text-muted px-2 py-1">选中文本</div>
+          <div className="px-2 py-1 text-sm text-ink break-all">{pendingKeyword}</div>
+          <div className="px-2 py-1 text-xs text-muted">
+            {keywordAlreadyExists
+              ? '该文本已经在关键词列表中'
+              : pendingKeyword.length > 30
+                ? '关键词长度不能超过 30 个字符'
+                : '将按选中的原文文本原样写入'}
+          </div>
+          <div className="mt-2 flex gap-2">
+            <button
+              type="button"
+              disabled={!canAddPendingKeyword || isSaving}
+              onClick={handleConfirmAddKeyword}
+              className="flex-1 text-left px-2 py-2 text-sm rounded-md bg-panel hover:bg-divider disabled:opacity-50"
+            >
+              {isSaving ? '保存中...' : keywordAlreadyExists ? '已存在' : '添加为关键词'}
+            </button>
+            <button
+              type="button"
+              disabled={isSaving}
+              onClick={() => setMenuState(null)}
+              className="px-3 py-2 text-sm rounded-md border border-divider hover:border-sage disabled:opacity-50"
+            >
+              取消
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="bg-card px-6 py-4 rounded-xl border border-dashed border-clay w-full shadow-sm text-left">
         <div className="text-clay font-bold text-sm mb-2">白话解析</div>

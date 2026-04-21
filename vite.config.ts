@@ -14,6 +14,53 @@ function repoDataAsPublicData(): Plugin {
   return {
     name: 'repo-data-as-slash-data',
     configureServer(server) {
+      server.middlewares.use('/api/keywords/add', (req, res, next) => {
+        if (req.method !== 'POST') return next();
+
+        let body = '';
+        req.on('data', chunk => {
+          body += chunk;
+        });
+        req.on('end', () => {
+          try {
+            const payload = JSON.parse(body || '{}');
+            const dataFile = typeof payload.dataFile === 'string' ? payload.dataFile : '';
+            const keyword = typeof payload.keyword === 'string' ? payload.keyword.trim() : '';
+
+            if (!dataFile.startsWith('/data/经典/') || !keyword) {
+              res.statusCode = 400;
+              res.setHeader('Content-Type', 'application/json; charset=utf-8');
+              res.end(JSON.stringify({ok: false, error: 'Invalid dataFile or keyword'}));
+              return;
+            }
+
+            const rel = decodeURIComponent(dataFile.slice('/data/'.length));
+            const file = path.resolve(dataRoot, rel);
+            const relToRoot = path.relative(dataRoot, file);
+            if (relToRoot.startsWith('..') || path.isAbsolute(relToRoot)) {
+              res.statusCode = 400;
+              res.setHeader('Content-Type', 'application/json; charset=utf-8');
+              res.end(JSON.stringify({ok: false, error: 'Invalid path'}));
+              return;
+            }
+
+            const clause = JSON.parse(fs.readFileSync(file, 'utf8'));
+            const keywords = Array.isArray(clause.keywords) ? clause.keywords : [];
+            const added = !keywords.includes(keyword);
+            clause.keywords = added ? [...keywords, keyword] : keywords;
+            fs.writeFileSync(file, `${JSON.stringify(clause, null, 2)}\n`, 'utf8');
+
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json; charset=utf-8');
+            res.end(JSON.stringify({ok: true, added, clause}));
+          } catch (error) {
+            res.statusCode = 500;
+            res.setHeader('Content-Type', 'application/json; charset=utf-8');
+            res.end(JSON.stringify({ok: false, error: error instanceof Error ? error.message : 'Unknown error'}));
+          }
+        });
+      });
+
       server.middlewares.use((req, res, next) => {
         const urlPath = req.url?.split('?')[0];
         if (!urlPath?.startsWith('/data/')) return next();
