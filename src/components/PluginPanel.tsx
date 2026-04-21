@@ -6,6 +6,7 @@ interface PluginPanelProps {
   clause: ClauseData;
   relationHits: RelationHit[];
   selectedHitIds: string[];
+  sourceVisible: boolean;
   onToggleHit: (hitId: string) => void;
   onSelectSource: (source: string) => void;
   onClearSource: (source: string) => void;
@@ -18,6 +19,7 @@ export const PluginPanel: React.FC<PluginPanelProps> = ({
   clause,
   relationHits,
   selectedHitIds,
+  sourceVisible,
   onToggleHit,
   onSelectSource,
   onClearSource,
@@ -84,11 +86,15 @@ export const PluginPanel: React.FC<PluginPanelProps> = ({
           >
             恢复推荐选择
           </button>
-          <span className="text-[11px] text-muted self-center">已选 {selectedHitIds.length} / {relationHits.length}</span>
+          <span className="text-[11px] text-muted self-center">
+            已选 {sourceVisible ? selectedHitIds.length : 0} / {sourceVisible ? relationHits.length : 0}
+          </span>
         </div>
       </div>
 
-      {allSources.length === 0 ? (
+      {!sourceVisible ? (
+        <div className="text-muted text-sm mt-4 text-center">已关闭“关联结果”，右侧命中列表暂不显示</div>
+      ) : allSources.length === 0 ? (
         <div className="text-muted text-sm mt-4 text-center">暂无相关命中</div>
       ) : (
         allSources.map(source => (

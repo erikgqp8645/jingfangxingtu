@@ -103,6 +103,8 @@ export default function App() {
   }, [selectionKey]);
 
   const selectedRelationHits = relationHits.filter(hit => selectedHitIds.includes(hit.id));
+  const visibleSelectedRelationHits = visibleNodeTypes.source ? selectedRelationHits : [];
+  const visibleRelationHits = visibleNodeTypes.source ? relationHits : [];
   const currentGraph = currentData
     ? buildRelationGraph(currentData, selectedRelationHits, visibleNodeTypes)
     : {nodes: [], links: []};
@@ -220,7 +222,7 @@ export default function App() {
                   onChange={() => handleToggleNodeType('source')}
                   className="h-4 w-4 accent-[var(--color-clay)]"
                 />
-                <span>来源片段</span>
+                <span>关联结果</span>
               </label>
             </div>
             <div className="w-full h-full relative border border-divider rounded-xl bg-card/50 shadow-sm overflow-hidden">
@@ -229,14 +231,15 @@ export default function App() {
           </div>
 
           <div className="flex-1 p-6 flex flex-col items-center justify-center text-center">
-            <ClauseDetail clause={currentData} relationCount={selectedRelationHits.length} />
+            <ClauseDetail clause={currentData} relationCount={visibleSelectedRelationHits.length} />
           </div>
         </div>
 
         <PluginPanel
           clause={currentData}
-          relationHits={relationHits}
+          relationHits={visibleRelationHits}
           selectedHitIds={selectedHitIds}
+          sourceVisible={visibleNodeTypes.source}
           onToggleHit={handleToggleHit}
           onSelectSource={handleSelectSource}
           onClearSource={handleClearSource}
@@ -247,7 +250,7 @@ export default function App() {
       <footer className="h-[40px] border-t border-divider px-10 flex items-center text-[11px] text-muted bg-paper shrink-0">
         <span className="mr-5">● 系统已连接: {books.length} 部经典</span>
         <span className="mr-5">● 当前关键词: {currentData.keywords.length}</span>
-        <span>● 当前关联命中: {selectedRelationHits.length} / {relationHits.length}</span>
+        <span>● 当前关联命中: {visibleSelectedRelationHits.length} / {visibleRelationHits.length}</span>
       </footer>
     </div>
   );
