@@ -49,6 +49,9 @@ export const SearchResults: React.FC<SearchResultsProps> = ({query, results, onC
                 </div>
 
                 {item.keyword && <div className="text-xs text-muted mb-2">命中关键词: {item.keyword}</div>}
+                {item.category && item.category !== item.source && (
+                  <div className="text-xs text-muted mb-2">分组: {item.category}</div>
+                )}
 
                 <div className="text-[15px] leading-relaxed text-ink whitespace-pre-wrap font-serif">{item.text}</div>
               </div>

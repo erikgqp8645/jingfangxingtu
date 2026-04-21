@@ -32,6 +32,46 @@ function excerpt(content: string, keyword: string, radius = 80) {
   return `${prefix}${clean.slice(start, end)}${suffix}`;
 }
 
+function compareRelationHits(a: RelationHit, b: RelationHit) {
+  if (a.matchType !== b.matchType) {
+    return a.matchType === 'json' ? -1 : 1;
+  }
+  return (
+    a.sourceName.localeCompare(b.sourceName, 'zh-CN') ||
+    a.title.localeCompare(b.title, 'zh-CN') ||
+    a.keyword.localeCompare(b.keyword, 'zh-CN')
+  );
+}
+
+function dedupeAndSortHits(hits: RelationHit[]) {
+  const merged = new Map<string, RelationHit>();
+
+  hits.forEach(hit => {
+    const key = [
+      hit.sourceName,
+      hit.category,
+      hit.title,
+      hit.content,
+      hit.matchType,
+    ].join('||');
+    const existing = merged.get(key);
+
+    if (!existing) {
+      merged.set(key, {
+        ...hit,
+        keywords: [hit.keyword],
+      });
+      return;
+    }
+
+    const keywordSet = new Set([...(existing.keywords || [existing.keyword]), hit.keyword]);
+    existing.keywords = Array.from(keywordSet).sort((a, b) => a.localeCompare(b, 'zh-CN'));
+    existing.keyword = existing.keywords[0];
+  });
+
+  return Array.from(merged.values()).sort(compareRelationHits);
+}
+
 function parseTxtHits(config: KnowledgeSourceConfig, keyword: string, txtContent: string): RelationHit[] {
   const segments = txtContent.split(/<篇名>|【篇名】/);
   const hits: RelationHit[] = [];
@@ -124,7 +164,7 @@ export function resolveClauseRelations(keywords: string[]): RelationHit[] {
     }
   }
 
-  return hits;
+  return dedupeAndSortHits(hits);
 }
 
 export function searchKnowledgeBase(query: string): SearchResult[] {
@@ -133,10 +173,11 @@ export function searchKnowledgeBase(query: string): SearchResult[] {
 
   return resolveClauseRelations([keyword]).map(hit => ({
     id: hit.id,
-    source: hit.category,
+    source: hit.sourceName,
+    category: hit.category,
     title: hit.title,
     text: hit.content,
     matchType: hit.matchType,
-    keyword: hit.keyword,
+    keyword: (hit.keywords || [hit.keyword]).join(' / '),
   }));
 }

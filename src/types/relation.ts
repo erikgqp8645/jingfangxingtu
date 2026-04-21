@@ -33,6 +33,7 @@ export interface KnowledgeSourceConfig {
 export interface RelationHit {
   id: string;
   keyword: string;
+  keywords?: string[];
   sourceName: string;
   category: string;
   title: string;
@@ -43,6 +44,7 @@ export interface RelationHit {
 export interface SearchResult {
   id: string;
   source: string;
+  category?: string;
   title: string;
   text: string;
   matchType: 'json' | 'txt';
