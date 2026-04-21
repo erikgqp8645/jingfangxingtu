@@ -4,9 +4,16 @@ import type {ClauseData} from '../types/relation';
 interface ClauseDetailProps {
   clause: ClauseData;
   relationCount: number;
+  selectedKeywords: string[];
+  onToggleKeyword: (keyword: string) => void;
 }
 
-export const ClauseDetail: React.FC<ClauseDetailProps> = ({clause, relationCount}) => {
+export const ClauseDetail: React.FC<ClauseDetailProps> = ({
+  clause,
+  relationCount,
+  selectedKeywords,
+  onToggleKeyword,
+}) => {
   return (
     <div className="flex flex-col items-center justify-center text-center max-w-3xl mx-auto gap-5">
       <div className="flex gap-3 flex-wrap justify-center">
@@ -35,9 +42,22 @@ export const ClauseDetail: React.FC<ClauseDetailProps> = ({clause, relationCount
         <div className="text-clay font-bold text-sm mb-2">关键词</div>
         <div className="flex flex-wrap gap-2">
           {clause.keywords.map(keyword => (
-            <span key={keyword} className="px-3 py-1 rounded-full bg-panel border border-divider text-xs text-ink">
-              {keyword}
-            </span>
+            <label
+              key={keyword}
+              className={`px-3 py-1 rounded-full border text-xs inline-flex items-center gap-2 cursor-pointer transition-colors ${
+                selectedKeywords.includes(keyword)
+                  ? 'bg-panel border-clay text-ink'
+                  : 'bg-white border-divider text-muted'
+              }`}
+            >
+              <input
+                type="checkbox"
+                checked={selectedKeywords.includes(keyword)}
+                onChange={() => onToggleKeyword(keyword)}
+                className="h-3.5 w-3.5 accent-[var(--color-clay)]"
+              />
+              <span>{keyword}</span>
+            </label>
           ))}
         </div>
       </div>

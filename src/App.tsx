@@ -32,6 +32,7 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [selectedHitIds, setSelectedHitIds] = useState<string[]>([]);
+  const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
   const [visibleNodeTypes, setVisibleNodeTypes] = useState<VisibleNodeTypes>({
     clause: true,
     keyword: true,
@@ -82,7 +83,8 @@ export default function App() {
   const fallbackBook = books?.[0];
   const fallbackClause = fallbackBook?.chapters?.[0]?.clauses?.find(clause => clause.data !== null)?.data || null;
   const currentData = activeClauseData || fallbackClause;
-  const relationHits = currentData ? resolveClauseRelations(currentData.keywords) : [];
+  const effectiveKeywords = currentData ? currentData.keywords.filter(keyword => selectedKeywords.includes(keyword)) : [];
+  const relationHits = currentData ? resolveClauseRelations(effectiveKeywords) : [];
   const searchResults = searchKnowledgeBase(searchQuery);
   const isSearching = searchQuery.trim().length > 0;
 
@@ -99,6 +101,14 @@ export default function App() {
   const selectionKey = `${currentData?.id || 'none'}::${relationHits.map(hit => hit.id).join('|')}`;
 
   useEffect(() => {
+    if (!currentData) {
+      setSelectedKeywords([]);
+      return;
+    }
+    setSelectedKeywords(currentData.keywords);
+  }, [currentData?.id]);
+
+  useEffect(() => {
     setSelectedHitIds(recommendedHitIds);
   }, [selectionKey]);
 
@@ -106,7 +116,7 @@ export default function App() {
   const visibleSelectedRelationHits = visibleNodeTypes.source ? selectedRelationHits : [];
   const visibleRelationHits = visibleNodeTypes.source ? relationHits : [];
   const currentGraph = currentData
-    ? buildRelationGraph(currentData, selectedRelationHits, visibleNodeTypes)
+    ? buildRelationGraph({...currentData, keywords: effectiveKeywords}, selectedRelationHits, visibleNodeTypes)
     : {nodes: [], links: []};
 
   const handleBookChange = (bookId: string) => {
@@ -155,6 +165,12 @@ export default function App() {
       ...prev,
       [type]: !prev[type],
     }));
+  };
+
+  const handleToggleKeyword = (keyword: string) => {
+    setSelectedKeywords(prev =>
+      prev.includes(keyword) ? prev.filter(item => item !== keyword) : [...prev, keyword],
+    );
   };
 
   if (isLoading) {
@@ -231,7 +247,12 @@ export default function App() {
           </div>
 
           <div className="flex-1 p-6 flex flex-col items-center justify-center text-center">
-            <ClauseDetail clause={currentData} relationCount={visibleSelectedRelationHits.length} />
+            <ClauseDetail
+              clause={currentData}
+              relationCount={visibleSelectedRelationHits.length}
+              selectedKeywords={selectedKeywords}
+              onToggleKeyword={handleToggleKeyword}
+            />
           </div>
         </div>
 
@@ -249,7 +270,7 @@ export default function App() {
 
       <footer className="h-[40px] border-t border-divider px-10 flex items-center text-[11px] text-muted bg-paper shrink-0">
         <span className="mr-5">● 系统已连接: {books.length} 部经典</span>
-        <span className="mr-5">● 当前关键词: {currentData.keywords.length}</span>
+        <span className="mr-5">● 当前关键词: {selectedKeywords.length} / {currentData.keywords.length}</span>
         <span>● 当前关联命中: {visibleSelectedRelationHits.length} / {visibleRelationHits.length}</span>
       </footer>
     </div>
