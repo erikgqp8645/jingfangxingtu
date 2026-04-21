@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Sidebar} from './components/Sidebar';
 import {GraphView} from './components/GraphView';
 import {ClauseDetail} from './components/ClauseDetail';
@@ -11,7 +11,7 @@ import {PluginPanel} from './components/PluginPanel';
 import {SearchResults} from './components/SearchResults';
 import {prefetchKnowledgeBase, resolveClauseRelations, searchKnowledgeBase} from './lib/searchUtils';
 import {buildRelationGraph} from './lib/relationGraph';
-import type {BookCatalogItem, ClauseData} from './types/relation';
+import type {BookCatalogItem, ClauseData, VisibleNodeTypes} from './types/relation';
 
 async function loadClauseData(dataFile?: string | null): Promise<ClauseData | null> {
   if (!dataFile) return null;
@@ -31,6 +31,12 @@ export default function App() {
   const [activeClauseId, setActiveClauseId] = useState('265');
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedHitIds, setSelectedHitIds] = useState<string[]>([]);
+  const [visibleNodeTypes, setVisibleNodeTypes] = useState<VisibleNodeTypes>({
+    clause: true,
+    keyword: true,
+    source: true,
+  });
 
   useEffect(() => {
     Promise.all([fetch('/data/jingdianconfig.json').then(r => r.json()), prefetchKnowledgeBase()])
@@ -76,23 +82,30 @@ export default function App() {
   const fallbackBook = books?.[0];
   const fallbackClause = fallbackBook?.chapters?.[0]?.clauses?.find(clause => clause.data !== null)?.data || null;
   const currentData = activeClauseData || fallbackClause;
-
-  if (isLoading) {
-    return <div className="flex h-screen items-center justify-center bg-paper text-ink">Loading Relations...</div>;
-  }
-
-  if (!currentData) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-paper text-ink">
-        当前没有可用条文数据，请检查 data/jingdianconfig.json 与 data/经典/ 目录。
-      </div>
-    );
-  }
-
-  const relationHits = resolveClauseRelations(currentData.keywords);
-  const currentGraph = buildRelationGraph(currentData, relationHits);
+  const relationHits = currentData ? resolveClauseRelations(currentData.keywords) : [];
   const searchResults = searchKnowledgeBase(searchQuery);
   const isSearching = searchQuery.trim().length > 0;
+
+  const recommendedHitIds = useMemo(() => {
+    const seenSources = new Set<string>();
+    const ids: string[] = [];
+    relationHits.forEach(hit => {
+      if (seenSources.has(hit.sourceName)) return;
+      seenSources.add(hit.sourceName);
+      ids.push(hit.id);
+    });
+    return ids;
+  }, [relationHits]);
+  const selectionKey = `${currentData?.id || 'none'}::${relationHits.map(hit => hit.id).join('|')}`;
+
+  useEffect(() => {
+    setSelectedHitIds(recommendedHitIds);
+  }, [selectionKey]);
+
+  const selectedRelationHits = relationHits.filter(hit => selectedHitIds.includes(hit.id));
+  const currentGraph = currentData
+    ? buildRelationGraph(currentData, selectedRelationHits, visibleNodeTypes)
+    : {nodes: [], links: []};
 
   const handleBookChange = (bookId: string) => {
     setActiveBookId(bookId);
@@ -116,6 +129,43 @@ export default function App() {
     setActiveClauseId(clauseId);
     setSearchQuery('');
   };
+
+  const handleToggleHit = (hitId: string) => {
+    setSelectedHitIds(prev => (prev.includes(hitId) ? prev.filter(id => id !== hitId) : [...prev, hitId]));
+  };
+
+  const handleSelectSource = (sourceName: string) => {
+    const sourceHitIds = relationHits.filter(hit => hit.sourceName === sourceName).map(hit => hit.id);
+    setSelectedHitIds(prev => Array.from(new Set([...prev, ...sourceHitIds])));
+  };
+
+  const handleClearSource = (sourceName: string) => {
+    const sourceHitIds = new Set(relationHits.filter(hit => hit.sourceName === sourceName).map(hit => hit.id));
+    setSelectedHitIds(prev => prev.filter(id => !sourceHitIds.has(id)));
+  };
+
+  const handleResetRecommended = () => {
+    setSelectedHitIds(recommendedHitIds);
+  };
+
+  const handleToggleNodeType = (type: keyof VisibleNodeTypes) => {
+    setVisibleNodeTypes(prev => ({
+      ...prev,
+      [type]: !prev[type],
+    }));
+  };
+
+  if (isLoading) {
+    return <div className="flex h-screen items-center justify-center bg-paper text-ink">Loading Relations...</div>;
+  }
+
+  if (!currentData) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-paper text-ink">
+        当前没有可用条文数据，请检查 data/jingdianconfig.json 与 data/经典/ 目录。
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-screen w-full bg-paper overflow-hidden text-ink relative">
@@ -143,23 +193,61 @@ export default function App() {
           {isSearching && <SearchResults query={searchQuery} results={searchResults} onClear={() => setSearchQuery('')} />}
 
           <div className="h-1/2 p-6 flex-shrink-0">
+            <div className="mb-3 flex items-center gap-4 text-xs text-ink flex-wrap">
+              <span className="text-clay font-bold">节点显示</span>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={visibleNodeTypes.clause}
+                  onChange={() => handleToggleNodeType('clause')}
+                  className="h-4 w-4 accent-[var(--color-clay)]"
+                />
+                <span>条文</span>
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={visibleNodeTypes.keyword}
+                  onChange={() => handleToggleNodeType('keyword')}
+                  className="h-4 w-4 accent-[var(--color-clay)]"
+                />
+                <span>关键词</span>
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={visibleNodeTypes.source}
+                  onChange={() => handleToggleNodeType('source')}
+                  className="h-4 w-4 accent-[var(--color-clay)]"
+                />
+                <span>来源片段</span>
+              </label>
+            </div>
             <div className="w-full h-full relative border border-divider rounded-xl bg-card/50 shadow-sm overflow-hidden">
               <GraphView nodes={currentGraph.nodes} links={currentGraph.links} />
             </div>
           </div>
 
           <div className="flex-1 p-6 flex flex-col items-center justify-center text-center">
-            <ClauseDetail clause={currentData} relationCount={relationHits.length} />
+            <ClauseDetail clause={currentData} relationCount={selectedRelationHits.length} />
           </div>
         </div>
 
-        <PluginPanel clause={currentData} relationHits={relationHits} />
+        <PluginPanel
+          clause={currentData}
+          relationHits={relationHits}
+          selectedHitIds={selectedHitIds}
+          onToggleHit={handleToggleHit}
+          onSelectSource={handleSelectSource}
+          onClearSource={handleClearSource}
+          onResetRecommended={handleResetRecommended}
+        />
       </main>
 
       <footer className="h-[40px] border-t border-divider px-10 flex items-center text-[11px] text-muted bg-paper shrink-0">
         <span className="mr-5">● 系统已连接: {books.length} 部经典</span>
         <span className="mr-5">● 当前关键词: {currentData.keywords.length}</span>
-        <span>● 当前关联命中: {relationHits.length}</span>
+        <span>● 当前关联命中: {selectedRelationHits.length} / {relationHits.length}</span>
       </footer>
     </div>
   );

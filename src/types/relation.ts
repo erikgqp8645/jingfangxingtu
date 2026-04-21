@@ -61,3 +61,9 @@ export interface RelationLink {
   source: string;
   target: string;
 }
+
+export interface VisibleNodeTypes {
+  clause: boolean;
+  keyword: boolean;
+  source: boolean;
+}
