@@ -15,15 +15,15 @@ export const ClauseDetail: React.FC<ClauseDetailProps> = ({
   onToggleKeyword,
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center text-center max-w-3xl mx-auto gap-5">
-      <div className="flex gap-3 flex-wrap justify-center">
+    <div className="flex flex-col items-start justify-center text-left max-w-4xl w-full mx-auto gap-5">
+      <div className="flex gap-3 flex-wrap">
         <div className="bg-clay text-white px-3 py-1 rounded-full text-xs inline-block">当前条文</div>
         <div className="bg-sage text-white px-3 py-1 rounded-full text-xs inline-block">关联命中 {relationCount}</div>
       </div>
 
       <h2 className="text-[18px] tracking-[1px] text-clay font-semibold">{clause.title}</h2>
 
-      <h1 className="text-[28px] leading-[1.6] font-serif text-[#1a1a1a]">
+      <h1 className="text-[28px] leading-[1.8] font-serif text-[#1a1a1a] w-full text-left">
         {clause.content.split('。').map((sentence, idx, arr) => (
           <React.Fragment key={idx}>
             {sentence}
