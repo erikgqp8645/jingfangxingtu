@@ -1,21 +1,25 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useEffect, useRef} from 'react';
 import * as d3 from 'd3';
-import { GraphNode, GraphLink } from '../data';
+import type {RelationLink, RelationNode} from '../types/relation';
 
 interface GraphViewProps {
-  nodes: GraphNode[];
-  links: GraphLink[];
+  nodes: RelationNode[];
+  links: RelationLink[];
 }
 
-const colorMap: Record<string, string> = {
-  anchor: '#B48464', // clay
-  symptom: '#E89B86',
-  theory: '#D4A373',
-  book: '#7C8974', // sage
-  formula: '#9A7E6F',
+const colorMap: Record<RelationNode['type'], string> = {
+  clause: '#B48464',
+  keyword: '#D4A373',
+  source: '#7C8974',
 };
 
-export const GraphView: React.FC<GraphViewProps> = ({ nodes, links }) => {
+const radiusMap: Record<RelationNode['type'], number> = {
+  clause: 26,
+  keyword: 20,
+  source: 18,
+};
+
+export const GraphView: React.FC<GraphViewProps> = ({nodes, links}) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -24,7 +28,6 @@ export const GraphView: React.FC<GraphViewProps> = ({ nodes, links }) => {
     const width = containerRef.current.clientWidth;
     const height = containerRef.current.clientHeight;
 
-    // Clear previous graph
     d3.select(containerRef.current).selectAll('*').remove();
 
     const svg = d3
@@ -35,37 +38,27 @@ export const GraphView: React.FC<GraphViewProps> = ({ nodes, links }) => {
       .attr('viewBox', [0, 0, width, height])
       .attr('style', 'max-width: 100%; height: auto;');
 
-    // Clone nodes and links to prevent D3 from mutating the prop objects
-    const simNodes = nodes.map(d => ({ ...d }));
-    const simLinks = links.map(d => ({ ...d }));
+    const simNodes = nodes.map(node => ({...node}));
+    const simLinks = links.map(link => ({...link}));
 
     const simulation = d3
       .forceSimulation(simNodes as any)
-      .force(
-        'link',
-        d3
-          .forceLink(simLinks)
-          .id((d: any) => d.id)
-          .distance((d: any) => d.target.id?.toString().startsWith('auto-') ? 150 : 100)
-      )
-      .force('charge', d3.forceManyBody().strength(-400))
+      .force('link', d3.forceLink(simLinks).id((d: any) => d.id).distance((d: any) => (d.source.id?.startsWith('clause-') ? 120 : 150)))
+      .force('charge', d3.forceManyBody().strength(-480))
       .force('center', d3.forceCenter(width / 2, height / 2))
-      .force('collide', d3.forceCollide().radius(50));
+      .force('collide', d3.forceCollide().radius((d: any) => (radiusMap[d.type] || 18) + 22));
 
     const link = svg
       .append('g')
-      .attr('stroke', '#E6E2D6') // divider
-      .attr('stroke-opacity', 0.8)
+      .attr('stroke', '#E6E2D6')
+      .attr('stroke-opacity', 0.9)
       .selectAll('line')
       .data(simLinks)
       .join('line')
-      .attr('stroke-width', 2)
-      .attr('stroke-dasharray', (d: any) => d.target.id?.toString().startsWith('auto-') ? '5,5' : 'none');
+      .attr('stroke-width', 2);
 
     const node = svg
       .append('g')
-      .attr('stroke', '#fff')
-      .attr('stroke-width', 1.5)
       .selectAll('g')
       .data(simNodes)
       .join('g')
@@ -74,24 +67,24 @@ export const GraphView: React.FC<GraphViewProps> = ({ nodes, links }) => {
           .drag<any, any>()
           .on('start', dragstarted)
           .on('drag', dragged)
-          .on('end', dragended)
+          .on('end', dragended),
       );
 
     node
       .append('circle')
-      .attr('r', 20)
+      .attr('r', (d: any) => radiusMap[d.type] || 18)
       .attr('fill', (d: any) => colorMap[d.type] || '#999')
-      .attr('stroke', (d: any) => d.id?.toString().startsWith('auto-') ? '#D4A373' : '#fff')
-      .attr('stroke-dasharray', (d: any) => d.id?.toString().startsWith('auto-') ? '3,3' : 'none');
+      .attr('stroke', '#fff')
+      .attr('stroke-width', 2);
 
     node
       .append('text')
       .text((d: any) => d.label)
-      .attr('x', 25)
+      .attr('x', (d: any) => (radiusMap[d.type] || 18) + 8)
       .attr('y', 5)
-      .attr('font-size', '12px')
-      .attr('fill', (d: any) => d.id?.toString().startsWith('auto-') ? '#D4A373' : '#2C2925') // ink
-      .attr('font-weight', (d: any) => d.id?.toString().startsWith('auto-') ? 'bold' : 'normal')
+      .attr('font-size', (d: any) => (d.type === 'clause' ? '13px' : '12px'))
+      .attr('fill', '#2C2925')
+      .attr('font-weight', (d: any) => (d.type === 'clause' ? 'bold' : 'normal'))
       .attr('stroke', 'none')
       .attr('font-family', 'sans-serif');
 
@@ -129,4 +122,3 @@ export const GraphView: React.FC<GraphViewProps> = ({ nodes, links }) => {
 
   return <div ref={containerRef} className="w-full h-full bg-transparent" />;
 };
-

@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "lastScanIso": "2026-04-21T09:40:04",
+  "rootDoc": "CLAUDE.md",
+  "projectSummary": "经方关系图：基于关键词命中的经典条文关系图应用（React+Vite+TS+D3）；运行时数据根为仓库 data/，URL 仍为 /data/*，构建复制到 dist/data/。",
+  "ignoreRulesSource": ".gitignore merged with defaults (node_modules, .git, dist, build, locks/logs/binaries/media archives).",
+  "truncated": false,
+  "stats": {
+    "estimatedTotalFiles": 33,
+    "filesReadForSignal": 12,
+    "coveragePercentApprox": 36,
+    "ignoredOrSkippedApprox": 2,
+    "notes": "基于当前目录结构进行增量复扫：确认模块边界为 src/ 与 data/，public/ 已移除，条文详情改由 data/经典/*.json + dataFile 驱动，/data/* 仍映射仓库 data/，构建复制到 dist/data/。"
+  },
+  "moduleCoverage": {
+    "src": {
+      "estimatedFiles": 13,
+      "filesReadForSignal": 3,
+      "coveragePercentApprox": 23,
+      "gaps": [
+        "components/ClauseDetail.tsx 未深入扫描",
+        "components/GraphView.tsx 未深入扫描",
+        "components/Sidebar.tsx 未深入扫描",
+        "组件 props 契约未逐文件核验"
+      ]
+    },
+    "data": {
+      "estimatedFiles": 10,
+      "filesReadForSignal": 4,
+      "coveragePercentApprox": 40,
+      "gaps": [
+        "关联解析 JSON 键分布未抽样统计",
+        "白话解析目录内容未抽样统计",
+        "data/经典 新增条文样本仍较少"
+      ]
+    }
+  },
+  "gaps": {
+    "tests": "未发现测试目录或 *.spec/*.test 文件；当前质量检查依赖 tsc --noEmit。",
+    "interfacesDepth": "尚未逐文件核验所有组件 props 契约与 D3 行为细节。",
+    "dataSampling": "尚未对 data/关联解析 大体量文本与 JSON 做深度抽样；白话解析目录也仅做清单级覆盖。",
+    "docsLegacy": "核心文档已切到关键词关系图模型；次级说明仍建议继续抽查，避免残留旧图谱命名。"
+  },
+  "suggestedNextScanPaths": [
+    "src/components/GraphView.tsx",
+    "src/components/ClauseDetail.tsx",
+    "src/components/Sidebar.tsx",
+    "src/components/PluginPanel.tsx",
+    "src/components/SearchResults.tsx",
+    "data/关联解析/437-黄帝内经素问.json",
+    "data/关联解析/467-伤寒寻源.txt",
+    "data/白话解析/README.md",
+    "data/jingdianconfig.json",
+    "data/README.md"
+  ],
+  "modules": [
+    {
+      "path": "src",
+      "doc": "src/CLAUDE.md",
+      "language": "typescript",
+      "entryPoints": [
+        "src/main.tsx",
+        "src/App.tsx"
+      ],
+      "interfaces": [
+        "fetch /data/*",
+        "ClauseData in src/types/relation.ts"
+      ],
+      "tests": [],
+      "keyPaths": [
+        "src/types/relation.ts",
+        "src/components/Sidebar.tsx",
+        "src/components/GraphView.tsx",
+        "src/components/PluginPanel.tsx",
+        "src/lib/searchUtils.ts"
+      ],
+      "coverageSummary": "已确认入口、数据加载和搜索路径；其余组件以清单级覆盖。"
+    },
+    {
+      "path": "data",
+      "doc": "data/CLAUDE.md",
+      "language": "json/txt/markdown",
+      "entryPoints": [],
+      "interfaces": [
+        "/data/jingdianconfig.json",
+        "/data/guanlianjiexiconfig.json",
+        "/data/经典/*",
+        "/data/关联解析/*"
+      ],
+      "tests": [],
+      "keyPaths": [
+        "data/README.md",
+        "data/jingdianconfig.json",
+        "data/guanlianjiexiconfig.json",
+        "data/关联解析",
+        "data/白话解析"
+      ],
+      "coverageSummary": "已确认 data/ 为唯一运行时数据根，开发映射与构建复制逻辑仍成立。"
+    }
+  ]
+}

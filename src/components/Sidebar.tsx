@@ -1,10 +1,10 @@
 import React from 'react';
 import { Search, FileText, ChevronDown } from 'lucide-react';
 import { cn } from '../lib/utils';
-import { booksCatalog } from '../data';
+import type { BookCatalogItem } from '../types/relation';
 
 interface SidebarProps {
-  books: typeof booksCatalog;
+  books: BookCatalogItem[];
   activeBookId: string;
   onBookChange: (id: string) => void;
   activeClauseId: string;

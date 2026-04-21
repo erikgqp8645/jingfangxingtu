@@ -1,76 +1,49 @@
-import React, { useState } from 'react';
-import { ClauseData } from '../data';
-import { ChevronDown, ChevronRight, BookOpen } from 'lucide-react';
-import { searchKnowledgeBase } from '../lib/searchUtils';
+import React, {useEffect, useMemo, useState} from 'react';
+import {ChevronDown, ChevronRight, BookOpen} from 'lucide-react';
+import type {ClauseData, RelationHit} from '../types/relation';
 
 interface PluginPanelProps {
   clause: ClauseData;
+  relationHits: RelationHit[];
 }
 
-export const PluginPanel: React.FC<PluginPanelProps> = ({ clause }) => {
-  // Grouping both existing plugins and dynamic search results safely
-  const groupedResults: Record<string, string[]> = {
-    '诸病源候论': clause.plugins?.bingyuan?.map(i => `【${i.title}】${i.content}`) || [],
-    '内经': clause.plugins?.neijing?.filter(i => i.title.includes('内经') || i.title.includes('素问') || i.title.includes('灵枢')).map(i => `【${i.title}】${i.content}`) || [],
-    '难经': clause.plugins?.neijing?.filter(i => i.title.includes('难经')).map(i => `【${i.title}】${i.content}`) || [],
-    '伤寒明理论': clause.plugins?.mingli?.map(i => `【${i.title}】${i.content}`) || [],
-    '汤液经 / 本经': [
-      ...(clause.plugins?.benjing?.map(i => `【${i.title}】${i.content}`) || []),
-      ...(clause.plugins?.tangye?.map(i => `【${i.title}】${i.content}`) || [])
-    ]
-  };
-
-  // Find topics to search (from explicit keywords or symptoms/theories)
-  const keywords = clause.keywords && clause.keywords.length > 0 
-    ? clause.keywords 
-    : clause.nodes
-      .filter(n => n.type === 'symptom' || n.type === 'theory')
-      .map(n => n.label);
-
-  keywords.forEach(kw => {
-    const results = searchKnowledgeBase(kw);
-    results.forEach(res => {
-      // Use clean source name 
-      const sourceName = res.source.split('（')[0].trim();
-      
-      // Remove default prefixes if it matches these names
-      const key = Object.keys(groupedResults).find(k => sourceName.includes(k) || k.includes(sourceName)) || sourceName;
-      
-      if (!groupedResults[key]) {
-        groupedResults[key] = [];
-      }
-      
-      if (!groupedResults[key].includes(res.text)) {
-        groupedResults[key].push(res.text);
-      }
+export const PluginPanel: React.FC<PluginPanelProps> = ({clause, relationHits}) => {
+  const groupedResults = useMemo(() => {
+    const grouped: Record<string, RelationHit[]> = {};
+    relationHits.forEach(hit => {
+      const key = hit.category || hit.sourceName;
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push(hit);
     });
-  });
+    return grouped;
+  }, [relationHits]);
 
-  // Filter out empty sources
-  const allSources = Object.keys(groupedResults).filter(k => groupedResults[k].length > 0);
-
-  // Start with first 2 expanded
+  const allSources = useMemo(() => Object.keys(groupedResults), [groupedResults]);
   const [expanded, setExpanded] = useState<Record<string, boolean>>(
-    allSources.reduce((acc, key, idx) => ({ ...acc, [key]: idx < 2 }), {})
+    allSources.reduce((acc, key, index) => ({...acc, [key]: index < 2}), {}),
   );
 
+  useEffect(() => {
+    setExpanded(allSources.reduce((acc, key, index) => ({...acc, [key]: index < 2}), {}));
+  }, [allSources]);
+
   const toggleExpand = (source: string) => {
-    setExpanded(prev => ({ ...prev, [source]: !prev[source] }));
+    setExpanded(prev => ({...prev, [source]: !prev[source]}));
   };
 
   return (
     <div className="border-l border-divider p-6 bg-panel flex flex-col gap-4 h-full overflow-y-auto w-[320px] shrink-0">
       <div className="flex flex-col mb-2">
-        <span className="text-xs uppercase tracking-[1px] text-clay font-bold">跨文本关联解析</span>
-        <span className="text-[11px] text-muted">自动检索症状及病机理论</span>
+        <span className="text-xs uppercase tracking-[1px] text-clay font-bold">关联命中</span>
+        <span className="text-[11px] text-muted">按关键词检索解析文本: {clause.keywords.join(' / ')}</span>
       </div>
 
       {allSources.length === 0 ? (
-        <div className="text-muted text-sm mt-4 text-center">暂无相关典籍记录</div>
+        <div className="text-muted text-sm mt-4 text-center">暂无相关命中</div>
       ) : (
         allSources.map(source => (
           <div key={source} className="bg-card border border-divider rounded-lg overflow-hidden shadow-sm flex-shrink-0">
-            <div 
+            <div
               className="flex items-center justify-between p-3 bg-paper cursor-pointer hover:bg-divider/50 transition-colors"
               onClick={() => toggleExpand(source)}
             >
@@ -78,18 +51,18 @@ export const PluginPanel: React.FC<PluginPanelProps> = ({ clause }) => {
                 <BookOpen className="w-4 h-4 text-sage" />
                 <span className="text-[13px] font-bold text-ink">{source}</span>
               </div>
-              {expanded[source] ? (
-                <ChevronDown className="w-4 h-4 text-muted" />
-              ) : (
-                <ChevronRight className="w-4 h-4 text-muted" />
-              )}
+              {expanded[source] ? <ChevronDown className="w-4 h-4 text-muted" /> : <ChevronRight className="w-4 h-4 text-muted" />}
             </div>
-            
+
             {expanded[source] && (
               <div className="p-4 bg-card space-y-3 border-t border-divider">
-                {groupedResults[source].map((text, idx) => (
-                  <div key={idx} className="text-[13px] leading-[1.6] text-ink pl-3 border-l-2 border-sage/50 font-serif">
-                    {text}
+                {groupedResults[source].map(hit => (
+                  <div key={hit.id} className="text-[13px] leading-[1.6] text-ink pl-3 border-l-2 border-sage/50">
+                    <div className="font-semibold">{hit.title}</div>
+                    <div className="text-[11px] text-muted mb-1">
+                      关键词: {hit.keyword} · 来源: {hit.sourceName} · 类型: {hit.matchType.toUpperCase()}
+                    </div>
+                    <div>{hit.content}</div>
                   </div>
                 ))}
               </div>
@@ -100,4 +73,3 @@ export const PluginPanel: React.FC<PluginPanelProps> = ({ clause }) => {
     </div>
   );
 };
-

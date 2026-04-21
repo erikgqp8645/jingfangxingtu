@@ -1,31 +1,46 @@
 import React from 'react';
-import { ClauseData } from '../data';
+import type {ClauseData} from '../types/relation';
 
 interface ClauseDetailProps {
   clause: ClauseData;
+  relationCount: number;
 }
 
-export const ClauseDetail: React.FC<ClauseDetailProps> = ({ clause }) => {
+export const ClauseDetail: React.FC<ClauseDetailProps> = ({clause, relationCount}) => {
   return (
-    <div className="flex flex-col items-center justify-center text-center max-w-3xl mx-auto">
-      <div className="bg-clay text-white px-3 py-1 rounded-full text-xs mb-5 inline-block">
-        核心锚点
+    <div className="flex flex-col items-center justify-center text-center max-w-3xl mx-auto gap-5">
+      <div className="flex gap-3 flex-wrap justify-center">
+        <div className="bg-clay text-white px-3 py-1 rounded-full text-xs inline-block">当前条文</div>
+        <div className="bg-sage text-white px-3 py-1 rounded-full text-xs inline-block">关联命中 {relationCount}</div>
       </div>
-      
-      <h1 className="text-[28px] leading-[1.6] font-serif text-[#1a1a1a] mb-[30px]" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+
+      <h2 className="text-[18px] tracking-[1px] text-clay font-semibold">{clause.title}</h2>
+
+      <h1 className="text-[28px] leading-[1.6] font-serif text-[#1a1a1a]">
         {clause.content.split('。').map((sentence, idx, arr) => (
           <React.Fragment key={idx}>
-            {sentence}{idx < arr.length - 1 ? '。' : ''}
+            {sentence}
+            {idx < arr.length - 1 ? '。' : ''}
             {idx < arr.length - 1 && <br />}
           </React.Fragment>
         ))}
       </h1>
 
-      <div className="bg-card px-6 py-4 rounded-xl border border-dashed border-clay inline-flex items-center gap-3 shadow-sm">
-        <span className="text-clay font-bold text-sm">白话解析:</span>
-        <span className="text-sm text-ink text-left leading-relaxed">{clause.translation}</span>
+      <div className="bg-card px-6 py-4 rounded-xl border border-dashed border-clay w-full shadow-sm text-left">
+        <div className="text-clay font-bold text-sm mb-2">白话解析</div>
+        <div className="text-sm text-ink leading-relaxed">{clause.translation}</div>
+      </div>
+
+      <div className="w-full text-left">
+        <div className="text-clay font-bold text-sm mb-2">关键词</div>
+        <div className="flex flex-wrap gap-2">
+          {clause.keywords.map(keyword => (
+            <span key={keyword} className="px-3 py-1 rounded-full bg-panel border border-divider text-xs text-ink">
+              {keyword}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
-
