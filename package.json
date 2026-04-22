@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
-    "import:shanghan": "tsx scripts/import-shanghan.ts"
+    "import:shanghan": "tsx scripts/import-shanghan.ts",
+    "import:jingui": "tsx scripts/import-jingui.ts"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
