@@ -7,6 +7,7 @@ interface ClauseDetailProps {
   selectedKeywords: string[];
   onToggleKeyword: (keyword: string) => void;
   onAddKeyword: (keyword: string) => Promise<boolean>;
+  onRemoveKeyword: (keyword: string) => Promise<boolean>;
 }
 
 export const ClauseDetail: React.FC<ClauseDetailProps> = ({
@@ -15,11 +16,13 @@ export const ClauseDetail: React.FC<ClauseDetailProps> = ({
   selectedKeywords,
   onToggleKeyword,
   onAddKeyword,
+  onRemoveKeyword,
 }) => {
   const contentRef = useRef<HTMLHeadingElement>(null);
   const [pendingKeyword, setPendingKeyword] = useState('');
   const [menuState, setMenuState] = useState<{x: number; y: number} | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [removingKeyword, setRemovingKeyword] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
   const existingKeywordSet = useMemo(() => new Set(clause.keywords), [clause.keywords]);
   const keywordAlreadyExists = !!pendingKeyword && existingKeywordSet.has(pendingKeyword);
@@ -31,9 +34,11 @@ export const ClauseDetail: React.FC<ClauseDetailProps> = ({
         setMenuState(null);
       }
     };
+
     window.addEventListener('click', handleGlobalClick);
     window.addEventListener('scroll', handleGlobalClick, true);
     window.addEventListener('keydown', handleKeyDown);
+
     return () => {
       window.removeEventListener('click', handleGlobalClick);
       window.removeEventListener('scroll', handleGlobalClick, true);
@@ -61,6 +66,7 @@ export const ClauseDetail: React.FC<ClauseDetailProps> = ({
 
   const handleConfirmAddKeyword = async () => {
     if (!canAddPendingKeyword) return;
+
     setIsSaving(true);
     try {
       const added = await onAddKeyword(pendingKeyword);
@@ -71,6 +77,23 @@ export const ClauseDetail: React.FC<ClauseDetailProps> = ({
       setFeedback(error instanceof Error ? error.message : '关键词保存失败');
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleRemoveKeyword = async (keyword: string) => {
+    const confirmed = window.confirm(`确认删除关键词“${keyword}”吗？`);
+    if (!confirmed) return;
+
+    setRemovingKeyword(keyword);
+    setFeedback(null);
+
+    try {
+      const removed = await onRemoveKeyword(keyword);
+      setFeedback(removed ? `已删除关键词：${keyword}` : `关键词未删除：${keyword}`);
+    } catch (error) {
+      setFeedback(error instanceof Error ? error.message : '关键词删除失败');
+    } finally {
+      setRemovingKeyword(null);
     }
   };
 
@@ -96,6 +119,7 @@ export const ClauseDetail: React.FC<ClauseDetailProps> = ({
           </React.Fragment>
         ))}
       </h1>
+
       <div className="text-xs text-muted">在正文原文区选中文字后右键，可添加为关键词</div>
       {feedback && <div className={`text-xs ${feedback.includes('失败') ? 'text-red-600' : 'text-sage'}`}>{feedback}</div>}
 
@@ -144,22 +168,33 @@ export const ClauseDetail: React.FC<ClauseDetailProps> = ({
         <div className="text-clay font-bold text-sm mb-2">关键词</div>
         <div className="flex flex-wrap gap-2">
           {clause.keywords.map(keyword => (
-            <label
+            <div
               key={keyword}
-              className={`px-3 py-1 rounded-full border text-xs inline-flex items-center gap-2 cursor-pointer transition-colors ${
+              className={`px-3 py-1 rounded-full border text-xs inline-flex items-center gap-2 transition-colors ${
                 selectedKeywords.includes(keyword)
                   ? 'bg-panel border-clay text-ink'
                   : 'bg-white border-divider text-muted'
               }`}
             >
-              <input
-                type="checkbox"
-                checked={selectedKeywords.includes(keyword)}
-                onChange={() => onToggleKeyword(keyword)}
-                className="h-3.5 w-3.5 accent-[var(--color-clay)]"
-              />
-              <span>{keyword}</span>
-            </label>
+              <label className="inline-flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={selectedKeywords.includes(keyword)}
+                  onChange={() => onToggleKeyword(keyword)}
+                  className="h-3.5 w-3.5 accent-[var(--color-clay)]"
+                />
+                <span>{keyword}</span>
+              </label>
+              <button
+                type="button"
+                onClick={() => handleRemoveKeyword(keyword)}
+                disabled={removingKeyword === keyword}
+                className="rounded-full border border-divider px-1.5 py-0.5 text-[10px] text-muted hover:border-red-400 hover:text-red-600 disabled:opacity-50"
+                title={`删除关键词 ${keyword}`}
+              >
+                {removingKeyword === keyword ? '...' : '删'}
+              </button>
+            </div>
           ))}
         </div>
       </div>

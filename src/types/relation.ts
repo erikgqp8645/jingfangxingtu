@@ -12,6 +12,12 @@ export interface KeywordSaveResponse {
   clause: ClauseData;
 }
 
+export interface KeywordRemoveResponse {
+  ok: boolean;
+  removed: boolean;
+  clause: ClauseData;
+}
+
 export interface ClauseListItem {
   id: string;
   title: string;

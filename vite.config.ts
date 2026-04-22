@@ -389,6 +389,142 @@ function repoDataAsPublicData(): Plugin {
         });
       });
 
+      server.middlewares.use('/api/keywords/remove', (req, res, next) => {
+        if (req.method !== 'POST') return next();
+
+        let body = '';
+        req.on('data', chunk => {
+          body += chunk;
+        });
+        req.on('end', () => {
+          let db = null;
+          try {
+            const payload = JSON.parse(body || '{}');
+            const clauseId = typeof payload.clauseId === 'string' ? payload.clauseId.trim() : '';
+            const rawDataFile = typeof payload.dataFile === 'string' ? payload.dataFile : '';
+            const keyword = typeof payload.keyword === 'string' ? payload.keyword.trim() : '';
+            const dataFile =
+              rawDataFile.startsWith('/data/')
+                ? rawDataFile
+                : clauseId
+                  ? resolveClauseDataFileById(clauseId) || ''
+                  : '';
+
+            if (!dataFile.startsWith('/data/') || !keyword) {
+              res.statusCode = 400;
+              res.setHeader('Content-Type', 'application/json; charset=utf-8');
+              res.end(JSON.stringify({ok: false, error: 'Invalid dataFile or keyword'}));
+              return;
+            }
+
+            const rel = decodeURIComponent(dataFile.slice('/data/'.length));
+            const file = path.resolve(dataRoot, rel);
+            const relToRoot = path.relative(dataRoot, file);
+            if (relToRoot.startsWith('..') || path.isAbsolute(relToRoot)) {
+              res.statusCode = 400;
+              res.setHeader('Content-Type', 'application/json; charset=utf-8');
+              res.end(JSON.stringify({ok: false, error: 'Invalid path'}));
+              return;
+            }
+
+            const clause = JSON.parse(fs.readFileSync(file, 'utf8'));
+            const keywords = Array.isArray(clause.keywords) ? clause.keywords : [];
+            let removed = keywords.includes(keyword);
+
+            try {
+              db = openDatabase();
+              initSchema(db);
+
+              const clauseRow = db
+                .prepare(
+                  `
+                    SELECT
+                      c.id,
+                      c.title,
+                      c.content,
+                      c.translation
+                    FROM clauses c
+                    WHERE c.id = ?
+                    LIMIT 1
+                  `,
+                )
+                .get(clause.id) as
+                | {
+                    id: string;
+                    title: string;
+                    content: string;
+                    translation: string;
+                  }
+                | undefined;
+
+              if (clauseRow) {
+                const normalizedKeyword = normalizeKeyword(keyword);
+
+                db.exec('BEGIN');
+
+                const keywordRow = db
+                  .prepare('SELECT id FROM keywords WHERE normalized_name = ? LIMIT 1')
+                  .get(normalizedKeyword) as {id: number} | undefined;
+
+                if (keywordRow) {
+                  const deleteResult = db.prepare(
+                    `
+                      DELETE FROM clause_keywords
+                      WHERE clause_id = ? AND keyword_id = ?
+                    `,
+                  ).run(clause.id, keywordRow.id) as {changes?: number};
+
+                  removed = (deleteResult?.changes || 0) > 0;
+                } else {
+                  removed = false;
+                }
+
+                db.exec('COMMIT');
+
+                const clauseKeywords = db
+                  .prepare(
+                    `
+                      SELECT k.name
+                      FROM clause_keywords ck
+                      JOIN keywords k ON k.id = ck.keyword_id
+                      WHERE ck.clause_id = ?
+                      ORDER BY k.name COLLATE NOCASE
+                    `,
+                  )
+                  .all(clause.id) as Array<{name: string}>;
+
+                clause.title = clauseRow.title;
+                clause.content = clauseRow.content;
+                clause.translation = clauseRow.translation;
+                clause.keywords = clauseKeywords.map(item => item.name);
+              }
+            } catch (dbError) {
+              if (db?.isTransaction) {
+                db.exec('ROLLBACK');
+              }
+              console.error('Failed to sync keyword removal to database, fallback to JSON only:', dbError);
+              clause.keywords = keywords.filter((item: string) => item !== keyword);
+            } finally {
+              db?.close();
+            }
+
+            if (!Array.isArray(clause.keywords)) {
+              clause.keywords = keywords.filter((item: string) => item !== keyword);
+            }
+
+            fs.writeFileSync(file, `${JSON.stringify(clause, null, 2)}\n`, 'utf8');
+
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json; charset=utf-8');
+            res.end(JSON.stringify({ok: true, removed, clause}));
+          } catch (error) {
+            res.statusCode = 500;
+            res.setHeader('Content-Type', 'application/json; charset=utf-8');
+            res.end(JSON.stringify({ok: false, error: error instanceof Error ? error.message : 'Unknown error'}));
+          }
+        });
+      });
+
       server.middlewares.use((req, res, next) => {
         const urlPath = req.url?.split('?')[0];
         if (!urlPath?.startsWith('/data/')) return next();

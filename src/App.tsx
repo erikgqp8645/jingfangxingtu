@@ -11,7 +11,14 @@ import {PluginPanel} from './components/PluginPanel';
 import {SearchResults} from './components/SearchResults';
 import {prefetchKnowledgeBase, resolveClauseRelations, searchKnowledgeBase} from './lib/searchUtils';
 import {buildRelationGraph} from './lib/relationGraph';
-import type {BookCatalogItem, ClauseData, ClauseListItem, KeywordSaveResponse, VisibleNodeTypes} from './types/relation';
+import type {
+  BookCatalogItem,
+  ClauseData,
+  ClauseListItem,
+  KeywordRemoveResponse,
+  KeywordSaveResponse,
+  VisibleNodeTypes,
+} from './types/relation';
 
 async function loadClauseData(clauseId?: string | null): Promise<ClauseData | null> {
   if (!clauseId) return null;
@@ -278,6 +285,41 @@ export default function App() {
     return result.added;
   };
 
+  const handleRemoveKeyword = async (keyword: string) => {
+    if (!currentData?.id && !currentDataFile) {
+      throw new Error('当前条文没有可写入的标识');
+    }
+
+    const response = await fetch('/api/keywords/remove', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        clauseId: currentData?.id ?? null,
+        dataFile: currentDataFile,
+        keyword,
+      }),
+    });
+
+    const result = (await response.json()) as KeywordRemoveResponse & {error?: string};
+    if (!response.ok || !result.ok) {
+      throw new Error(result.error || '关键词删除失败');
+    }
+
+    setBooks(prev =>
+      prev.map(book => ({
+        ...book,
+        chapters: book.chapters.map(chapter => ({
+          ...chapter,
+          clauses: chapter.clauses.map(clause => (clause.id === activeClauseId ? {...clause, data: result.clause} : clause)),
+        })),
+      })),
+    );
+    setSelectedKeywords(prev => prev.filter(item => item !== keyword));
+    return result.removed;
+  };
+
   if (isLoading) {
     return <div className="flex h-screen items-center justify-center bg-paper text-ink">Loading Relations...</div>;
   }
@@ -352,6 +394,7 @@ export default function App() {
                   selectedKeywords={selectedKeywords}
                   onToggleKeyword={handleToggleKeyword}
                   onAddKeyword={handleAddKeyword}
+                  onRemoveKeyword={handleRemoveKeyword}
                 />
               </div>
             </>
