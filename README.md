@@ -259,3 +259,18 @@ npm run build:desktop
 如果你要看桌面版打包、安装后数据位置、备份和迁移，请看：
 
 - [桌面版打包与维护手册](C:/Users/hxst01/Documents/aicoding/jingfangxingtu/docs/桌面版打包与维护手册.md)
+
+## 桌面版分支
+
+当前桌面版后续只在独立分支维护：
+
+- `codex/windows-desktop-app`
+
+维护原则：
+
+- 不主动把桌面版开发中的改动并入 `main`
+- 如果 `main` 后续有变化，再评估是否同步到桌面版分支
+
+详细说明见：
+
+- [桌面版分支维护与发布说明](C:/Users/hxst01/Documents/aicoding/jingfangxingtu/docs/桌面版分支维护与发布说明.md)

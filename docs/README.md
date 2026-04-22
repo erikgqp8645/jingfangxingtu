@@ -107,3 +107,9 @@
 看：
 
 - [桌面版打包与维护手册.md](C:/Users/hxst01/Documents/aicoding/jingfangxingtu/docs/桌面版打包与维护手册.md)
+
+### 我想继续维护桌面版分支，或者准备发桌面版 Release
+看：
+
+- [桌面版分支维护与发布说明.md](C:/Users/hxst01/Documents/aicoding/jingfangxingtu/docs/桌面版分支维护与发布说明.md)
+- [releases-desktop-v0.1.0.md](C:/Users/hxst01/Documents/aicoding/jingfangxingtu/docs/releases-desktop-v0.1.0.md)
