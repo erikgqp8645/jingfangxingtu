@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Sidebar} from './components/Sidebar';
 import {GraphView} from './components/GraphView';
 import {ClauseDetail} from './components/ClauseDetail';
@@ -48,6 +48,8 @@ export default function App() {
     keyword: true,
     source: true,
   });
+  const lastSyncedClauseIdRef = useRef<string | null>(null);
+  const lastClauseKeywordsRef = useRef<string[]>([]);
 
   useEffect(() => {
     Promise.all([fetch('/api/books').then(r => r.json()), prefetchKnowledgeBase()])
@@ -150,11 +152,43 @@ export default function App() {
 
   useEffect(() => {
     if (!currentData) {
+      lastSyncedClauseIdRef.current = null;
+      lastClauseKeywordsRef.current = [];
       setSelectedKeywords([]);
       return;
     }
-    setSelectedKeywords(currentData.keywords);
-  }, [currentData?.id]);
+
+    if (lastSyncedClauseIdRef.current !== currentData.id) {
+      lastSyncedClauseIdRef.current = currentData.id;
+      lastClauseKeywordsRef.current = currentData.keywords;
+      setSelectedKeywords(currentData.keywords);
+      return;
+    }
+
+    const previousKeywords = lastClauseKeywordsRef.current;
+    const currentKeywords = currentData.keywords;
+    const keywordChanged =
+      previousKeywords.length !== currentKeywords.length ||
+      previousKeywords.some((keyword, index) => keyword !== currentKeywords[index]);
+
+    if (!keywordChanged) return;
+
+    const newlyAddedKeywords = currentKeywords.filter(keyword => !previousKeywords.includes(keyword));
+    lastClauseKeywordsRef.current = currentKeywords;
+
+    setSelectedKeywords(prev => {
+      const retainedKeywords = prev.filter(keyword => currentKeywords.includes(keyword));
+      const next = [...retainedKeywords];
+
+      newlyAddedKeywords.forEach(keyword => {
+        if (!next.includes(keyword)) {
+          next.push(keyword);
+        }
+      });
+
+      return next;
+    });
+  }, [currentData?.id, currentData?.keywords]);
 
   useEffect(() => {
     setSelectedHitIds(recommendedHitIds);
@@ -335,6 +369,7 @@ export default function App() {
         {currentData ? (
           <PluginPanel
             clause={currentData}
+            activeKeywords={effectiveKeywords}
             relationHits={visibleRelationHits}
             selectedHitIds={selectedHitIds}
             sourceVisible={visibleNodeTypes.source}

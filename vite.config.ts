@@ -114,52 +114,73 @@ function repoDataAsPublicData(): Plugin {
   }
 
   function buildRelationsPayload() {
-    const db = openDatabase();
-    try {
-      initSchema(db);
-      const sources = db.prepare(
-        `
-          SELECT id, source_name, file_base_name, category, source_type
-          FROM relation_sources
-          ORDER BY file_base_name COLLATE NOCASE
-        `,
-      ).all() as Array<{
-        id: string;
-        source_name: string;
-        file_base_name: string;
-        category: string | null;
-        source_type: 'json' | 'txt';
-      }>;
+    const configFile = path.resolve(dataRoot, 'guanlianjiexiconfig.json');
+    if (!fs.existsSync(configFile)) return [];
 
-      return sources.map(source => {
-        const entries = db.prepare(
-          `
-            SELECT title, content, raw_keyword
-            FROM relation_entries
-            WHERE relation_source_id = ?
-            ORDER BY id
-          `,
-        ).all(source.id) as Array<{
+    const configs = JSON.parse(fs.readFileSync(configFile, 'utf8')) as Array<{
+      sourceName: string;
+      fileBaseName: string;
+      category?: string;
+    }>;
+
+    const parseTxtEntries = (txtContent: string) => {
+      return txtContent
+        .split(/<篇名>|【篇名】?/)
+        .map((segment, index) => {
+          const trimmed = segment.trim();
+          if (!trimmed) return null;
+
+          const titleMatch = trimmed.match(/([^\n]+)/);
+          const title = titleMatch ? titleMatch[1].trim() : `片段 ${index + 1}`;
+          const attrMatch = trimmed.match(/属性[：:]([\s\S]+)/);
+          const content = attrMatch ? attrMatch[1].trim() : trimmed;
+          if (!content) return null;
+
+          return {title, content};
+        })
+        .filter(Boolean);
+    };
+
+    return configs.map(config => {
+      const jsonPath = path.resolve(dataRoot, '关联解析', `${config.fileBaseName}.json`);
+      const txtPath = path.resolve(dataRoot, '关联解析', `${config.fileBaseName}.txt`);
+
+      let jsonEntries: Array<{title: string; content: string; keyword?: string}> = [];
+      let txtEntries: Array<{title: string; content: string; keyword?: string}> = [];
+
+      if (fs.existsSync(jsonPath) && fs.statSync(jsonPath).isFile()) {
+        const jsonMap = JSON.parse(fs.readFileSync(jsonPath, 'utf8')) as Record<
+          string,
+          Array<{title?: string; content?: string}>
+        >;
+
+        jsonEntries = Object.entries(jsonMap).flatMap(([keyword, items]) =>
+          (items || [])
+            .filter(item => !!item?.content)
+            .map(item => ({
+              title: item.title || keyword,
+              content: item.content || '',
+              keyword,
+            })),
+        );
+      }
+
+      if (fs.existsSync(txtPath) && fs.statSync(txtPath).isFile()) {
+        txtEntries = parseTxtEntries(fs.readFileSync(txtPath, 'utf8')) as Array<{
           title: string;
           content: string;
-          raw_keyword: string | null;
+          keyword?: string;
         }>;
+      }
 
-        return {
-          sourceName: source.source_name,
-          fileBaseName: source.file_base_name,
-          category: source.category ?? undefined,
-          matchType: source.source_type,
-          entries: entries.map(entry => ({
-            title: entry.title,
-            content: entry.content,
-            keyword: entry.raw_keyword ?? undefined,
-          })),
-        };
-      });
-    } finally {
-      db.close();
-    }
+      return {
+        sourceName: config.sourceName,
+        fileBaseName: config.fileBaseName,
+        category: config.category,
+        jsonEntries,
+        txtEntries,
+      };
+    });
   }
 
   return {

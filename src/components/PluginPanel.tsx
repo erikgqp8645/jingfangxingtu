@@ -1,9 +1,10 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {ChevronDown, ChevronRight, BookOpen} from 'lucide-react';
+import {BookOpen, ChevronDown, ChevronRight} from 'lucide-react';
 import type {ClauseData, RelationHit} from '../types/relation';
 
 interface PluginPanelProps {
   clause: ClauseData;
+  activeKeywords: string[];
   relationHits: RelationHit[];
   selectedHitIds: string[];
   sourceVisible: boolean;
@@ -17,6 +18,7 @@ const INITIAL_VISIBLE_COUNT = 3;
 
 export const PluginPanel: React.FC<PluginPanelProps> = ({
   clause,
+  activeKeywords,
   relationHits,
   selectedHitIds,
   sourceVisible,
@@ -27,11 +29,13 @@ export const PluginPanel: React.FC<PluginPanelProps> = ({
 }) => {
   const groupedResults = useMemo(() => {
     const grouped: Record<string, RelationHit[]> = {};
+
     relationHits.forEach(hit => {
       const key = hit.sourceName;
       if (!grouped[key]) grouped[key] = [];
       grouped[key].push(hit);
     });
+
     Object.keys(grouped).forEach(source => {
       grouped[source].sort((a, b) => {
         const aSelected = selectedHitIds.includes(a.id) ? 1 : 0;
@@ -39,6 +43,7 @@ export const PluginPanel: React.FC<PluginPanelProps> = ({
         return bSelected - aSelected;
       });
     });
+
     return grouped;
   }, [relationHits, selectedHitIds]);
 
@@ -77,7 +82,12 @@ export const PluginPanel: React.FC<PluginPanelProps> = ({
     <div className="border-l border-divider p-6 bg-panel flex flex-col gap-4 h-full overflow-y-auto w-[320px] shrink-0">
       <div className="flex flex-col mb-2">
         <span className="text-xs uppercase tracking-[1px] text-clay font-bold">关联命中</span>
-        <span className="text-[11px] text-muted">按关键词检索解析文本: {clause.keywords.join(' / ')}</span>
+        <span className="text-[11px] text-muted">
+          当前条文：{clause.title}
+        </span>
+        <span className="text-[11px] text-muted">
+          生效关键词：{activeKeywords.length > 0 ? activeKeywords.join(' / ') : '未选择关键词'}
+        </span>
         <div className="flex gap-2 mt-2">
           <button
             type="button"
@@ -93,7 +103,7 @@ export const PluginPanel: React.FC<PluginPanelProps> = ({
       </div>
 
       {!sourceVisible ? (
-        <div className="text-muted text-sm mt-4 text-center">已关闭“关联结果”，右侧命中列表暂不显示</div>
+        <div className="text-muted text-sm mt-4 text-center">已关闭“来源片段”，右侧命中列表暂不显示</div>
       ) : allSources.length === 0 ? (
         <div className="text-muted text-sm mt-4 text-center">暂无相关命中</div>
       ) : (
@@ -133,6 +143,7 @@ export const PluginPanel: React.FC<PluginPanelProps> = ({
                     清空本来源
                   </button>
                 </div>
+
                 {groupedResults[source].slice(0, visibleCounts[source] || INITIAL_VISIBLE_COUNT).map(hit => (
                   <label key={hit.id} className="flex gap-3 text-[13px] leading-[1.6] text-ink pl-3 border-l-2 border-sage/50 cursor-pointer">
                     <input
@@ -142,30 +153,27 @@ export const PluginPanel: React.FC<PluginPanelProps> = ({
                       className="mt-1 h-4 w-4 accent-[var(--color-sage)]"
                     />
                     <div className="min-w-0">
-                    <div className="font-semibold">{hit.title}</div>
-                    <div className="text-[11px] text-muted mb-1">
-                      关键词: {(hit.keywords || [hit.keyword]).join(' / ')} · 来源: {hit.sourceName}
-                      {hit.category && hit.category !== hit.sourceName ? ` · 分组: ${hit.category}` : ''}
-                      {' · '}类型: {hit.matchType.toUpperCase()}
-                    </div>
-                    <div>{hit.content}</div>
+                      <div className="font-semibold">{hit.title}</div>
+                      <div className="text-[11px] text-muted mb-1">
+                        关键词 {(hit.keywords || [hit.keyword]).join(' / ')} · 来源: {hit.sourceName}
+                        {hit.category && hit.category !== hit.sourceName ? ` · 分组: ${hit.category}` : ''}
+                        {` · 类型: ${hit.matchType.toUpperCase()}`}
+                      </div>
+                      <div>{hit.content}</div>
                     </div>
                   </label>
                 ))}
+
                 {groupedResults[source].length > (visibleCounts[source] || INITIAL_VISIBLE_COUNT) && (
                   <button
                     type="button"
                     onClick={() => showMore(source, groupedResults[source].length)}
                     className="w-full text-xs text-sage border border-divider rounded-md py-2 hover:border-sage transition-colors"
                   >
-                    展开更多（剩余 {groupedResults[source].length - (visibleCounts[source] || INITIAL_VISIBLE_COUNT)} 条，其中已选{' '}
-                    {
-                      groupedResults[source]
-                        .slice(visibleCounts[source] || INITIAL_VISIBLE_COUNT)
-                        .filter(hit => selectedHitIds.includes(hit.id)).length
-                    } 条）
+                    展开更多（剩余 {groupedResults[source].length - (visibleCounts[source] || INITIAL_VISIBLE_COUNT)} 条）
                   </button>
                 )}
+
                 {groupedResults[source].length > INITIAL_VISIBLE_COUNT &&
                   (visibleCounts[source] || INITIAL_VISIBLE_COUNT) > INITIAL_VISIBLE_COUNT && (
                     <button

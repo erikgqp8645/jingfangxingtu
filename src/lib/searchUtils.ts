@@ -15,8 +15,8 @@ type LoadedSource = {
   sourceName: string;
   fileBaseName: string;
   category?: string;
-  matchType: 'json' | 'txt';
-  entries: LoadedEntry[];
+  jsonEntries: LoadedEntry[];
+  txtEntries: LoadedEntry[];
 };
 
 let loadedConfigs: KnowledgeSourceConfig[] = [];
@@ -99,46 +99,37 @@ function parseTxtEntries(txtContent: string): LoadedEntry[] {
   return entries;
 }
 
+function buildJsonEntries(jsonContext: Record<string, StructuredEntry[]>) {
+  const entries: LoadedEntry[] = [];
+
+  Object.entries(jsonContext).forEach(([keyword, items]) => {
+    (items || []).forEach(item => {
+      if (!item?.content) return;
+      entries.push({
+        title: item.title || keyword,
+        content: item.content,
+        keyword,
+      });
+    });
+  });
+
+  return entries;
+}
+
 function hydrateLoadedSourcesFromFiles() {
   const nextSources: LoadedSource[] = [];
 
   for (const config of loadedConfigs) {
     const baseName = config.fileBaseName;
     const jsonContext = loadedJsonFiles[baseName];
-
-    if (jsonContext) {
-      const entries: LoadedEntry[] = [];
-
-      Object.entries(jsonContext).forEach(([keyword, items]) => {
-        (items || []).forEach(item => {
-          if (!item?.content) return;
-          entries.push({
-            title: item.title || keyword,
-            content: item.content,
-            keyword,
-          });
-        });
-      });
-
-      nextSources.push({
-        sourceName: config.sourceName,
-        fileBaseName: baseName,
-        category: config.category,
-        matchType: 'json',
-        entries,
-      });
-      continue;
-    }
-
     const txtContent = loadedTxtFiles[baseName];
-    if (!txtContent) continue;
 
     nextSources.push({
       sourceName: config.sourceName,
       fileBaseName: baseName,
       category: config.category,
-      matchType: 'txt',
-      entries: parseTxtEntries(txtContent),
+      jsonEntries: jsonContext ? buildJsonEntries(jsonContext) : [],
+      txtEntries: txtContent ? parseTxtEntries(txtContent) : [],
     });
   }
 
@@ -186,6 +177,44 @@ export async function prefetchKnowledgeBase() {
   }
 }
 
+function resolveJsonHits(
+  source: LoadedSource,
+  config: KnowledgeSourceConfig,
+  keyword: string,
+) {
+  return source.jsonEntries
+    .map((item, index) => ({item, index}))
+    .filter(({item}) => item.keyword === keyword && !!item.content)
+    .map(({item, index}) => ({
+      id: makeHitId([source.fileBaseName, keyword, 'json', String(index)]),
+      keyword,
+      sourceName: source.sourceName,
+      category: normalizeCategory(config),
+      title: item.title || keyword,
+      content: item.content,
+      matchType: 'json' as const,
+    }));
+}
+
+function resolveTxtHits(
+  source: LoadedSource,
+  config: KnowledgeSourceConfig,
+  keyword: string,
+) {
+  return source.txtEntries
+    .map((entry, index) => ({entry, index}))
+    .filter(({entry}) => entry.content.includes(keyword))
+    .map(({entry, index}) => ({
+      id: makeHitId([source.fileBaseName, keyword, 'txt', String(index)]),
+      keyword,
+      sourceName: source.sourceName,
+      category: normalizeCategory(config),
+      title: entry.title,
+      content: excerpt(entry.content, keyword),
+      matchType: 'txt' as const,
+    }));
+}
+
 export function resolveClauseRelations(keywords: string[]): RelationHit[] {
   const dedupedKeywords = Array.from(new Set(keywords.map(keyword => keyword.trim()).filter(Boolean)));
   const hits: RelationHit[] = [];
@@ -197,37 +226,14 @@ export function resolveClauseRelations(keywords: string[]): RelationHit[] {
       category: source.category,
     };
 
-    if (source.matchType === 'json') {
-      for (const keyword of dedupedKeywords) {
-        source.entries.forEach((item, index) => {
-          if (item.keyword !== keyword || !item.content) return;
-          hits.push({
-            id: makeHitId([source.fileBaseName, keyword, 'json', String(index)]),
-            keyword,
-            sourceName: source.sourceName,
-            category: normalizeCategory(config),
-            title: item.title || keyword,
-            content: item.content,
-            matchType: 'json',
-          });
-        });
-      }
-      continue;
-    }
-
     for (const keyword of dedupedKeywords) {
-      source.entries.forEach((entry, index) => {
-        if (!entry.content.includes(keyword)) return;
-        hits.push({
-          id: makeHitId([source.fileBaseName, keyword, 'txt', String(index)]),
-          keyword,
-          sourceName: source.sourceName,
-          category: normalizeCategory(config),
-          title: entry.title,
-          content: excerpt(entry.content, keyword),
-          matchType: 'txt',
-        });
-      });
+      const jsonHits = resolveJsonHits(source, config, keyword);
+      if (jsonHits.length > 0) {
+        hits.push(...jsonHits);
+        continue;
+      }
+
+      hits.push(...resolveTxtHits(source, config, keyword));
     }
   }
 
