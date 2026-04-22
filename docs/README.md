@@ -103,3 +103,7 @@
 1. [项目交接清单.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\项目交接清单.md)
 2. [新手数据维护手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\新手数据维护手册.md)
 3. [关键词维护操作手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\关键词维护操作手册.md)
+### 我想打包 Windows 桌面版，或者想知道安装后数据放在哪里
+看：
+
+- [桌面版打包与维护手册.md](C:/Users/hxst01/Documents/aicoding/jingfangxingtu/docs/桌面版打包与维护手册.md)

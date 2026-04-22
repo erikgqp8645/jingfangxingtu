@@ -244,3 +244,18 @@ npm run db:seed
 - [整理关联解析资料操作手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\整理关联解析资料操作手册.md)
 - [关键词维护操作手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\关键词维护操作手册.md)
 - [常见错误与排查手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\常见错误与排查手册.md)
+## 桌面版
+
+项目现在已经支持打包成 Windows 桌面应用。
+
+常用命令：
+
+```bash
+npm run desktop:dev
+npm run build:desktop:dir
+npm run build:desktop
+```
+
+如果你要看桌面版打包、安装后数据位置、备份和迁移，请看：
+
+- [桌面版打包与维护手册](C:/Users/hxst01/Documents/aicoding/jingfangxingtu/docs/桌面版打包与维护手册.md)
