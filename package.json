@@ -12,12 +12,14 @@
     "import:shanghan": "tsx scripts/import-shanghan.ts",
     "import:jingui": "tsx scripts/import-jingui.ts",
     "import:wenbing": "tsx scripts/import-wenbing.ts",
+    "data:audit": "tsx scripts/data-audit.ts",
     "db:init": "tsx scripts/init-db.ts",
     "db:import:shanghan": "tsx scripts/import-shanghan-db.ts",
     "db:import:jingui": "tsx scripts/import-jingui-db.ts",
     "db:import:wenbing": "tsx scripts/import-wenbing-db.ts",
     "db:import:relations": "tsx scripts/import-relations-db.ts",
-    "db:seed": "npm run db:init && npm run db:import:shanghan && npm run db:import:jingui && npm run db:import:wenbing && npm run db:import:relations"
+    "db:seed": "npm run db:init && npm run db:import:shanghan && npm run db:import:jingui && npm run db:import:wenbing && npm run db:import:relations",
+    "db:sync": "tsx scripts/sync-db.ts"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
