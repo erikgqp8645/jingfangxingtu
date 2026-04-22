@@ -1,0 +1,4 @@
+interface:
+  display_name: "TCM Data Maintainer"
+  short_description: "Maintain clause keywords, relation JSON, audits, and SQLite sync for this repo."
+  default_prompt: "Use $tcm-data-maintainer to maintain this repository's TCM data files, run the audit, and sync SQLite if needed."
