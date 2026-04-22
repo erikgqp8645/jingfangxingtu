@@ -4779,6 +4779,2172 @@
   {
     "id": "wenbing",
     "name": "《温病条辨》",
-    "chapters": []
+    "chapters": [
+      {
+        "title": "自序",
+        "clauses": [
+          {
+            "id": "wenbing-01-01",
+            "title": "第 1 节 · 夫立德立功立言，圣贤事也",
+            "dataFile": "/data/经典/温病条辨/wenbing-01-01.json"
+          }
+        ]
+      },
+      {
+        "title": "原病篇",
+        "clauses": [
+          {
+            "id": "wenbing-02-01",
+            "title": "第 1 节 · 一、《六元正纪大论》曰∶",
+            "dataFile": "/data/经典/温病条辨/wenbing-02-01.json"
+          },
+          {
+            "id": "wenbing-02-02",
+            "title": "第 2 节 · 二、《阴阳应象大论》曰∶",
+            "dataFile": "/data/经典/温病条辨/wenbing-02-02.json"
+          },
+          {
+            "id": "wenbing-02-03",
+            "title": "第 3 节 · 三、《金匮真言论》曰∶夫",
+            "dataFile": "/data/经典/温病条辨/wenbing-02-03.json"
+          },
+          {
+            "id": "wenbing-02-04",
+            "title": "第 4 节 · 四、《热论篇》曰∶凡病伤",
+            "dataFile": "/data/经典/温病条辨/wenbing-02-04.json"
+          },
+          {
+            "id": "wenbing-02-05",
+            "title": "第 5 节 · 五、《刺志论》曰∶气盛身",
+            "dataFile": "/data/经典/温病条辨/wenbing-02-05.json"
+          },
+          {
+            "id": "wenbing-02-06",
+            "title": "第 6 节 · 六、《生气通天论》曰∶因",
+            "dataFile": "/data/经典/温病条辨/wenbing-02-06.json"
+          },
+          {
+            "id": "wenbing-02-07",
+            "title": "第 7 节 · 七、《论疾诊尺篇》曰∶尺",
+            "dataFile": "/data/经典/温病条辨/wenbing-02-07.json"
+          },
+          {
+            "id": "wenbing-02-08",
+            "title": "第 8 节 · 八、《热病篇》曰∶热病三",
+            "dataFile": "/data/经典/温病条辨/wenbing-02-08.json"
+          },
+          {
+            "id": "wenbing-02-09",
+            "title": "第 9 节 · 九、《评热病论》∶帝曰∶",
+            "dataFile": "/data/经典/温病条辨/wenbing-02-09.json"
+          },
+          {
+            "id": "wenbing-02-10",
+            "title": "第 10 节 · 十、《刺热篇》曰∶肝热病",
+            "dataFile": "/data/经典/温病条辨/wenbing-02-10.json"
+          },
+          {
+            "id": "wenbing-02-11",
+            "title": "第 11 节 · 十一、心热病者，先不乐，",
+            "dataFile": "/data/经典/温病条辨/wenbing-02-11.json"
+          },
+          {
+            "id": "wenbing-02-12",
+            "title": "第 12 节 · 十二、脾热病者，先头重，",
+            "dataFile": "/data/经典/温病条辨/wenbing-02-12.json"
+          },
+          {
+            "id": "wenbing-02-13",
+            "title": "第 13 节 · 十三、肺热病者，先淅然厥",
+            "dataFile": "/data/经典/温病条辨/wenbing-02-13.json"
+          },
+          {
+            "id": "wenbing-02-14",
+            "title": "第 14 节 · 十四、肾热病者，先腰痛，",
+            "dataFile": "/data/经典/温病条辨/wenbing-02-14.json"
+          },
+          {
+            "id": "wenbing-02-15",
+            "title": "第 15 节 · 十五、肝热病者，左颊先赤",
+            "dataFile": "/data/经典/温病条辨/wenbing-02-15.json"
+          },
+          {
+            "id": "wenbing-02-16",
+            "title": "第 16 节 · 十六、《热论篇》∶帝曰∶",
+            "dataFile": "/data/经典/温病条辨/wenbing-02-16.json"
+          },
+          {
+            "id": "wenbing-02-17",
+            "title": "第 17 节 · 十七、《刺法论》∶帝曰∶",
+            "dataFile": "/data/经典/温病条辨/wenbing-02-17.json"
+          },
+          {
+            "id": "wenbing-02-18",
+            "title": "第 18 节 · 十八、《玉板论要》曰∶病",
+            "dataFile": "/data/经典/温病条辨/wenbing-02-18.json"
+          },
+          {
+            "id": "wenbing-02-19",
+            "title": "第 19 节 · 十九、《平人气象论》曰∶",
+            "dataFile": "/data/经典/温病条辨/wenbing-02-19.json"
+          }
+        ]
+      },
+      {
+        "title": "风温、温热、温疫、温毒、冬温",
+        "clauses": [
+          {
+            "id": "wenbing-03-01",
+            "title": "第 1 节 · 一、温病者∶有风温、有温",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-01.json"
+          },
+          {
+            "id": "wenbing-03-02",
+            "title": "第 2 节 · 二、凡病温者，始于上焦，",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-02.json"
+          },
+          {
+            "id": "wenbing-03-03",
+            "title": "第 3 节 · 三、太阴之为病，脉不缓不",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-03.json"
+          },
+          {
+            "id": "wenbing-03-04",
+            "title": "第 4 节 · 四、太阴风温、温热、温疫",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-04.json"
+          },
+          {
+            "id": "wenbing-03-05",
+            "title": "第 5 节 · 二、三日病犹在肺，热渐入",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-05.json"
+          },
+          {
+            "id": "wenbing-03-06",
+            "title": "第 6 节 · 五、太阴温病，恶风寒，服",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-06.json"
+          },
+          {
+            "id": "wenbing-03-07",
+            "title": "第 7 节 · 六、太阴风温，但咳，身不",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-07.json"
+          },
+          {
+            "id": "wenbing-03-08",
+            "title": "第 8 节 · 七、太阴温病，脉浮洪，舌",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-08.json"
+          },
+          {
+            "id": "wenbing-03-09",
+            "title": "第 9 节 · 八、太阴温病，脉浮大而芤",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-09.json"
+          },
+          {
+            "id": "wenbing-03-10",
+            "title": "第 10 节 · 九、白虎本为达热出表，若",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-10.json"
+          },
+          {
+            "id": "wenbing-03-11",
+            "title": "第 11 节 · 十、太阴温病，气血两燔者",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-11.json"
+          },
+          {
+            "id": "wenbing-03-12",
+            "title": "第 12 节 · 十一、太阴温病，血从上溢",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-12.json"
+          },
+          {
+            "id": "wenbing-03-13",
+            "title": "第 13 节 · 十二、太阴温病，口渴甚者",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-13.json"
+          },
+          {
+            "id": "wenbing-03-14",
+            "title": "第 14 节 · 十三、太阴病得之二、三日",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-14.json"
+          },
+          {
+            "id": "wenbing-03-15",
+            "title": "第 15 节 · 十四、太阴病得之二、三日",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-15.json"
+          },
+          {
+            "id": "wenbing-03-16",
+            "title": "第 16 节 · 十五、太阴温病，寸脉大，",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-16.json"
+          },
+          {
+            "id": "wenbing-03-17",
+            "title": "第 17 节 · 十六、太阴温病，不可发汗",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-17.json"
+          },
+          {
+            "id": "wenbing-03-18",
+            "title": "第 18 节 · 十七、邪入心包，舌蹇肢厥",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-18.json"
+          },
+          {
+            "id": "wenbing-03-19",
+            "title": "第 19 节 · 十八、温毒咽痛喉肿，耳前",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-19.json"
+          },
+          {
+            "id": "wenbing-03-20",
+            "title": "第 20 节 · 十九、温毒外肿，水仙膏主",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-20.json"
+          },
+          {
+            "id": "wenbing-03-21",
+            "title": "第 21 节 · 二十、温毒敷水仙膏后，皮",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-21.json"
+          },
+          {
+            "id": "wenbing-03-22",
+            "title": "第 22 节 · 二一、温毒神昏谵语者，先",
+            "dataFile": "/data/经典/温病条辨/wenbing-03-22.json"
+          }
+        ]
+      },
+      {
+        "title": "暑温",
+        "clauses": [
+          {
+            "id": "wenbing-04-01",
+            "title": "第 1 节 · 二二、形似伤寒，但右脉洪",
+            "dataFile": "/data/经典/温病条辨/wenbing-04-01.json"
+          },
+          {
+            "id": "wenbing-04-02",
+            "title": "第 2 节 · 二三、《金匮》谓太阳中，",
+            "dataFile": "/data/经典/温病条辨/wenbing-04-02.json"
+          },
+          {
+            "id": "wenbing-04-03",
+            "title": "第 3 节 · 二四、手太阴暑温，如上条",
+            "dataFile": "/data/经典/温病条辨/wenbing-04-03.json"
+          },
+          {
+            "id": "wenbing-04-04",
+            "title": "第 4 节 · 二五、手太阴暑温，服香薷",
+            "dataFile": "/data/经典/温病条辨/wenbing-04-04.json"
+          },
+          {
+            "id": "wenbing-04-05",
+            "title": "第 5 节 · 二六、手太阴暑温，或已经",
+            "dataFile": "/data/经典/温病条辨/wenbing-04-05.json"
+          },
+          {
+            "id": "wenbing-04-06",
+            "title": "第 6 节 · 二七、手太阴暑温，发汗后",
+            "dataFile": "/data/经典/温病条辨/wenbing-04-06.json"
+          },
+          {
+            "id": "wenbing-04-07",
+            "title": "第 7 节 · 二八、手太阴暑温，但咳无",
+            "dataFile": "/data/经典/温病条辨/wenbing-04-07.json"
+          },
+          {
+            "id": "wenbing-04-08",
+            "title": "第 8 节 · 二九、两太阴暑温，咳而且",
+            "dataFile": "/data/经典/温病条辨/wenbing-04-08.json"
+          },
+          {
+            "id": "wenbing-04-09",
+            "title": "第 9 节 · 三十、脉虚夜寐不安，烦渴",
+            "dataFile": "/data/经典/温病条辨/wenbing-04-09.json"
+          },
+          {
+            "id": "wenbing-04-10",
+            "title": "第 10 节 · 三一、手厥阴暑温，身热不",
+            "dataFile": "/data/经典/温病条辨/wenbing-04-10.json"
+          },
+          {
+            "id": "wenbing-04-11",
+            "title": "第 11 节 · 三二、暑温寒热，舌白不渴",
+            "dataFile": "/data/经典/温病条辨/wenbing-04-11.json"
+          },
+          {
+            "id": "wenbing-04-12",
+            "title": "第 12 节 · 三三、小儿暑温，身热，卒",
+            "dataFile": "/data/经典/温病条辨/wenbing-04-12.json"
+          },
+          {
+            "id": "wenbing-04-13",
+            "title": "第 13 节 · 三四、大人暑痫，亦同上法",
+            "dataFile": "/data/经典/温病条辨/wenbing-04-13.json"
+          }
+        ]
+      },
+      {
+        "title": "伏暑",
+        "clauses": [
+          {
+            "id": "wenbing-05-01",
+            "title": "第 1 节 · 三五、暑兼湿热，偏于暑之",
+            "dataFile": "/data/经典/温病条辨/wenbing-05-01.json"
+          },
+          {
+            "id": "wenbing-05-02",
+            "title": "第 2 节 · 三六、长夏受暑，过夏而发",
+            "dataFile": "/data/经典/温病条辨/wenbing-05-02.json"
+          },
+          {
+            "id": "wenbing-05-03",
+            "title": "第 3 节 · 三七、头痛微恶寒，面赤烦",
+            "dataFile": "/data/经典/温病条辨/wenbing-05-03.json"
+          },
+          {
+            "id": "wenbing-05-04",
+            "title": "第 4 节 · 三八、太阴伏暑，舌白口渴",
+            "dataFile": "/data/经典/温病条辨/wenbing-05-04.json"
+          },
+          {
+            "id": "wenbing-05-05",
+            "title": "第 5 节 · 三九、太阴伏暑，舌赤口渴",
+            "dataFile": "/data/经典/温病条辨/wenbing-05-05.json"
+          },
+          {
+            "id": "wenbing-05-06",
+            "title": "第 6 节 · 四十、太阴伏暑、舌白口渴",
+            "dataFile": "/data/经典/温病条辨/wenbing-05-06.json"
+          },
+          {
+            "id": "wenbing-05-07",
+            "title": "第 7 节 · 四一、太阴伏暑，舌赤口渴",
+            "dataFile": "/data/经典/温病条辨/wenbing-05-07.json"
+          },
+          {
+            "id": "wenbing-05-08",
+            "title": "第 8 节 · 四二、伏暑、暑温、湿温，",
+            "dataFile": "/data/经典/温病条辨/wenbing-05-08.json"
+          }
+        ]
+      },
+      {
+        "title": "湿温、寒湿",
+        "clauses": [
+          {
+            "id": "wenbing-06-01",
+            "title": "第 1 节 · 四三、头痛恶寒，身重疼痛",
+            "dataFile": "/data/经典/温病条辨/wenbing-06-01.json"
+          },
+          {
+            "id": "wenbing-06-02",
+            "title": "第 2 节 · 四四、湿温邪入心包，神昏",
+            "dataFile": "/data/经典/温病条辨/wenbing-06-02.json"
+          },
+          {
+            "id": "wenbing-06-03",
+            "title": "第 3 节 · 四五、湿温喉阻咽痛，银翘",
+            "dataFile": "/data/经典/温病条辨/wenbing-06-03.json"
+          },
+          {
+            "id": "wenbing-06-04",
+            "title": "第 4 节 · 四六、太阴湿温，气分痹郁",
+            "dataFile": "/data/经典/温病条辨/wenbing-06-04.json"
+          },
+          {
+            "id": "wenbing-06-05",
+            "title": "第 5 节 · 四七、太阴湿温喘促者，千",
+            "dataFile": "/data/经典/温病条辨/wenbing-06-05.json"
+          },
+          {
+            "id": "wenbing-06-06",
+            "title": "第 6 节 · 四八、《金匮》谓太阳中，",
+            "dataFile": "/data/经典/温病条辨/wenbing-06-06.json"
+          },
+          {
+            "id": "wenbing-06-07",
+            "title": "第 7 节 · 四九、寒湿伤阳，形寒脉缓",
+            "dataFile": "/data/经典/温病条辨/wenbing-06-07.json"
+          }
+        ]
+      },
+      {
+        "title": "温疟",
+        "clauses": [
+          {
+            "id": "wenbing-07-01",
+            "title": "第 1 节 · 五十、骨节疼烦，时呕，其",
+            "dataFile": "/data/经典/温病条辨/wenbing-07-01.json"
+          },
+          {
+            "id": "wenbing-07-02",
+            "title": "第 2 节 · 五一、但热不寒，或微寒多",
+            "dataFile": "/data/经典/温病条辨/wenbing-07-02.json"
+          },
+          {
+            "id": "wenbing-07-03",
+            "title": "第 3 节 · 五二、舌白渴饮，咳嗽频仍",
+            "dataFile": "/data/经典/温病条辨/wenbing-07-03.json"
+          },
+          {
+            "id": "wenbing-07-04",
+            "title": "第 4 节 · 五三、热多昏狂，谵语烦渴",
+            "dataFile": "/data/经典/温病条辨/wenbing-07-04.json"
+          }
+        ]
+      },
+      {
+        "title": "秋燥",
+        "clauses": [
+          {
+            "id": "wenbing-08-01",
+            "title": "第 1 节 · 五四、秋感燥气，右脉数大",
+            "dataFile": "/data/经典/温病条辨/wenbing-08-01.json"
+          },
+          {
+            "id": "wenbing-08-02",
+            "title": "第 2 节 · 二、三次之气味必变，药之",
+            "dataFile": "/data/经典/温病条辨/wenbing-08-02.json"
+          },
+          {
+            "id": "wenbing-08-03",
+            "title": "第 3 节 · 五五、感燥而咳者，桑菊饮",
+            "dataFile": "/data/经典/温病条辨/wenbing-08-03.json"
+          },
+          {
+            "id": "wenbing-08-04",
+            "title": "第 4 节 · 五六、燥伤肺胃阴分，或热",
+            "dataFile": "/data/经典/温病条辨/wenbing-08-04.json"
+          },
+          {
+            "id": "wenbing-08-05",
+            "title": "第 5 节 · 五七、燥气化火，清窍不利",
+            "dataFile": "/data/经典/温病条辨/wenbing-08-05.json"
+          },
+          {
+            "id": "wenbing-08-06",
+            "title": "第 6 节 · 五八、诸气 郁，诸痿喘呕",
+            "dataFile": "/data/经典/温病条辨/wenbing-08-06.json"
+          }
+        ]
+      },
+      {
+        "title": "补秋燥胜气论",
+        "clauses": [
+          {
+            "id": "wenbing-09-01",
+            "title": "第 1 节 · 一、秋燥之气，轻则为燥，",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-01.json"
+          },
+          {
+            "id": "wenbing-09-02",
+            "title": "第 2 节 · 二、燥伤本脏，头微痛，恶",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-02.json"
+          },
+          {
+            "id": "wenbing-09-03",
+            "title": "第 3 节 · 三、伤燥，如伤寒太阳证，",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-03.json"
+          },
+          {
+            "id": "wenbing-09-04",
+            "title": "第 4 节 · 四、燥金司令，头痛，身寒",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-04.json"
+          },
+          {
+            "id": "wenbing-09-05",
+            "title": "第 5 节 · 五、燥淫传入中焦，脉短而",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-05.json"
+          },
+          {
+            "id": "wenbing-09-06",
+            "title": "第 6 节 · 六、阳明燥证，里实而坚，",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-06.json"
+          },
+          {
+            "id": "wenbing-09-07",
+            "title": "第 7 节 · 七、燥气延入下焦，搏于血",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-07.json"
+          },
+          {
+            "id": "wenbing-09-08",
+            "title": "第 8 节 · 一、治 结不散不痛",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-08.json"
+          },
+          {
+            "id": "wenbing-09-09",
+            "title": "第 9 节 · 一、治 发痛甚",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-09.json"
+          },
+          {
+            "id": "wenbing-09-10",
+            "title": "第 10 节 · 一、治血痹",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-10.json"
+          },
+          {
+            "id": "wenbing-09-11",
+            "title": "第 11 节 · 一、治妇女干血痨证之属实",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-11.json"
+          },
+          {
+            "id": "wenbing-09-12",
+            "title": "第 12 节 · 一、治疟母左胁痛而寒热者",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-12.json"
+          },
+          {
+            "id": "wenbing-09-13",
+            "title": "第 13 节 · 一、治妇女经前作痛，古谓",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-13.json"
+          },
+          {
+            "id": "wenbing-09-14",
+            "title": "第 14 节 · 一、治妇女将欲行经而寒热",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-14.json"
+          },
+          {
+            "id": "wenbing-09-15",
+            "title": "第 15 节 · 一、治妇女将欲行经，误食",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-15.json"
+          },
+          {
+            "id": "wenbing-09-16",
+            "title": "第 16 节 · 一、治妇女经闭",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-16.json"
+          },
+          {
+            "id": "wenbing-09-17",
+            "title": "第 17 节 · 一、治妇女经来紫黑，甚至",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-17.json"
+          },
+          {
+            "id": "wenbing-09-18",
+            "title": "第 18 节 · 一、治腰痛之因于跌扑死血",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-18.json"
+          },
+          {
+            "id": "wenbing-09-19",
+            "title": "第 19 节 · 一、治产后瘀血，少腹痛，",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-19.json"
+          },
+          {
+            "id": "wenbing-09-20",
+            "title": "第 20 节 · 一、治跌扑昏晕欲死者",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-20.json"
+          },
+          {
+            "id": "wenbing-09-21",
+            "title": "第 21 节 · 一、治金疮棒疮之有瘀滞者",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-21.json"
+          },
+          {
+            "id": "wenbing-09-22",
+            "title": "第 22 节 · 八、燥气久伏下焦，不与血",
+            "dataFile": "/data/经典/温病条辨/wenbing-09-22.json"
+          }
+        ]
+      },
+      {
+        "title": "风温、温热、温疫、温毒、冬温",
+        "clauses": [
+          {
+            "id": "wenbing-10-01",
+            "title": "第 1 节 · 一、面目俱赤，语声重浊，",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-01.json"
+          },
+          {
+            "id": "wenbing-10-02",
+            "title": "第 2 节 · 二、阳明温病，脉浮而促者",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-02.json"
+          },
+          {
+            "id": "wenbing-10-03",
+            "title": "第 3 节 · 三、阳明温病，诸证悉有而",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-03.json"
+          },
+          {
+            "id": "wenbing-10-04",
+            "title": "第 4 节 · 四、阳明温病，汗多谵语，",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-04.json"
+          },
+          {
+            "id": "wenbing-10-05",
+            "title": "第 5 节 · 五、阳明温病，无汗，小便",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-05.json"
+          },
+          {
+            "id": "wenbing-10-06",
+            "title": "第 6 节 · 六、阳明温病，面目俱赤，",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-06.json"
+          },
+          {
+            "id": "wenbing-10-07",
+            "title": "第 7 节 · 七、阳明温病，纯利稀水无",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-07.json"
+          },
+          {
+            "id": "wenbing-10-08",
+            "title": "第 8 节 · 八、阳明温病，实热壅塞为",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-08.json"
+          },
+          {
+            "id": "wenbing-10-09",
+            "title": "第 9 节 · 九、阳明温病，下利谵语，",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-09.json"
+          },
+          {
+            "id": "wenbing-10-10",
+            "title": "第 10 节 · 十、温病三焦俱急，大热大",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-10.json"
+          },
+          {
+            "id": "wenbing-10-11",
+            "title": "第 11 节 · 十一、阳明温病，无上焦证",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-11.json"
+          },
+          {
+            "id": "wenbing-10-12",
+            "title": "第 12 节 · 十二、阳明温病，下后汗出",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-12.json"
+          },
+          {
+            "id": "wenbing-10-13",
+            "title": "第 13 节 · 十三、下后无汗脉浮者，银",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-13.json"
+          },
+          {
+            "id": "wenbing-10-14",
+            "title": "第 14 节 · 十四、下后无汗，脉不浮而",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-14.json"
+          },
+          {
+            "id": "wenbing-10-15",
+            "title": "第 15 节 · 十五、下后数日，热不退，",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-15.json"
+          },
+          {
+            "id": "wenbing-10-16",
+            "title": "第 16 节 · 十六、阳明温病，下后二、",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-16.json"
+          },
+          {
+            "id": "wenbing-10-17",
+            "title": "第 17 节 · 十七、阳明温病，下之不通",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-17.json"
+          },
+          {
+            "id": "wenbing-10-18",
+            "title": "第 18 节 · 十八、下后虚烦不眠，心中",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-18.json"
+          },
+          {
+            "id": "wenbing-10-19",
+            "title": "第 19 节 · 十九、阳明温病，干呕口苦",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-19.json"
+          },
+          {
+            "id": "wenbing-10-20",
+            "title": "第 20 节 · 二十、阳明温病，舌黄燥，",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-20.json"
+          },
+          {
+            "id": "wenbing-10-21",
+            "title": "第 21 节 · 二一、阳明斑者，化斑汤主",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-21.json"
+          },
+          {
+            "id": "wenbing-10-22",
+            "title": "第 22 节 · 二二、阳明温病，下后疹续",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-22.json"
+          },
+          {
+            "id": "wenbing-10-23",
+            "title": "第 23 节 · 二三、斑疹，用升提，则衄",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-23.json"
+          },
+          {
+            "id": "wenbing-10-24",
+            "title": "第 24 节 · 二四、斑疹阳明证悉具，外",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-24.json"
+          },
+          {
+            "id": "wenbing-10-25",
+            "title": "第 25 节 · 二五、阳明温毒发痘者，如",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-25.json"
+          },
+          {
+            "id": "wenbing-10-26",
+            "title": "第 26 节 · 二六、阳明温毒，杨梅疮者",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-26.json"
+          },
+          {
+            "id": "wenbing-10-27",
+            "title": "第 27 节 · 二七、阳明温病，不甚渴，",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-27.json"
+          },
+          {
+            "id": "wenbing-10-28",
+            "title": "第 28 节 · 二八、阳明温病，无汗，或",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-28.json"
+          },
+          {
+            "id": "wenbing-10-29",
+            "title": "第 29 节 · 二九、阳明温病，无汗，实",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-29.json"
+          },
+          {
+            "id": "wenbing-10-30",
+            "title": "第 30 节 · 三十、温病小便不利者，淡",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-30.json"
+          },
+          {
+            "id": "wenbing-10-31",
+            "title": "第 31 节 · 三一、温病燥热，欲解燥者",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-31.json"
+          },
+          {
+            "id": "wenbing-10-32",
+            "title": "第 32 节 · 三二、阳明温病，下后热退",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-32.json"
+          },
+          {
+            "id": "wenbing-10-33",
+            "title": "第 33 节 · 三三、阳明温病，下后脉静",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-33.json"
+          },
+          {
+            "id": "wenbing-10-34",
+            "title": "第 34 节 · 三四、阳明温病，渴甚者，",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-34.json"
+          },
+          {
+            "id": "wenbing-10-35",
+            "title": "第 35 节 · 三五、阳明温病，下后微热",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-35.json"
+          },
+          {
+            "id": "wenbing-10-36",
+            "title": "第 36 节 · 三六、阳明温病，斑疹温痘",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-36.json"
+          },
+          {
+            "id": "wenbing-10-37",
+            "title": "第 37 节 · 三七、风温、温热、温疫、",
+            "dataFile": "/data/经典/温病条辨/wenbing-10-37.json"
+          }
+        ]
+      },
+      {
+        "title": "暑温、伏暑",
+        "clauses": [
+          {
+            "id": "wenbing-11-01",
+            "title": "第 1 节 · 三八、脉洪滑，面赤身热头",
+            "dataFile": "/data/经典/温病条辨/wenbing-11-01.json"
+          },
+          {
+            "id": "wenbing-11-02",
+            "title": "第 2 节 · 三九、阳明暑温，脉滑数，",
+            "dataFile": "/data/经典/温病条辨/wenbing-11-02.json"
+          },
+          {
+            "id": "wenbing-11-03",
+            "title": "第 3 节 · 四十、阳明暑温，湿气已化",
+            "dataFile": "/data/经典/温病条辨/wenbing-11-03.json"
+          },
+          {
+            "id": "wenbing-11-04",
+            "title": "第 4 节 · 四一、暑温蔓延三焦，舌滑",
+            "dataFile": "/data/经典/温病条辨/wenbing-11-04.json"
+          },
+          {
+            "id": "wenbing-11-05",
+            "title": "第 5 节 · 四二、暑温伏暑，三焦均受",
+            "dataFile": "/data/经典/温病条辨/wenbing-11-05.json"
+          }
+        ]
+      },
+      {
+        "title": "寒湿",
+        "clauses": [
+          {
+            "id": "wenbing-12-01",
+            "title": "第 1 节 · 四三、湿之入中焦，有寒湿",
+            "dataFile": "/data/经典/温病条辨/wenbing-12-01.json"
+          },
+          {
+            "id": "wenbing-12-02",
+            "title": "第 2 节 · 四四、足太阴寒湿，痞结胸",
+            "dataFile": "/data/经典/温病条辨/wenbing-12-02.json"
+          },
+          {
+            "id": "wenbing-12-03",
+            "title": "第 3 节 · 四五、足太阴寒湿，腹胀，",
+            "dataFile": "/data/经典/温病条辨/wenbing-12-03.json"
+          },
+          {
+            "id": "wenbing-12-04",
+            "title": "第 4 节 · 四六、足太阴寒湿，四肢乍",
+            "dataFile": "/data/经典/温病条辨/wenbing-12-04.json"
+          },
+          {
+            "id": "wenbing-12-05",
+            "title": "第 5 节 · 四七、足太阴寒湿，舌灰滑",
+            "dataFile": "/data/经典/温病条辨/wenbing-12-05.json"
+          },
+          {
+            "id": "wenbing-12-06",
+            "title": "第 6 节 · 四八、足太阴寒湿，舌白滑",
+            "dataFile": "/data/经典/温病条辨/wenbing-12-06.json"
+          },
+          {
+            "id": "wenbing-12-07",
+            "title": "第 7 节 · 四九、阳明寒湿，舌白腐，",
+            "dataFile": "/data/经典/温病条辨/wenbing-12-07.json"
+          },
+          {
+            "id": "wenbing-12-08",
+            "title": "第 8 节 · 五十、寒湿伤脾胃两阳，寒",
+            "dataFile": "/data/经典/温病条辨/wenbing-12-08.json"
+          },
+          {
+            "id": "wenbing-12-09",
+            "title": "第 9 节 · 五一、湿伤脾胃两阳，既吐",
+            "dataFile": "/data/经典/温病条辨/wenbing-12-09.json"
+          },
+          {
+            "id": "wenbing-12-10",
+            "title": "第 10 节 · 五二、霍乱兼转筋者，五苓",
+            "dataFile": "/data/经典/温病条辨/wenbing-12-10.json"
+          },
+          {
+            "id": "wenbing-12-11",
+            "title": "第 11 节 · 五三、卒中寒湿，内挟秽浊",
+            "dataFile": "/data/经典/温病条辨/wenbing-12-11.json"
+          }
+        ]
+      },
+      {
+        "title": "湿温",
+        "clauses": [
+          {
+            "id": "wenbing-13-01",
+            "title": "第 1 节 · 五四、湿热上焦未清，里虚",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-01.json"
+          },
+          {
+            "id": "wenbing-13-02",
+            "title": "第 2 节 · 五五、湿热受自口鼻，由募",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-02.json"
+          },
+          {
+            "id": "wenbing-13-03",
+            "title": "第 3 节 · 五六、吸受秽湿，三焦分布",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-03.json"
+          },
+          {
+            "id": "wenbing-13-04",
+            "title": "第 4 节 · 五七、阳明湿温，气壅为哕",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-04.json"
+          },
+          {
+            "id": "wenbing-13-05",
+            "title": "第 5 节 · 五八、三焦湿郁，升降失司",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-05.json"
+          },
+          {
+            "id": "wenbing-13-06",
+            "title": "第 6 节 · 五九、湿郁三焦，脘闷，便",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-06.json"
+          },
+          {
+            "id": "wenbing-13-07",
+            "title": "第 7 节 · 六十、秽湿着里，舌黄脘闷",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-07.json"
+          },
+          {
+            "id": "wenbing-13-08",
+            "title": "第 8 节 · 六一、秽湿着里，邪阻气分",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-08.json"
+          },
+          {
+            "id": "wenbing-13-09",
+            "title": "第 9 节 · 六二、秽湿着里，脘闷便泄",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-09.json"
+          },
+          {
+            "id": "wenbing-13-10",
+            "title": "第 10 节 · 六三、脉缓身痛，舌淡黄而",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-10.json"
+          },
+          {
+            "id": "wenbing-13-11",
+            "title": "第 11 节 · 六四、阳明湿温，呕而不渴",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-11.json"
+          },
+          {
+            "id": "wenbing-13-12",
+            "title": "第 12 节 · 六五、湿聚热蒸，蕴于经络",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-12.json"
+          },
+          {
+            "id": "wenbing-13-13",
+            "title": "第 13 节 · 六六、湿郁经脉，身热身痛",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-13.json"
+          },
+          {
+            "id": "wenbing-13-14",
+            "title": "第 14 节 · 六七、风暑寒湿，杂感混淆",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-14.json"
+          },
+          {
+            "id": "wenbing-13-15",
+            "title": "第 15 节 · 六八、暑湿痹者，加减木防",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-15.json"
+          },
+          {
+            "id": "wenbing-13-16",
+            "title": "第 16 节 · 六九、湿热不解，久酿成疸",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-16.json"
+          },
+          {
+            "id": "wenbing-13-17",
+            "title": "第 17 节 · 七十、夏秋疸病，湿热气蒸",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-17.json"
+          },
+          {
+            "id": "wenbing-13-18",
+            "title": "第 18 节 · 七一、诸黄胆小便短者，茵",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-18.json"
+          },
+          {
+            "id": "wenbing-13-19",
+            "title": "第 19 节 · 七二、黄胆脉沉，中痞恶心",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-19.json"
+          },
+          {
+            "id": "wenbing-13-20",
+            "title": "第 20 节 · 七三、素积劳倦，再感湿温",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-20.json"
+          },
+          {
+            "id": "wenbing-13-21",
+            "title": "第 21 节 · 七四、湿甚为热，疟邪痞结",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-21.json"
+          },
+          {
+            "id": "wenbing-13-22",
+            "title": "第 22 节 · 七五、疮家湿疟，忌用发散",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-22.json"
+          },
+          {
+            "id": "wenbing-13-23",
+            "title": "第 23 节 · 七六、背寒，胸中痞结，疟",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-23.json"
+          },
+          {
+            "id": "wenbing-13-24",
+            "title": "第 24 节 · 七七、疟伤胃阳，气逆不降",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-24.json"
+          },
+          {
+            "id": "wenbing-13-25",
+            "title": "第 25 节 · 七八、疟伤胃阴，不饥不饱",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-25.json"
+          },
+          {
+            "id": "wenbing-13-26",
+            "title": "第 26 节 · 七九、太阴脾疟，寒起四末",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-26.json"
+          },
+          {
+            "id": "wenbing-13-27",
+            "title": "第 27 节 · 八十、太阴脾疟，脉濡寒热",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-27.json"
+          },
+          {
+            "id": "wenbing-13-28",
+            "title": "第 28 节 · 八一、太阴脾疟，脉弦而缓",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-28.json"
+          },
+          {
+            "id": "wenbing-13-29",
+            "title": "第 29 节 · 八二、中焦疟，寒热久不止",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-29.json"
+          },
+          {
+            "id": "wenbing-13-30",
+            "title": "第 30 节 · 八三、脉左弦，暮热早凉，",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-30.json"
+          },
+          {
+            "id": "wenbing-13-31",
+            "title": "第 31 节 · 八四、少阳疟如伤寒证者，",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-31.json"
+          },
+          {
+            "id": "wenbing-13-32",
+            "title": "第 32 节 · 八五、舌白脘闷，寒起四末",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-32.json"
+          },
+          {
+            "id": "wenbing-13-33",
+            "title": "第 33 节 · 八六、湿温内蕴，夹杂饮食",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-33.json"
+          },
+          {
+            "id": "wenbing-13-34",
+            "title": "第 34 节 · 八七、自利不爽，欲作滞下",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-34.json"
+          },
+          {
+            "id": "wenbing-13-35",
+            "title": "第 35 节 · 八八、暑湿风寒杂感，寒热",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-35.json"
+          },
+          {
+            "id": "wenbing-13-36",
+            "title": "第 36 节 · 八九、滞下已成，腹胀痛，",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-36.json"
+          },
+          {
+            "id": "wenbing-13-37",
+            "title": "第 37 节 · 九十、滞下湿热内蕴，中焦",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-37.json"
+          },
+          {
+            "id": "wenbing-13-38",
+            "title": "第 38 节 · 九十一、滞下红白，舌色灰",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-38.json"
+          },
+          {
+            "id": "wenbing-13-39",
+            "title": "第 39 节 · 九十二、湿温下利，脱肛，",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-39.json"
+          },
+          {
+            "id": "wenbing-13-40",
+            "title": "第 40 节 · 九十三、久痢阳明不阖，人",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-40.json"
+          },
+          {
+            "id": "wenbing-13-41",
+            "title": "第 41 节 · 九十四、自利腹满，小便清",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-41.json"
+          },
+          {
+            "id": "wenbing-13-42",
+            "title": "第 42 节 · 九十五、自利不渴者属太阴",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-42.json"
+          },
+          {
+            "id": "wenbing-13-43",
+            "title": "第 43 节 · 九十六、疟邪热气，内陷变",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-43.json"
+          },
+          {
+            "id": "wenbing-13-44",
+            "title": "第 44 节 · 九十七、春温内陷下痢，最",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-44.json"
+          },
+          {
+            "id": "wenbing-13-45",
+            "title": "第 45 节 · 九十八、气虚下陷，门户不",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-45.json"
+          },
+          {
+            "id": "wenbing-13-46",
+            "title": "第 46 节 · 九十九、内虚下陷，热利下",
+            "dataFile": "/data/经典/温病条辨/wenbing-13-46.json"
+          }
+        ]
+      },
+      {
+        "title": "秋燥",
+        "clauses": [
+          {
+            "id": "wenbing-14-01",
+            "title": "第 1 节 · 一○○、燥伤胃阴，五汁饮",
+            "dataFile": "/data/经典/温病条辨/wenbing-14-01.json"
+          }
+        ]
+      },
+      {
+        "title": "风温、温热、温疫、温毒、冬温",
+        "clauses": [
+          {
+            "id": "wenbing-15-01",
+            "title": "第 1 节 · 一、风温、温热、温疫、温",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-01.json"
+          },
+          {
+            "id": "wenbing-15-02",
+            "title": "第 2 节 · 二、温病误表，津液被劫，",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-02.json"
+          },
+          {
+            "id": "wenbing-15-03",
+            "title": "第 3 节 · 三、温病耳聋，病系少阴，",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-03.json"
+          },
+          {
+            "id": "wenbing-15-04",
+            "title": "第 4 节 · 四、劳倦内伤，复感温病，",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-04.json"
+          },
+          {
+            "id": "wenbing-15-05",
+            "title": "第 5 节 · 五、温病已汗而不得汗，已",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-05.json"
+          },
+          {
+            "id": "wenbing-15-06",
+            "title": "第 6 节 · 六、温病误用升散，脉结代",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-06.json"
+          },
+          {
+            "id": "wenbing-15-07",
+            "title": "第 7 节 · 七、汗下后，口燥咽干，神",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-07.json"
+          },
+          {
+            "id": "wenbing-15-08",
+            "title": "第 8 节 · 八、热邪深入，或在少阴，",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-08.json"
+          },
+          {
+            "id": "wenbing-15-09",
+            "title": "第 9 节 · 九、下后大便溏甚，周十二",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-09.json"
+          },
+          {
+            "id": "wenbing-15-10",
+            "title": "第 10 节 · 十、下焦温病，但大便溏者",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-10.json"
+          },
+          {
+            "id": "wenbing-15-11",
+            "title": "第 11 节 · 十一、少阴温病，真阴欲竭",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-11.json"
+          },
+          {
+            "id": "wenbing-15-12",
+            "title": "第 12 节 · 十二、夜热早凉，热退无汗",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-12.json"
+          },
+          {
+            "id": "wenbing-15-13",
+            "title": "第 13 节 · 十三、热邪深入下焦，脉沉",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-13.json"
+          },
+          {
+            "id": "wenbing-15-14",
+            "title": "第 14 节 · 十四、下焦温病，热深厥甚",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-14.json"
+          },
+          {
+            "id": "wenbing-15-15",
+            "title": "第 15 节 · 十五、既厥且哕（俗名呃忒",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-15.json"
+          },
+          {
+            "id": "wenbing-15-16",
+            "title": "第 16 节 · 十六、热邪久羁，吸烁真阴",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-16.json"
+          },
+          {
+            "id": "wenbing-15-17",
+            "title": "第 17 节 · 十七、壮火尚盛者，不得用",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-17.json"
+          },
+          {
+            "id": "wenbing-15-18",
+            "title": "第 18 节 · 十八、痉厥神昏，舌短，烦",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-18.json"
+          },
+          {
+            "id": "wenbing-15-19",
+            "title": "第 19 节 · 十九、邪气久羁，肌肤甲错",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-19.json"
+          },
+          {
+            "id": "wenbing-15-20",
+            "title": "第 20 节 · 二十、时欲漱口不欲咽，大",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-20.json"
+          },
+          {
+            "id": "wenbing-15-21",
+            "title": "第 21 节 · 二十一、少腹坚满，小便自",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-21.json"
+          },
+          {
+            "id": "wenbing-15-22",
+            "title": "第 22 节 · 二十二、温病脉，法当数，",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-22.json"
+          },
+          {
+            "id": "wenbing-15-23",
+            "title": "第 23 节 · 二十三、温病七、八日以后",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-23.json"
+          },
+          {
+            "id": "wenbing-15-24",
+            "title": "第 24 节 · 二十四、温病少阴下利，咽",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-24.json"
+          },
+          {
+            "id": "wenbing-15-25",
+            "title": "第 25 节 · 二十五、温病少阴咽痛者，",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-25.json"
+          },
+          {
+            "id": "wenbing-15-26",
+            "title": "第 26 节 · 二十六、温病入少阴，呕而",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-26.json"
+          },
+          {
+            "id": "wenbing-15-27",
+            "title": "第 27 节 · 二十七、妇女温病，经水适",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-27.json"
+          },
+          {
+            "id": "wenbing-15-28",
+            "title": "第 28 节 · 二十八、热入血室，医与两",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-28.json"
+          },
+          {
+            "id": "wenbing-15-29",
+            "title": "第 29 节 · 二十九、热入血室，邪去八",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-29.json"
+          },
+          {
+            "id": "wenbing-15-30",
+            "title": "第 30 节 · 三十、热病经水适至，十余",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-30.json"
+          },
+          {
+            "id": "wenbing-15-31",
+            "title": "第 31 节 · 三十一、温病愈后，嗽稀痰",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-31.json"
+          },
+          {
+            "id": "wenbing-15-32",
+            "title": "第 32 节 · 三十二、饮退则寐，舌滑，",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-32.json"
+          },
+          {
+            "id": "wenbing-15-33",
+            "title": "第 33 节 · 三十三、温病解后，脉迟，",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-33.json"
+          },
+          {
+            "id": "wenbing-15-34",
+            "title": "第 34 节 · 三十四、温病愈后，面色萎",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-34.json"
+          },
+          {
+            "id": "wenbing-15-35",
+            "title": "第 35 节 · 三十五、温病愈后，或一月",
+            "dataFile": "/data/经典/温病条辨/wenbing-15-35.json"
+          }
+        ]
+      },
+      {
+        "title": "暑温、伏暑",
+        "clauses": [
+          {
+            "id": "wenbing-16-01",
+            "title": "第 1 节 · 三十六、暑邪深入少阴消渴",
+            "dataFile": "/data/经典/温病条辨/wenbing-16-01.json"
+          },
+          {
+            "id": "wenbing-16-02",
+            "title": "第 2 节 · 三十七、暑邪深入厥阴，舌",
+            "dataFile": "/data/经典/温病条辨/wenbing-16-02.json"
+          },
+          {
+            "id": "wenbing-16-03",
+            "title": "第 3 节 · 三十八、暑邪误治，胃口伤",
+            "dataFile": "/data/经典/温病条辨/wenbing-16-03.json"
+          },
+          {
+            "id": "wenbing-16-04",
+            "title": "第 4 节 · 三十九、暑邪久热，寝不安",
+            "dataFile": "/data/经典/温病条辨/wenbing-16-04.json"
+          },
+          {
+            "id": "wenbing-16-05",
+            "title": "第 5 节 · 四十、蓄血，热入血室，与",
+            "dataFile": "/data/经典/温病条辨/wenbing-16-05.json"
+          },
+          {
+            "id": "wenbing-16-06",
+            "title": "第 6 节 · 四十一、伏暑、湿温胁痛，",
+            "dataFile": "/data/经典/温病条辨/wenbing-16-06.json"
+          }
+        ]
+      },
+      {
+        "title": "寒湿",
+        "clauses": [
+          {
+            "id": "wenbing-17-01",
+            "title": "第 1 节 · 四十二、湿之为物也，在天",
+            "dataFile": "/data/经典/温病条辨/wenbing-17-01.json"
+          },
+          {
+            "id": "wenbing-17-02",
+            "title": "第 2 节 · 四十三、湿久不治，伏足少",
+            "dataFile": "/data/经典/温病条辨/wenbing-17-02.json"
+          },
+          {
+            "id": "wenbing-17-03",
+            "title": "第 3 节 · 四十四、湿久，脾阳消乏，",
+            "dataFile": "/data/经典/温病条辨/wenbing-17-03.json"
+          },
+          {
+            "id": "wenbing-17-04",
+            "title": "第 4 节 · 四十五、湿久伤阳，痿弱不",
+            "dataFile": "/data/经典/温病条辨/wenbing-17-04.json"
+          },
+          {
+            "id": "wenbing-17-05",
+            "title": "第 5 节 · 四十六、先便后血，小肠寒",
+            "dataFile": "/data/经典/温病条辨/wenbing-17-05.json"
+          },
+          {
+            "id": "wenbing-17-06",
+            "title": "第 6 节 · 四十七、秋湿内伏，冬寒外",
+            "dataFile": "/data/经典/温病条辨/wenbing-17-06.json"
+          },
+          {
+            "id": "wenbing-17-07",
+            "title": "第 7 节 · 四十八、喘咳息促，吐稀涎",
+            "dataFile": "/data/经典/温病条辨/wenbing-17-07.json"
+          },
+          {
+            "id": "wenbing-17-08",
+            "title": "第 8 节 · 四十九、支饮不得息，葶苈",
+            "dataFile": "/data/经典/温病条辨/wenbing-17-08.json"
+          },
+          {
+            "id": "wenbing-17-09",
+            "title": "第 9 节 · 五十、饮家反渴，必重用辛",
+            "dataFile": "/data/经典/温病条辨/wenbing-17-09.json"
+          },
+          {
+            "id": "wenbing-17-10",
+            "title": "第 10 节 · 五十一、饮家阴吹，脉弦而",
+            "dataFile": "/data/经典/温病条辨/wenbing-17-10.json"
+          },
+          {
+            "id": "wenbing-17-11",
+            "title": "第 11 节 · 五十二、暴感寒湿成疝，寒",
+            "dataFile": "/data/经典/温病条辨/wenbing-17-11.json"
+          },
+          {
+            "id": "wenbing-17-12",
+            "title": "第 12 节 · 五十三、寒疝脉弦紧，胁下",
+            "dataFile": "/data/经典/温病条辨/wenbing-17-12.json"
+          },
+          {
+            "id": "wenbing-17-13",
+            "title": "第 13 节 · 五十四、寒疝少腹或脐旁，",
+            "dataFile": "/data/经典/温病条辨/wenbing-17-13.json"
+          }
+        ]
+      },
+      {
+        "title": "湿温",
+        "clauses": [
+          {
+            "id": "wenbing-18-01",
+            "title": "第 1 节 · 五十五、湿温久羁，三焦弥",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-01.json"
+          },
+          {
+            "id": "wenbing-18-02",
+            "title": "第 2 节 · 五十六、湿凝气阻，三焦俱",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-02.json"
+          },
+          {
+            "id": "wenbing-18-03",
+            "title": "第 3 节 · 五十七、浊湿久留，下注于",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-03.json"
+          },
+          {
+            "id": "wenbing-18-04",
+            "title": "第 4 节 · 五十八、疟邪久羁，因疟成",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-04.json"
+          },
+          {
+            "id": "wenbing-18-05",
+            "title": "第 5 节 · 五十九、疟久不解，胁下成",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-05.json"
+          },
+          {
+            "id": "wenbing-18-06",
+            "title": "第 6 节 · 六十、太阴三疟，腹胀不渴",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-06.json"
+          },
+          {
+            "id": "wenbing-18-07",
+            "title": "第 7 节 · 六十一、少阴三疟，久而不",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-07.json"
+          },
+          {
+            "id": "wenbing-18-08",
+            "title": "第 8 节 · 六十二、厥阴三疟，日久不",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-08.json"
+          },
+          {
+            "id": "wenbing-18-09",
+            "title": "第 9 节 · 六十三、酒客久痢，饮食不",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-09.json"
+          },
+          {
+            "id": "wenbing-18-10",
+            "title": "第 10 节 · 六十四、老年久痢，脾阳受",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-10.json"
+          },
+          {
+            "id": "wenbing-18-11",
+            "title": "第 11 节 · 六十五、久痢小便不通，厌",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-11.json"
+          },
+          {
+            "id": "wenbing-18-12",
+            "title": "第 12 节 · 六十六、久痢带瘀血，肛中",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-12.json"
+          },
+          {
+            "id": "wenbing-18-13",
+            "title": "第 13 节 · 六十七、下痢无度，脉微细",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-13.json"
+          },
+          {
+            "id": "wenbing-18-14",
+            "title": "第 14 节 · 六十八、久痢，阴伤气陷，",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-14.json"
+          },
+          {
+            "id": "wenbing-18-15",
+            "title": "第 15 节 · 六十九、久痢伤肾，下焦不",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-15.json"
+          },
+          {
+            "id": "wenbing-18-16",
+            "title": "第 16 节 · 七十、久痢伤阴，口渴舌干",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-16.json"
+          },
+          {
+            "id": "wenbing-18-17",
+            "title": "第 17 节 · 七十一、痢久阴阳两伤，少",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-17.json"
+          },
+          {
+            "id": "wenbing-18-18",
+            "title": "第 18 节 · 七十二、久痢伤及厥阴，上",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-18.json"
+          },
+          {
+            "id": "wenbing-18-19",
+            "title": "第 19 节 · 七十三、休息痢经年不愈，",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-19.json"
+          },
+          {
+            "id": "wenbing-18-20",
+            "title": "第 20 节 · 七十四、噤口痢，热气上冲",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-20.json"
+          },
+          {
+            "id": "wenbing-18-21",
+            "title": "第 21 节 · 七十五、噤口痢，左脉细数",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-21.json"
+          },
+          {
+            "id": "wenbing-18-22",
+            "title": "第 22 节 · 七十六、噤口痢，呕恶不饥",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-22.json"
+          },
+          {
+            "id": "wenbing-18-23",
+            "title": "第 23 节 · 七十七、噤口痢，胃关不开",
+            "dataFile": "/data/经典/温病条辨/wenbing-18-23.json"
+          }
+        ]
+      },
+      {
+        "title": "秋燥",
+        "clauses": [
+          {
+            "id": "wenbing-19-01",
+            "title": "第 1 节 · 七十八、燥久伤及肝肾之阴",
+            "dataFile": "/data/经典/温病条辨/wenbing-19-01.json"
+          }
+        ]
+      },
+      {
+        "title": "汗论",
+        "clauses": [
+          {
+            "id": "wenbing-20-01",
+            "title": "第 1 节 · 汗也者，合阳气阴精蒸化而",
+            "dataFile": "/data/经典/温病条辨/wenbing-20-01.json"
+          }
+        ]
+      },
+      {
+        "title": "方中行先生或问六气论",
+        "clauses": [
+          {
+            "id": "wenbing-21-01",
+            "title": "第 1 节 · 原文云∶或问天有六气──",
+            "dataFile": "/data/经典/温病条辨/wenbing-21-01.json"
+          }
+        ]
+      },
+      {
+        "title": "伤寒注论",
+        "clauses": [
+          {
+            "id": "wenbing-22-01",
+            "title": "第 1 节 · 仲祖《伤寒论》，诚为金科",
+            "dataFile": "/data/经典/温病条辨/wenbing-22-01.json"
+          }
+        ]
+      },
+      {
+        "title": "风论",
+        "clauses": [
+          {
+            "id": "wenbing-23-01",
+            "title": "第 1 节 · 《内经》曰∶风为百病之长",
+            "dataFile": "/data/经典/温病条辨/wenbing-23-01.json"
+          }
+        ]
+      },
+      {
+        "title": "医书亦有经子史集论",
+        "clauses": [
+          {
+            "id": "wenbing-24-01",
+            "title": "第 1 节 · 儒书有经子史集，医书亦有",
+            "dataFile": "/data/经典/温病条辨/wenbing-24-01.json"
+          }
+        ]
+      },
+      {
+        "title": "本论起银翘散论",
+        "clauses": [
+          {
+            "id": "wenbing-25-01",
+            "title": "第 1 节 · 本论第一方用桂枝汤者，以",
+            "dataFile": "/data/经典/温病条辨/wenbing-25-01.json"
+          }
+        ]
+      },
+      {
+        "title": "本论粗具规模论",
+        "clauses": [
+          {
+            "id": "wenbing-26-01",
+            "title": "第 1 节 · 本论以前人信经太过（经谓",
+            "dataFile": "/data/经典/温病条辨/wenbing-26-01.json"
+          }
+        ]
+      },
+      {
+        "title": "寒疫论",
+        "clauses": [
+          {
+            "id": "wenbing-27-01",
+            "title": "第 1 节 · 世多言寒疫者，究其病状，",
+            "dataFile": "/data/经典/温病条辨/wenbing-27-01.json"
+          }
+        ]
+      },
+      {
+        "title": "伪病名论",
+        "clauses": [
+          {
+            "id": "wenbing-28-01",
+            "title": "第 1 节 · 病有一定之名，近有古无今",
+            "dataFile": "/data/经典/温病条辨/wenbing-28-01.json"
+          }
+        ]
+      },
+      {
+        "title": "温病起手太阴论",
+        "clauses": [
+          {
+            "id": "wenbing-29-01",
+            "title": "第 1 节 · 四时温病，多似伤寒",
+            "dataFile": "/data/经典/温病条辨/wenbing-29-01.json"
+          }
+        ]
+      },
+      {
+        "title": "燥气论",
+        "clauses": [
+          {
+            "id": "wenbing-30-01",
+            "title": "第 1 节 · 前三焦篇所序之燥气，皆言",
+            "dataFile": "/data/经典/温病条辨/wenbing-30-01.json"
+          }
+        ]
+      },
+      {
+        "title": "外感总数论",
+        "clauses": [
+          {
+            "id": "wenbing-31-01",
+            "title": "第 1 节 · 天以六气生万物，其错综变",
+            "dataFile": "/data/经典/温病条辨/wenbing-31-01.json"
+          }
+        ]
+      },
+      {
+        "title": "治病法论",
+        "clauses": [
+          {
+            "id": "wenbing-32-01",
+            "title": "第 1 节 · 治外感如将（兵贵神速，机",
+            "dataFile": "/data/经典/温病条辨/wenbing-32-01.json"
+          }
+        ]
+      },
+      {
+        "title": "吴又可温病禁黄连论",
+        "clauses": [
+          {
+            "id": "wenbing-33-01",
+            "title": "第 1 节 · 唐宋以来，治温热病者，初",
+            "dataFile": "/data/经典/温病条辨/wenbing-33-01.json"
+          }
+        ]
+      },
+      {
+        "title": "风温、温热气复论",
+        "clauses": [
+          {
+            "id": "wenbing-34-01",
+            "title": "第 1 节 · 仲景谓腰以上肿当发汗，腰",
+            "dataFile": "/data/经典/温病条辨/wenbing-34-01.json"
+          }
+        ]
+      },
+      {
+        "title": "治血论",
+        "clauses": [
+          {
+            "id": "wenbing-35-01",
+            "title": "第 1 节 · 人之血，即天地之水也，在",
+            "dataFile": "/data/经典/温病条辨/wenbing-35-01.json"
+          }
+        ]
+      },
+      {
+        "title": "九窍论",
+        "clauses": [
+          {
+            "id": "wenbing-36-01",
+            "title": "第 1 节 · 人身九窍，上窍七，下窍二",
+            "dataFile": "/data/经典/温病条辨/wenbing-36-01.json"
+          }
+        ]
+      },
+      {
+        "title": "形体论",
+        "clauses": [
+          {
+            "id": "wenbing-37-01",
+            "title": "第 1 节 · 《内经》之论形体，头足腹",
+            "dataFile": "/data/经典/温病条辨/wenbing-37-01.json"
+          }
+        ]
+      },
+      {
+        "title": "解产难题词",
+        "clauses": [
+          {
+            "id": "wenbing-38-01",
+            "title": "第 1 节 · 天地化生万物，人为至贵，",
+            "dataFile": "/data/经典/温病条辨/wenbing-38-01.json"
+          }
+        ]
+      },
+      {
+        "title": "产后总论",
+        "clauses": [
+          {
+            "id": "wenbing-39-01",
+            "title": "第 1 节 · 产后治法，前人颇多，非如",
+            "dataFile": "/data/经典/温病条辨/wenbing-39-01.json"
+          }
+        ]
+      },
+      {
+        "title": "产后三大证论一",
+        "clauses": [
+          {
+            "id": "wenbing-40-01",
+            "title": "第 1 节 · 产后惊风之说，由来已久，",
+            "dataFile": "/data/经典/温病条辨/wenbing-40-01.json"
+          }
+        ]
+      },
+      {
+        "title": "产后三大证论二",
+        "clauses": [
+          {
+            "id": "wenbing-41-01",
+            "title": "第 1 节 · 按产后亦有不因中风，而本",
+            "dataFile": "/data/经典/温病条辨/wenbing-41-01.json"
+          }
+        ]
+      },
+      {
+        "title": "产后三大证论三",
+        "clauses": [
+          {
+            "id": "wenbing-42-01",
+            "title": "第 1 节 · 《心典》云∶“血虚汗出，",
+            "dataFile": "/data/经典/温病条辨/wenbing-42-01.json"
+          }
+        ]
+      },
+      {
+        "title": "产后瘀血论",
+        "clauses": [
+          {
+            "id": "wenbing-43-01",
+            "title": "第 1 节 · 张石顽云∶“产后元气亏损",
+            "dataFile": "/data/经典/温病条辨/wenbing-43-01.json"
+          }
+        ]
+      },
+      {
+        "title": "产后宜补宜泻论",
+        "clauses": [
+          {
+            "id": "wenbing-44-01",
+            "title": "第 1 节 · 朱丹溪云∶“产后当大补气",
+            "dataFile": "/data/经典/温病条辨/wenbing-44-01.json"
+          }
+        ]
+      },
+      {
+        "title": "产后六气为病论",
+        "clauses": [
+          {
+            "id": "wenbing-45-01",
+            "title": "第 1 节 · 产后六气为病，除伤寒遵仲",
+            "dataFile": "/data/经典/温病条辨/wenbing-45-01.json"
+          }
+        ]
+      },
+      {
+        "title": "产后不可用白芍辨",
+        "clauses": [
+          {
+            "id": "wenbing-46-01",
+            "title": "第 1 节 · 朱丹溪谓产后不可用白芍，",
+            "dataFile": "/data/经典/温病条辨/wenbing-46-01.json"
+          }
+        ]
+      },
+      {
+        "title": "产后误用归芎亦能致螈论",
+        "clauses": [
+          {
+            "id": "wenbing-47-01",
+            "title": "第 1 节 · 当归、川芎，为产后要药，",
+            "dataFile": "/data/经典/温病条辨/wenbing-47-01.json"
+          }
+        ]
+      },
+      {
+        "title": "产后当究奇经论",
+        "clauses": [
+          {
+            "id": "wenbing-48-01",
+            "title": "第 1 节 · 产后虚在八脉，孙真人创论",
+            "dataFile": "/data/经典/温病条辨/wenbing-48-01.json"
+          }
+        ]
+      },
+      {
+        "title": "下死胎不可拘执论",
+        "clauses": [
+          {
+            "id": "wenbing-49-01",
+            "title": "第 1 节 · 死胎不下，不可拘执成方而",
+            "dataFile": "/data/经典/温病条辨/wenbing-49-01.json"
+          }
+        ]
+      },
+      {
+        "title": "催生不可拘执论",
+        "clauses": [
+          {
+            "id": "wenbing-50-01",
+            "title": "第 1 节 · 催生亦不可拘执一辙，阳虚",
+            "dataFile": "/data/经典/温病条辨/wenbing-50-01.json"
+          }
+        ]
+      },
+      {
+        "title": "产后当补心气论",
+        "clauses": [
+          {
+            "id": "wenbing-51-01",
+            "title": "第 1 节 · 产后心虚一证，最为吃紧",
+            "dataFile": "/data/经典/温病条辨/wenbing-51-01.json"
+          }
+        ]
+      },
+      {
+        "title": "产后虚寒虚热分别论治论",
+        "clauses": [
+          {
+            "id": "wenbing-52-01",
+            "title": "第 1 节 · 产后虚热，前则有三甲复脉",
+            "dataFile": "/data/经典/温病条辨/wenbing-52-01.json"
+          }
+        ]
+      },
+      {
+        "title": "保胎论一",
+        "clauses": [
+          {
+            "id": "wenbing-53-01",
+            "title": "第 1 节 · 每殒胎五、六月者，责之中",
+            "dataFile": "/data/经典/温病条辨/wenbing-53-01.json"
+          }
+        ]
+      },
+      {
+        "title": "保胎论二",
+        "clauses": [
+          {
+            "id": "wenbing-54-01",
+            "title": "第 1 节 · 每殒胎必三月者，肝虚而热",
+            "dataFile": "/data/经典/温病条辨/wenbing-54-01.json"
+          }
+        ]
+      },
+      {
+        "title": "解儿难题词",
+        "clauses": [
+          {
+            "id": "wenbing-55-01",
+            "title": "第 1 节 · 儿曷为乎有难",
+            "dataFile": "/data/经典/温病条辨/wenbing-55-01.json"
+          }
+        ]
+      },
+      {
+        "title": "儿科总论",
+        "clauses": [
+          {
+            "id": "wenbing-56-01",
+            "title": "第 1 节 · 古称难治者，莫如小儿，名",
+            "dataFile": "/data/经典/温病条辨/wenbing-56-01.json"
+          }
+        ]
+      },
+      {
+        "title": "俗传儿科为纯阳辨",
+        "clauses": [
+          {
+            "id": "wenbing-57-01",
+            "title": "第 1 节 · 古称小儿纯阳，此丹灶家言",
+            "dataFile": "/data/经典/温病条辨/wenbing-57-01.json"
+          }
+        ]
+      },
+      {
+        "title": "儿科用药论",
+        "clauses": [
+          {
+            "id": "wenbing-58-01",
+            "title": "第 1 节 · 世人以小儿为纯阳也，故重",
+            "dataFile": "/data/经典/温病条辨/wenbing-58-01.json"
+          }
+        ]
+      },
+      {
+        "title": "儿科风药禁",
+        "clauses": [
+          {
+            "id": "wenbing-59-01",
+            "title": "第 1 节 · 近日行方脉者，无论四时所",
+            "dataFile": "/data/经典/温病条辨/wenbing-59-01.json"
+          }
+        ]
+      },
+      {
+        "title": "痉因质疑",
+        "clauses": [
+          {
+            "id": "wenbing-60-01",
+            "title": "第 1 节 · 痉病之因，《素问》曰∶“",
+            "dataFile": "/data/经典/温病条辨/wenbing-60-01.json"
+          }
+        ]
+      },
+      {
+        "title": "湿痉或问",
+        "clauses": [
+          {
+            "id": "wenbing-61-01",
+            "title": "第 1 节 · 或问子疑《素问》痉因于湿",
+            "dataFile": "/data/经典/温病条辨/wenbing-61-01.json"
+          }
+        ]
+      },
+      {
+        "title": "痉有寒热虚实四大纲论",
+        "clauses": [
+          {
+            "id": "wenbing-62-01",
+            "title": "第 1 节 · 六淫致痉，实证也",
+            "dataFile": "/data/经典/温病条辨/wenbing-62-01.json"
+          }
+        ]
+      },
+      {
+        "title": "寒痉",
+        "clauses": [
+          {
+            "id": "wenbing-63-01",
+            "title": "第 1 节 · 仲景先师所述方法具在，但",
+            "dataFile": "/data/经典/温病条辨/wenbing-63-01.json"
+          }
+        ]
+      },
+      {
+        "title": "风温痉",
+        "clauses": [
+          {
+            "id": "wenbing-64-01",
+            "title": "第 1 节 · （按此即螈证，少阳之气为",
+            "dataFile": "/data/经典/温病条辨/wenbing-64-01.json"
+          }
+        ]
+      },
+      {
+        "title": "温热痉",
+        "clauses": [
+          {
+            "id": "wenbing-65-01",
+            "title": "第 1 节 · （即六淫之火气，消烁真阴",
+            "dataFile": "/data/经典/温病条辨/wenbing-65-01.json"
+          }
+        ]
+      },
+      {
+        "title": "暑痉",
+        "clauses": [
+          {
+            "id": "wenbing-66-01",
+            "title": "第 1 节 · （暑兼湿热，后有湿痉一条",
+            "dataFile": "/data/经典/温病条辨/wenbing-66-01.json"
+          }
+        ]
+      },
+      {
+        "title": "湿痉",
+        "clauses": [
+          {
+            "id": "wenbing-67-01",
+            "title": "第 1 节 · （按此一条，螈痉兼有，其",
+            "dataFile": "/data/经典/温病条辨/wenbing-67-01.json"
+          }
+        ]
+      },
+      {
+        "title": "燥痉",
+        "clauses": [
+          {
+            "id": "wenbing-68-01",
+            "title": "第 1 节 · 燥气化火，消烁津液，亦能",
+            "dataFile": "/data/经典/温病条辨/wenbing-68-01.json"
+          }
+        ]
+      },
+      {
+        "title": "内伤饮食痉",
+        "clauses": [
+          {
+            "id": "wenbing-69-01",
+            "title": "第 1 节 · （俗所谓慢脾风者是也） ",
+            "dataFile": "/data/经典/温病条辨/wenbing-69-01.json"
+          }
+        ]
+      },
+      {
+        "title": "客忤痉",
+        "clauses": [
+          {
+            "id": "wenbing-70-01",
+            "title": "第 1 节 · （俗称谓惊吓是也） 按小",
+            "dataFile": "/data/经典/温病条辨/wenbing-70-01.json"
+          }
+        ]
+      },
+      {
+        "title": "本脏自病痉",
+        "clauses": [
+          {
+            "id": "wenbing-71-01",
+            "title": "第 1 节 · （此证则螈病也） 按此证",
+            "dataFile": "/data/经典/温病条辨/wenbing-71-01.json"
+          }
+        ]
+      },
+      {
+        "title": "小儿易痉总论",
+        "clauses": [
+          {
+            "id": "wenbing-72-01",
+            "title": "第 1 节 · 按小儿易痉之故，一由于肌",
+            "dataFile": "/data/经典/温病条辨/wenbing-72-01.json"
+          }
+        ]
+      },
+      {
+        "title": "痉病螈病总论",
+        "clauses": [
+          {
+            "id": "wenbing-73-01",
+            "title": "第 1 节 · 《素问》谓太阳所至为痉，",
+            "dataFile": "/data/经典/温病条辨/wenbing-73-01.json"
+          }
+        ]
+      },
+      {
+        "title": "六气当汗不当汗论",
+        "clauses": [
+          {
+            "id": "wenbing-74-01",
+            "title": "第 1 节 · 六气六门，止有寒水一门，",
+            "dataFile": "/data/经典/温病条辨/wenbing-74-01.json"
+          }
+        ]
+      },
+      {
+        "title": "疳疾论",
+        "clauses": [
+          {
+            "id": "wenbing-75-01",
+            "title": "第 1 节 · 疳者，干也，人所共知",
+            "dataFile": "/data/经典/温病条辨/wenbing-75-01.json"
+          }
+        ]
+      },
+      {
+        "title": "痘证总论",
+        "clauses": [
+          {
+            "id": "wenbing-76-01",
+            "title": "第 1 节 · 《素问》曰∶治病必求其本",
+            "dataFile": "/data/经典/温病条辨/wenbing-76-01.json"
+          }
+        ]
+      },
+      {
+        "title": "痘证禁表药论",
+        "clauses": [
+          {
+            "id": "wenbing-77-01",
+            "title": "第 1 节 · 表药者，为寒水之气郁于人",
+            "dataFile": "/data/经典/温病条辨/wenbing-77-01.json"
+          }
+        ]
+      },
+      {
+        "title": "痘证初起用药论",
+        "clauses": [
+          {
+            "id": "wenbing-78-01",
+            "title": "第 1 节 · 痘证初起，用药甚难，难者",
+            "dataFile": "/data/经典/温病条辨/wenbing-78-01.json"
+          }
+        ]
+      },
+      {
+        "title": "治痘明家论",
+        "clauses": [
+          {
+            "id": "wenbing-79-01",
+            "title": "第 1 节 · 治痘之明家甚多，皆不可偏",
+            "dataFile": "/data/经典/温病条辨/wenbing-79-01.json"
+          }
+        ]
+      },
+      {
+        "title": "痘疮稀少不可恃论",
+        "clauses": [
+          {
+            "id": "wenbing-80-01",
+            "title": "第 1 节 · 相传痘疮稀少，不过数十粒",
+            "dataFile": "/data/经典/温病条辨/wenbing-80-01.json"
+          }
+        ]
+      },
+      {
+        "title": "痘证限期论",
+        "clauses": [
+          {
+            "id": "wenbing-81-01",
+            "title": "第 1 节 · 痘证限期，近日时医，以为",
+            "dataFile": "/data/经典/温病条辨/wenbing-81-01.json"
+          }
+        ]
+      },
+      {
+        "title": "行浆务令满足论",
+        "clauses": [
+          {
+            "id": "wenbing-82-01",
+            "title": "第 1 节 · 近时人心不古，竞尚粉饰，",
+            "dataFile": "/data/经典/温病条辨/wenbing-82-01.json"
+          }
+        ]
+      },
+      {
+        "title": "疹论",
+        "clauses": [
+          {
+            "id": "wenbing-83-01",
+            "title": "第 1 节 · 若明六气为病，疹不难治",
+            "dataFile": "/data/经典/温病条辨/wenbing-83-01.json"
+          }
+        ]
+      },
+      {
+        "title": "泻白散不可妄用论",
+        "clauses": [
+          {
+            "id": "wenbing-84-01",
+            "title": "第 1 节 · 钱氏制泻白散，方用桑白皮",
+            "dataFile": "/data/经典/温病条辨/wenbing-84-01.json"
+          }
+        ]
+      },
+      {
+        "title": "万物各有偏胜论",
+        "clauses": [
+          {
+            "id": "wenbing-85-01",
+            "title": "第 1 节 · 无不偏之药，则无统治之方",
+            "dataFile": "/data/经典/温病条辨/wenbing-85-01.json"
+          }
+        ]
+      },
+      {
+        "title": "草木各得一太极论",
+        "clauses": [
+          {
+            "id": "wenbing-86-01",
+            "title": "第 1 节 · 古来着本草者，皆逐论其气",
+            "dataFile": "/data/经典/温病条辨/wenbing-86-01.json"
+          }
+        ]
+      }
+    ]
   }
 ]

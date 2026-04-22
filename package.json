@@ -10,7 +10,14 @@
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
     "import:shanghan": "tsx scripts/import-shanghan.ts",
-    "import:jingui": "tsx scripts/import-jingui.ts"
+    "import:jingui": "tsx scripts/import-jingui.ts",
+    "import:wenbing": "tsx scripts/import-wenbing.ts",
+    "db:init": "tsx scripts/init-db.ts",
+    "db:import:shanghan": "tsx scripts/import-shanghan-db.ts",
+    "db:import:jingui": "tsx scripts/import-jingui-db.ts",
+    "db:import:wenbing": "tsx scripts/import-wenbing-db.ts",
+    "db:import:relations": "tsx scripts/import-relations-db.ts",
+    "db:seed": "npm run db:init && npm run db:import:shanghan && npm run db:import:jingui && npm run db:import:wenbing && npm run db:import:relations"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",

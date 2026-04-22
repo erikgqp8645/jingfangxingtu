@@ -51,7 +51,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ books, activeBookId, onBookCha
             <span className="text-xs uppercase tracking-[1px] text-clay mb-3 block">{chapter.title}</span>
             {chapter.clauses.map(clause => {
               const isActive = clause.id === activeClauseId;
-              const hasData = !!clause.data;
+              const hasData = clause.hasData ?? !!clause.data;
               return (
                 <div 
                   key={clause.id}

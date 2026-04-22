@@ -17,6 +17,7 @@ export interface ClauseListItem {
   title: string;
   data: ClauseData | null;
   dataFile?: string | null;
+  hasData?: boolean;
 }
 
 export interface BookChapter {

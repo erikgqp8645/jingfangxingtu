@@ -11,18 +11,27 @@ import {PluginPanel} from './components/PluginPanel';
 import {SearchResults} from './components/SearchResults';
 import {prefetchKnowledgeBase, resolveClauseRelations, searchKnowledgeBase} from './lib/searchUtils';
 import {buildRelationGraph} from './lib/relationGraph';
-import type {BookCatalogItem, ClauseData, KeywordSaveResponse, VisibleNodeTypes} from './types/relation';
+import type {BookCatalogItem, ClauseData, ClauseListItem, KeywordSaveResponse, VisibleNodeTypes} from './types/relation';
 
-async function loadClauseData(dataFile?: string | null): Promise<ClauseData | null> {
-  if (!dataFile) return null;
+async function loadClauseData(clauseId?: string | null): Promise<ClauseData | null> {
+  if (!clauseId) return null;
   try {
-    const response = await fetch(dataFile);
+    const response = await fetch(`/api/clauses/${encodeURIComponent(clauseId)}`);
     if (!response.ok) return null;
     return await response.json();
   } catch (error) {
-    console.error(`Failed to load clause data: ${dataFile}`, error);
+    console.error(`Failed to load clause data: ${clauseId}`, error);
     return null;
   }
+}
+
+function findFirstValidClauseId(book?: BookCatalogItem) {
+  if (!book) return '';
+  for (const chapter of book.chapters) {
+    const valid = chapter.clauses.find(clause => (clause.hasData ?? false) || clause.data !== null);
+    if (valid) return valid.id;
+  }
+  return '';
 }
 
 export default function App() {
@@ -31,6 +40,7 @@ export default function App() {
   const [activeClauseId, setActiveClauseId] = useState('265');
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [isClauseLoading, setIsClauseLoading] = useState(false);
   const [selectedHitIds, setSelectedHitIds] = useState<string[]>([]);
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
   const [visibleNodeTypes, setVisibleNodeTypes] = useState<VisibleNodeTypes>({
@@ -40,29 +50,25 @@ export default function App() {
   });
 
   useEffect(() => {
-    Promise.all([fetch('/data/jingdianconfig.json').then(r => r.json()), prefetchKnowledgeBase()])
-      .then(async ([data]) => {
-        const loadedBooks: BookCatalogItem[] = await Promise.all(
-          data.map(async (book: any) => ({
-            ...book,
-            chapters: await Promise.all(
-              (book.chapters || []).map(async (chapter: any) => ({
-                ...chapter,
-                clauses: await Promise.all(
-                  (chapter.clauses || []).map(async (clause: any) => ({
-                    id: clause.id,
-                    title: clause.title,
-                    dataFile: clause.dataFile ?? null,
-                    data: await loadClauseData(clause.dataFile ?? null),
-                  })),
-                ),
-              })),
-            ),
+    Promise.all([fetch('/api/books').then(r => r.json()), prefetchKnowledgeBase()])
+      .then(([data]) => {
+        const loadedBooks: BookCatalogItem[] = data.map((book: any) => ({
+          ...book,
+          chapters: (book.chapters || []).map((chapter: any) => ({
+            ...chapter,
+            clauses: (chapter.clauses || []).map((clause: any) => ({
+              id: clause.id,
+              title: clause.title,
+              dataFile: clause.dataFile ?? null,
+              hasData: clause.hasData ?? !!clause.dataFile,
+              data: null,
+            })),
           })),
-        );
+        }));
         setBooks(loadedBooks);
         if (loadedBooks[0]) {
           setActiveBookId(loadedBooks[0].id);
+          setActiveClauseId(findFirstValidClauseId(loadedBooks[0]));
         }
         setIsLoading(false);
       })
@@ -74,7 +80,7 @@ export default function App() {
 
   const activeBook = books.find(book => book.id === activeBookId) || books[0];
 
-  let activeClauseItem = null;
+  let activeClauseItem: ClauseListItem | null = null;
   let activeClauseData: ClauseData | null = null;
   activeBook?.chapters?.forEach(chapter => {
     const found = chapter.clauses.find(clause => clause.id === activeClauseId);
@@ -82,13 +88,45 @@ export default function App() {
     if (found?.data) activeClauseData = found.data;
   });
 
+  useEffect(() => {
+    if (!activeClauseItem || activeClauseItem.data || !(activeClauseItem.hasData ?? false)) return;
+
+    let cancelled = false;
+    setIsClauseLoading(true);
+
+    loadClauseData(activeClauseItem.id)
+      .then(data => {
+        if (cancelled || !data) return;
+        setBooks(prev =>
+          prev.map(book => ({
+            ...book,
+            chapters: book.chapters.map(chapter => ({
+              ...chapter,
+              clauses: chapter.clauses.map(clause =>
+                clause.id === activeClauseItem?.id ? {...clause, data} : clause,
+              ),
+            })),
+          })),
+        );
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setIsClauseLoading(false);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [activeClauseItem?.id]);
+
   const fallbackBook = books?.[0];
   const fallbackClauseItem = fallbackBook?.chapters?.[0]?.clauses?.find(clause => clause.data !== null) || null;
   const fallbackClause = fallbackClauseItem?.data || null;
-  const activeBookHasData = !!activeBook?.chapters?.some(chapter => chapter.clauses.some(clause => clause.data !== null));
-  const currentData =
-    activeClauseData ||
-    (activeBook?.id === fallbackBook?.id ? fallbackClause : null);
+  const activeBookHasData = !!activeBook?.chapters?.some(chapter =>
+    chapter.clauses.some(clause => (clause.hasData ?? false) || clause.data !== null),
+  );
+  const currentData = activeClauseData || (activeBook?.id === fallbackBook?.id ? fallbackClause : null);
   const currentDataFile =
     activeClauseItem?.dataFile ||
     (activeBook?.id === fallbackBook?.id ? fallbackClauseItem?.dataFile : null) ||
@@ -134,17 +172,7 @@ export default function App() {
     setSearchQuery('');
     const book = books.find(item => item.id === bookId);
     if (!book) return;
-
-    let firstValidId = '';
-    for (const chapter of book.chapters) {
-      const valid = chapter.clauses.find(clause => clause.data !== null);
-      if (valid) {
-        firstValidId = valid.id;
-        break;
-      }
-    }
-
-    setActiveClauseId(firstValidId);
+    setActiveClauseId(findFirstValidClauseId(book));
   };
 
   const handleClauseChange = (clauseId: string) => {
@@ -178,14 +206,12 @@ export default function App() {
   };
 
   const handleToggleKeyword = (keyword: string) => {
-    setSelectedKeywords(prev =>
-      prev.includes(keyword) ? prev.filter(item => item !== keyword) : [...prev, keyword],
-    );
+    setSelectedKeywords(prev => (prev.includes(keyword) ? prev.filter(item => item !== keyword) : [...prev, keyword]));
   };
 
   const handleAddKeyword = async (keyword: string) => {
-    if (!currentDataFile) {
-      throw new Error('当前条文没有可写入的 dataFile');
+    if (!currentData?.id && !currentDataFile) {
+      throw new Error('当前条文没有可写入的标识');
     }
 
     const response = await fetch('/api/keywords/add', {
@@ -194,6 +220,7 @@ export default function App() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        clauseId: currentData?.id ?? null,
         dataFile: currentDataFile,
         keyword,
       }),
@@ -209,9 +236,7 @@ export default function App() {
         ...book,
         chapters: book.chapters.map(chapter => ({
           ...chapter,
-          clauses: chapter.clauses.map(clause =>
-            clause.id === activeClauseId ? {...clause, data: result.clause} : clause,
-          ),
+          clauses: chapter.clauses.map(clause => (clause.id === activeClauseId ? {...clause, data: result.clause} : clause)),
         })),
       })),
     );
@@ -299,7 +324,9 @@ export default function App() {
           ) : (
             <div className="flex-1 p-6 flex items-center justify-center text-ink">
               {activeBookHasData
-                ? '当前条文没有可用数据，请重新选择条文。'
+                ? isClauseLoading
+                  ? '条文加载中...'
+                  : '当前条文没有可用数据，请重新选择条文。'
                 : `《${activeBook?.name?.replace(/[《》]/g, '') || '当前经典'}》当前还没有接入条文数据。`}
             </div>
           )}

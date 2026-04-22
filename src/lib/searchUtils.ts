@@ -5,9 +5,24 @@ type StructuredEntry = {
   content?: string;
 };
 
+type LoadedEntry = {
+  title: string;
+  content: string;
+  keyword?: string;
+};
+
+type LoadedSource = {
+  sourceName: string;
+  fileBaseName: string;
+  category?: string;
+  matchType: 'json' | 'txt';
+  entries: LoadedEntry[];
+};
+
 let loadedConfigs: KnowledgeSourceConfig[] = [];
 let loadedJsonFiles: Record<string, Record<string, StructuredEntry[]>> = {};
 let loadedTxtFiles: Record<string, string> = {};
+let loadedSources: LoadedSource[] = [];
 let isReady = false;
 
 function normalizeCategory(config: KnowledgeSourceConfig) {
@@ -15,10 +30,7 @@ function normalizeCategory(config: KnowledgeSourceConfig) {
 }
 
 function makeHitId(parts: string[]) {
-  return parts
-    .join('__')
-    .replace(/\s+/g, '-')
-    .replace(/[^\p{L}\p{N}_-]+/gu, '-');
+  return parts.join('__').replace(/\s+/g, '-').replace(/[^\p{L}\p{N}_-]+/gu, '-');
 }
 
 function excerpt(content: string, keyword: string, radius = 80) {
@@ -36,6 +48,7 @@ function compareRelationHits(a: RelationHit, b: RelationHit) {
   if (a.matchType !== b.matchType) {
     return a.matchType === 'json' ? -1 : 1;
   }
+
   return (
     a.sourceName.localeCompare(b.sourceName, 'zh-CN') ||
     a.title.localeCompare(b.title, 'zh-CN') ||
@@ -47,13 +60,7 @@ function dedupeAndSortHits(hits: RelationHit[]) {
   const merged = new Map<string, RelationHit>();
 
   hits.forEach(hit => {
-    const key = [
-      hit.sourceName,
-      hit.category,
-      hit.title,
-      hit.content,
-      hit.matchType,
-    ].join('||');
+    const key = [hit.sourceName, hit.category, hit.title, hit.content, hit.matchType].join('||');
     const existing = merged.get(key);
 
     if (!existing) {
@@ -72,43 +79,91 @@ function dedupeAndSortHits(hits: RelationHit[]) {
   return Array.from(merged.values()).sort(compareRelationHits);
 }
 
-function parseTxtHits(config: KnowledgeSourceConfig, keyword: string, txtContent: string): RelationHit[] {
-  const segments = txtContent.split(/<篇名>|【篇名】/);
-  const hits: RelationHit[] = [];
+function parseTxtEntries(txtContent: string): LoadedEntry[] {
+  const segments = txtContent.split(/<篇名>|【篇名】?/);
+  const entries: LoadedEntry[] = [];
 
   segments.forEach((segment, index) => {
     const trimmed = segment.trim();
-    if (!trimmed || !trimmed.includes(keyword)) return;
+    if (!trimmed) return;
 
     const titleMatch = trimmed.match(/([^\n]+)/);
     const title = titleMatch ? titleMatch[1].trim() : `片段 ${index + 1}`;
     const attrMatch = trimmed.match(/属性[：:]([\s\S]+)/);
     const content = attrMatch ? attrMatch[1].trim() : trimmed;
 
-    if (!content.includes(keyword)) return;
-
-    hits.push({
-      id: makeHitId([config.fileBaseName, keyword, 'txt', String(index)]),
-      keyword,
-      sourceName: config.sourceName,
-      category: normalizeCategory(config),
-      title,
-      content: excerpt(content, keyword),
-      matchType: 'txt',
-    });
+    if (!content) return;
+    entries.push({title, content});
   });
 
-  return hits;
+  return entries;
+}
+
+function hydrateLoadedSourcesFromFiles() {
+  const nextSources: LoadedSource[] = [];
+
+  for (const config of loadedConfigs) {
+    const baseName = config.fileBaseName;
+    const jsonContext = loadedJsonFiles[baseName];
+
+    if (jsonContext) {
+      const entries: LoadedEntry[] = [];
+
+      Object.entries(jsonContext).forEach(([keyword, items]) => {
+        (items || []).forEach(item => {
+          if (!item?.content) return;
+          entries.push({
+            title: item.title || keyword,
+            content: item.content,
+            keyword,
+          });
+        });
+      });
+
+      nextSources.push({
+        sourceName: config.sourceName,
+        fileBaseName: baseName,
+        category: config.category,
+        matchType: 'json',
+        entries,
+      });
+      continue;
+    }
+
+    const txtContent = loadedTxtFiles[baseName];
+    if (!txtContent) continue;
+
+    nextSources.push({
+      sourceName: config.sourceName,
+      fileBaseName: baseName,
+      category: config.category,
+      matchType: 'txt',
+      entries: parseTxtEntries(txtContent),
+    });
+  }
+
+  loadedSources = nextSources;
 }
 
 export async function prefetchKnowledgeBase() {
   if (isReady) return;
+
   try {
+    try {
+      const apiRes = await fetch('/api/relations/index');
+      if (apiRes.ok) {
+        loadedSources = await apiRes.json();
+        isReady = true;
+        return;
+      }
+    } catch {}
+
     const configRes = await fetch('/data/guanlianjiexiconfig.json');
     loadedConfigs = await configRes.json();
 
     for (const config of loadedConfigs) {
       const baseName = config.fileBaseName;
+
       try {
         const jsonRes = await fetch(`/data/关联解析/${baseName}.json`);
         if (jsonRes.ok) {
@@ -123,6 +178,8 @@ export async function prefetchKnowledgeBase() {
         }
       } catch {}
     }
+
+    hydrateLoadedSourcesFromFiles();
     isReady = true;
   } catch (error) {
     console.error('Failed to load knowledge base configs', error);
@@ -133,19 +190,21 @@ export function resolveClauseRelations(keywords: string[]): RelationHit[] {
   const dedupedKeywords = Array.from(new Set(keywords.map(keyword => keyword.trim()).filter(Boolean)));
   const hits: RelationHit[] = [];
 
-  for (const config of loadedConfigs) {
-    const baseName = config.fileBaseName;
-    const jsonContext = loadedJsonFiles[baseName];
+  for (const source of loadedSources) {
+    const config: KnowledgeSourceConfig = {
+      sourceName: source.sourceName,
+      fileBaseName: source.fileBaseName,
+      category: source.category,
+    };
 
-    if (jsonContext) {
+    if (source.matchType === 'json') {
       for (const keyword of dedupedKeywords) {
-        const items = jsonContext[keyword] || [];
-        items.forEach((item, index) => {
-          if (!item?.content) return;
+        source.entries.forEach((item, index) => {
+          if (item.keyword !== keyword || !item.content) return;
           hits.push({
-            id: makeHitId([baseName, keyword, 'json', String(index)]),
+            id: makeHitId([source.fileBaseName, keyword, 'json', String(index)]),
             keyword,
-            sourceName: config.sourceName,
+            sourceName: source.sourceName,
             category: normalizeCategory(config),
             title: item.title || keyword,
             content: item.content,
@@ -156,11 +215,19 @@ export function resolveClauseRelations(keywords: string[]): RelationHit[] {
       continue;
     }
 
-    const txtContent = loadedTxtFiles[baseName];
-    if (!txtContent) continue;
-
     for (const keyword of dedupedKeywords) {
-      hits.push(...parseTxtHits(config, keyword, txtContent));
+      source.entries.forEach((entry, index) => {
+        if (!entry.content.includes(keyword)) return;
+        hits.push({
+          id: makeHitId([source.fileBaseName, keyword, 'txt', String(index)]),
+          keyword,
+          sourceName: source.sourceName,
+          category: normalizeCategory(config),
+          title: entry.title,
+          content: excerpt(entry.content, keyword),
+          matchType: 'txt',
+        });
+      });
     }
   }
 
