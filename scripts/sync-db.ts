@@ -1,4 +1,7 @@
 import {spawnSync} from 'node:child_process';
+import {mkdirSync, writeFileSync} from 'node:fs';
+import path from 'node:path';
+import {storageDir} from './db.ts';
 
 type Step = {
   label: string;
@@ -12,6 +15,8 @@ const steps: Step[] = [
   {label: '同步《温病条辨》', script: 'db:import:wenbing'},
   {label: '同步关联解析', script: 'db:import:relations'},
 ];
+
+const syncStatusFile = path.join(storageDir, 'sync-status.json');
 
 function npmCommand() {
   return process.platform === 'win32' ? 'npm.cmd' : 'npm';
@@ -41,12 +46,27 @@ function runStep(step: Step) {
   console.log(`[完成] ${step.label}`);
 }
 
+function writeSyncStatus() {
+  mkdirSync(storageDir, {recursive: true});
+  const payload = {
+    lastSyncAt: new Date().toISOString(),
+    stepCount: steps.length,
+    steps: steps.map(step => ({
+      label: step.label,
+      script: step.script,
+    })),
+  };
+  writeFileSync(syncStatusFile, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+}
+
 function main() {
   console.log('开始执行 SQLite 一键同步...');
 
   for (const step of steps) {
     runStep(step);
   }
+
+  writeSyncStatus();
 
   console.log('\n全部同步完成。现在 JSON 与 SQLite 已重新对齐。');
 }
