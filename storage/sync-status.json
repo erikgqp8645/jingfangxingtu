@@ -1,0 +1,26 @@
+{
+  "lastSyncAt": "2026-04-23T06:24:37.185Z",
+  "stepCount": 5,
+  "steps": [
+    {
+      "label": "初始化数据库结构",
+      "script": "db:init"
+    },
+    {
+      "label": "同步《伤寒论》",
+      "script": "db:import:shanghan"
+    },
+    {
+      "label": "同步《金匮要略》",
+      "script": "db:import:jingui"
+    },
+    {
+      "label": "同步《温病条辨》",
+      "script": "db:import:wenbing"
+    },
+    {
+      "label": "同步关联解析",
+      "script": "db:import:relations"
+    }
+  ]
+}

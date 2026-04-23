@@ -1,39 +1,29 @@
 # 文档目录
 
-## 术语对照
+这里是项目文档导航页。
 
-为了让不懂英文的用户也能看懂，下文常见英文词按下面理解：
+如果你不知道先看哪一份文档，就从这里开始。
 
-- `README（说明首页）`
-- `JSON（数据文件格式）`
-- `TXT（文本文件）`
-- `SQLite（轻量数据库）`
-- `Windows（微软视窗系统）`
+最简单的理解方式是：
 
-这个目录是项目的文档首页。
-
-如果你不知道该看哪份文档，就从这里开始。
-
-如果你只想先记住一句话，请记住：
-
-`先看总说明，再看新手手册，最后按你手头的具体任务去翻专项手册。`
+`先看总说明，再看新手手册，最后按你手上的任务去找对应操作手册。`
 
 ---
 
-## 1. 新手第一次使用，先看哪份
+## 新手第一次接手，先看这些
 
 推荐顺序：
 
 1. [README.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\README.md)
 2. [项目交接清单.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\项目交接清单.md)
 3. [新手数据维护手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\新手数据维护手册.md)
-4. 再按你当前要做的事情，去看下面的专项手册
+4. 再按你当前要做的事情，去看下面对应的专项手册
 
 ---
 
-## 2. 按问题找文档
+## 按问题找文档
 
-### 我刚接手项目，完全不知道它在做什么
+### 我刚接手项目，不知道这个项目是做什么的
 
 看：
 
@@ -53,42 +43,38 @@
 
 - [整理关联解析资料操作手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\整理关联解析资料操作手册.md)
 
-### 我想添加关键词、删除关键词、排查为什么没有命中
+### 我想添加关键词、删除关键词，或者排查为什么没有命中
 
 看：
 
 - [关键词维护操作手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\关键词维护操作手册.md)
-
-### 我遇到了报错、空白页、命中不出来，不知道先查什么
-
-看：
-
 - [常见错误与排查手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\常见错误与排查手册.md)
 
-### 我想了解数据结构、目录规则、字段设计
+### 我想了解数据结构、目录规则和字段设计
 
 看：
 
 - [经方星图-数据与需求规格说明.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\经方星图-数据与需求规格说明.md)
+- [database-migration-plan.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\database-migration-plan.md)
 
-### 我想了解之前的关系图开发背景
+### 我想了解关系图为什么这样设计
 
 看：
 
 - [关系图需求说明.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\关系图需求说明.md)
 - [关系图开发实施方案.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\关系图开发实施方案.md)
 
-### 我想了解数据库迁移计划
+### 我遇到了报错、空白页、同步失败，或者数据不显示
 
 看：
 
-- [database-migration-plan.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\database-migration-plan.md)
+- [常见错误与排查手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\常见错误与排查手册.md)
 
 ---
 
-## 3. 按角色找文档
+## 按角色找文档
 
-### 如果你是数据维护人员
+### 如果你主要负责数据维护
 
 优先看：
 
@@ -99,7 +85,7 @@
 - [关键词维护操作手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\关键词维护操作手册.md)
 - [常见错误与排查手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\常见错误与排查手册.md)
 
-### 如果你是开发人员
+### 如果你主要负责开发和发布
 
 优先看：
 
@@ -110,24 +96,23 @@
 
 ---
 
-## 4. 最常用的 3 份文档
+## 桌面版相关文档
 
-如果只看三份，推荐这三份：
+如果你现在维护的是 Windows 桌面版分支，再看这两份：
+
+- [桌面版打包与维护手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\桌面版打包与维护手册.md)
+- [桌面版分支维护与发布说明.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\桌面版分支维护与发布说明.md)
+
+如果你要对外发布桌面版 Release（发布版本），再看：
+
+- [releases-desktop-v0.1.0.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\releases-desktop-v0.1.0.md)
+
+---
+
+## 最常用的三份文档
+
+如果你暂时只想先看三份，建议先看：
 
 1. [项目交接清单.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\项目交接清单.md)
 2. [新手数据维护手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\新手数据维护手册.md)
 3. [关键词维护操作手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\关键词维护操作手册.md)
-
----
-
-### 我想打包 Windows（微软视窗系统）桌面版，或者想知道安装后数据放在哪里
-
-看：
-
-- [桌面版打包与维护手册.md](C:/Users/hxst01/Documents/aicoding/jingfangxingtu/docs/桌面版打包与维护手册.md)
-
-### 我想继续维护桌面版分支，或者准备发桌面版 Release
-看：
-
-- [桌面版分支维护与发布说明.md](C:/Users/hxst01/Documents/aicoding/jingfangxingtu/docs/桌面版分支维护与发布说明.md)
-- [releases-desktop-v0.1.0.md](C:/Users/hxst01/Documents/aicoding/jingfangxingtu/docs/releases-desktop-v0.1.0.md)
