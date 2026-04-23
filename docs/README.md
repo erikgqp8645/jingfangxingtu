@@ -1,127 +1,121 @@
-# 文档目录
+﻿# 鏂囨。鐩綍
 
-## 术语对照
+## 鏈瀵圭収
 
-为了让不懂英文的用户也能看懂，下文常见英文词按下面理解：
+涓轰簡璁╀笉鎳傝嫳鏂囩殑鐢ㄦ埛涔熻兘鐪嬫噦锛屼笅鏂囧父瑙佽嫳鏂囪瘝鎸変笅闈㈢悊瑙ｏ細
 
-- `README（说明首页）`
-- `JSON（数据文件格式）`
-- `TXT（文本文件）`
-- `SQLite（轻量数据库）`
-- `Windows（微软视窗系统）`
+- `README锛堣鏄庨椤碉級`
+- `JSON锛堟暟鎹枃浠舵牸寮忥級`
+- `TXT锛堟枃鏈枃浠讹級`
+- `SQLite锛堣交閲忔暟鎹簱锛塦
+- `Windows锛堝井杞绐楃郴缁燂級`
 
-这个目录是项目的文档首页。
+杩欎釜鐩綍鏄」鐩殑鏂囨。棣栭〉銆?
 
-如果你不知道该看哪份文档，就从这里开始。
+濡傛灉浣犱笉鐭ラ亾璇ョ湅鍝唤鏂囨。锛屽氨浠庤繖閲屽紑濮嬨€?
 
-如果你只想先记住一句话，请记住：
+濡傛灉浣犲彧鎯冲厛璁颁綇涓€鍙ヨ瘽锛岃璁颁綇锛?
 
-`先看总说明，再看新手手册，最后按你手头的具体任务去翻专项手册。`
+`鍏堢湅鎬昏鏄庯紝鍐嶇湅鏂版墜鎵嬪唽锛屾渶鍚庢寜浣犳墜澶寸殑鍏蜂綋浠诲姟鍘荤炕涓撻」鎵嬪唽銆俙
 
 ---
 
-## 1. 新手第一次使用，先看哪份
+## 1. 鏂版墜绗竴娆′娇鐢紝鍏堢湅鍝唤
 
-推荐顺序：
+鎺ㄨ崘椤哄簭锛?
 
 1. [README.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\README.md)
-2. [项目交接清单.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\项目交接清单.md)
-3. [新手数据维护手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\新手数据维护手册.md)
-4. 再按你当前要做的事情，去看下面的专项手册
+2. [椤圭洰浜ゆ帴娓呭崟.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\椤圭洰浜ゆ帴娓呭崟.md)
+3. [鏂版墜鏁版嵁缁存姢鎵嬪唽.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\鏂版墜鏁版嵁缁存姢鎵嬪唽.md)
+4. 鍐嶆寜浣犲綋鍓嶈鍋氱殑浜嬫儏锛屽幓鐪嬩笅闈㈢殑涓撻」鎵嬪唽
 
 ---
 
-## 2. 按问题找文档
+## 2. 鎸夐棶棰樻壘鏂囨。
 
-### 我刚接手项目，完全不知道它在做什么
+### 鎴戝垰鎺ユ墜椤圭洰锛屽畬鍏ㄤ笉鐭ラ亾瀹冨湪鍋氫粈涔?
 
-看：
+鐪嬶細
 
 - [README.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\README.md)
-- [项目交接清单.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\项目交接清单.md)
-- [新手数据维护手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\新手数据维护手册.md)
+- [椤圭洰浜ゆ帴娓呭崟.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\椤圭洰浜ゆ帴娓呭崟.md)
+- [鏂版墜鏁版嵁缁存姢鎵嬪唽.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\鏂版墜鏁版嵁缁存姢鎵嬪唽.md)
 
-### 我想新增一本经典
+### 鎴戞兂鏂板涓€鏈粡鍏?
 
-看：
+鐪嬶細
 
-- [新增一本经典操作手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\新增一本经典操作手册.md)
+- [鏂板涓€鏈粡鍏告搷浣滄墜鍐?md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\鏂板涓€鏈粡鍏告搷浣滄墜鍐?md)
 
-### 我想整理右侧的关联解析资料
+### 鎴戞兂鏁寸悊鍙充晶鐨勫叧鑱旇В鏋愯祫鏂?
 
-看：
+鐪嬶細
 
-- [整理关联解析资料操作手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\整理关联解析资料操作手册.md)
+- [鏁寸悊鍏宠仈瑙ｆ瀽璧勬枡鎿嶄綔鎵嬪唽.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\鏁寸悊鍏宠仈瑙ｆ瀽璧勬枡鎿嶄綔鎵嬪唽.md)
 
-### 我想添加关键词、删除关键词、排查为什么没有命中
+### 鎴戞兂娣诲姞鍏抽敭璇嶃€佸垹闄ゅ叧閿瘝銆佹帓鏌ヤ负浠€涔堟病鏈夊懡涓?
 
-看：
+鐪嬶細
 
-- [关键词维护操作手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\关键词维护操作手册.md)
+- [鍏抽敭璇嶇淮鎶ゆ搷浣滄墜鍐?md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\鍏抽敭璇嶇淮鎶ゆ搷浣滄墜鍐?md)
 
-### 我遇到了报错、空白页、命中不出来，不知道先查什么
+### 鎴戦亣鍒颁簡鎶ラ敊銆佺┖鐧介〉銆佸懡涓笉鍑烘潵锛屼笉鐭ラ亾鍏堟煡浠€涔?
 
-看：
+鐪嬶細
 
-- [常见错误与排查手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\常见错误与排查手册.md)
+- [甯歌閿欒涓庢帓鏌ユ墜鍐?md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\甯歌閿欒涓庢帓鏌ユ墜鍐?md)
 
-### 我想了解数据结构、目录规则、字段设计
+### 鎴戞兂浜嗚В鏁版嵁缁撴瀯銆佺洰褰曡鍒欍€佸瓧娈佃璁?
 
-看：
+鐪嬶細
 
-- [经方星图-数据与需求规格说明.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\经方星图-数据与需求规格说明.md)
+- [缁忔柟鏄熷浘-鏁版嵁涓庨渶姹傝鏍艰鏄?md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\缁忔柟鏄熷浘-鏁版嵁涓庨渶姹傝鏍艰鏄?md)
 
-### 我想了解之前的关系图开发背景
+### 鎴戞兂浜嗚В涔嬪墠鐨勫叧绯诲浘寮€鍙戣儗鏅?
 
-看：
+鐪嬶細
 
-- [关系图需求说明.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\关系图需求说明.md)
-- [关系图开发实施方案.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\关系图开发实施方案.md)
+- [鍏崇郴鍥鹃渶姹傝鏄?md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\鍏崇郴鍥鹃渶姹傝鏄?md)
+- [鍏崇郴鍥惧紑鍙戝疄鏂芥柟妗?md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\鍏崇郴鍥惧紑鍙戝疄鏂芥柟妗?md)
 
-### 我想了解数据库迁移计划
+### 鎴戞兂浜嗚В鏁版嵁搴撹縼绉昏鍒?
 
-看：
+鐪嬶細
 
 - [database-migration-plan.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\database-migration-plan.md)
 
 ---
 
-## 3. 按角色找文档
+## 3. 鎸夎鑹叉壘鏂囨。
 
-### 如果你是数据维护人员
+### 濡傛灉浣犳槸鏁版嵁缁存姢浜哄憳
 
-优先看：
+浼樺厛鐪嬶細
 
-- [新手数据维护手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\新手数据维护手册.md)
-- [项目交接清单.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\项目交接清单.md)
-- [新增一本经典操作手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\新增一本经典操作手册.md)
-- [整理关联解析资料操作手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\整理关联解析资料操作手册.md)
-- [关键词维护操作手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\关键词维护操作手册.md)
-- [常见错误与排查手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\常见错误与排查手册.md)
+- [鏂版墜鏁版嵁缁存姢鎵嬪唽.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\鏂版墜鏁版嵁缁存姢鎵嬪唽.md)
+- [椤圭洰浜ゆ帴娓呭崟.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\椤圭洰浜ゆ帴娓呭崟.md)
+- [鏂板涓€鏈粡鍏告搷浣滄墜鍐?md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\鏂板涓€鏈粡鍏告搷浣滄墜鍐?md)
+- [鏁寸悊鍏宠仈瑙ｆ瀽璧勬枡鎿嶄綔鎵嬪唽.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\鏁寸悊鍏宠仈瑙ｆ瀽璧勬枡鎿嶄綔鎵嬪唽.md)
+- [鍏抽敭璇嶇淮鎶ゆ搷浣滄墜鍐?md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\鍏抽敭璇嶇淮鎶ゆ搷浣滄墜鍐?md)
+- [甯歌閿欒涓庢帓鏌ユ墜鍐?md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\甯歌閿欒涓庢帓鏌ユ墜鍐?md)
 
-### 如果你是开发人员
+### 濡傛灉浣犳槸寮€鍙戜汉鍛?
 
-优先看：
+浼樺厛鐪嬶細
 
-- [经方星图-数据与需求规格说明.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\经方星图-数据与需求规格说明.md)
-- [关系图需求说明.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\关系图需求说明.md)
-- [关系图开发实施方案.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\关系图开发实施方案.md)
+- [缁忔柟鏄熷浘-鏁版嵁涓庨渶姹傝鏍艰鏄?md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\缁忔柟鏄熷浘-鏁版嵁涓庨渶姹傝鏍艰鏄?md)
+- [鍏崇郴鍥鹃渶姹傝鏄?md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\鍏崇郴鍥鹃渶姹傝鏄?md)
+- [鍏崇郴鍥惧紑鍙戝疄鏂芥柟妗?md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\鍏崇郴鍥惧紑鍙戝疄鏂芥柟妗?md)
 - [database-migration-plan.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\database-migration-plan.md)
 
 ---
 
-## 4. 最常用的 3 份文档
+## 4. 鏈€甯哥敤鐨?3 浠芥枃妗?
 
-如果只看三份，推荐这三份：
+濡傛灉鍙湅涓変唤锛屾帹鑽愯繖涓変唤锛?
 
-1. [项目交接清单.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\项目交接清单.md)
-2. [新手数据维护手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\新手数据维护手册.md)
-3. [关键词维护操作手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\关键词维护操作手册.md)
+1. [椤圭洰浜ゆ帴娓呭崟.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\椤圭洰浜ゆ帴娓呭崟.md)
+2. [鏂版墜鏁版嵁缁存姢鎵嬪唽.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\鏂版墜鏁版嵁缁存姢鎵嬪唽.md)
+3. [鍏抽敭璇嶇淮鎶ゆ搷浣滄墜鍐?md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\鍏抽敭璇嶇淮鎶ゆ搷浣滄墜鍐?md)
 
 ---
-
-### 我想打包 Windows（微软视窗系统）桌面版，或者想知道安装后数据放在哪里
-
-看：
-
-- [桌面版打包与维护手册.md](C:/Users/hxst01/Documents/aicoding/jingfangxingtu/docs/桌面版打包与维护手册.md)
