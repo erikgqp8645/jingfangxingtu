@@ -22,5 +22,19 @@
     },
     "allowImportingTsExtensions": true,
     "noEmit": true
-  }
+  },
+  "include": [
+    "vite.config.ts",
+    "src/**/*",
+    "server/**/*",
+    "shared/**/*",
+    "electron/**/*",
+    "scripts/**/*",
+    "types/**/*.d.ts"
+  ],
+  "exclude": [
+    "dist",
+    "release",
+    "node_modules"
+  ]
 }
