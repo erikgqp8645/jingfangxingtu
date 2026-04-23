@@ -1,0 +1,59 @@
+[
+  {
+    "keyword": "痉",
+    "count": 4,
+    "length": 1,
+    "issueType": "too-short",
+    "sampleClauseIds": [
+      "jingui-01-3",
+      "jingui-02-1",
+      "jingui-02-3",
+      "jingui-02-8"
+    ]
+  },
+  {
+    "keyword": "烦",
+    "count": 1,
+    "length": 1,
+    "issueType": "too-short",
+    "sampleClauseIds": [
+      "265"
+    ]
+  },
+  {
+    "keyword": "咳",
+    "count": 1,
+    "length": 1,
+    "issueType": "too-short",
+    "sampleClauseIds": [
+      "jingui-01-5"
+    ]
+  },
+  {
+    "keyword": "衄",
+    "count": 1,
+    "length": 1,
+    "issueType": "too-short",
+    "sampleClauseIds": [
+      "46"
+    ]
+  },
+  {
+    "keyword": "呕",
+    "count": 1,
+    "length": 1,
+    "issueType": "too-short",
+    "sampleClauseIds": [
+      "17"
+    ]
+  },
+  {
+    "keyword": "吐",
+    "count": 1,
+    "length": 1,
+    "issueType": "too-short",
+    "sampleClauseIds": [
+      "19"
+    ]
+  }
+]
