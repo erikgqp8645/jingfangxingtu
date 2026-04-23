@@ -1,4 +1,10 @@
-# 白话解析 (Vernacular Translations)
+# 白话解析（Vernacular Translations，现代白话翻译）
+
+## 术语对照
+
+为了让新手更容易看懂，这里的英文词按下面理解：
+
+- `Vernacular Translations（现代白话翻译）`
 
 该文件夹存放经文对应的现代白话文翻译、通俗释义及其背景铺垫。
 

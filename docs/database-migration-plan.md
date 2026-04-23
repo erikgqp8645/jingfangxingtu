@@ -1,5 +1,19 @@
 # 数据库迁移方案
 
+## 术语对照
+
+为了让不懂英文的用户也能跟上这份方案，下文常见英文词按下面理解：
+
+- `JSON（数据文件格式）`
+- `TXT（文本文件）`
+- `SQLite（轻量数据库）`
+- `API（接口）`
+- `id（编号）`
+- `content（正文）`
+- `translation（白话解释）`
+- `keywords（关键词）`
+- `source_file（来源文件路径）`
+
 ## 目标
 
 当前项目使用 `data/*.json` 作为运行时主数据源，随着经典条文、关键词、关联解析持续增长，会出现以下问题：
@@ -7,22 +21,22 @@
 - 文件数量过多，不便管理和批量修正
 - 关键词、翻译、条文之间缺少结构化关系
 - 难以支持统计、筛选、全文检索、批量更新
-- 用户右键添加关键词时只能直接改 JSON，后续不利于审计和扩展
+- 用户右键添加关键词时只能直接改 JSON（数据文件格式），后续不利于审计和扩展
 
-因此建议把 `JSON 直读` 逐步迁移为：
+因此建议把 `JSON（数据文件格式）直读` 逐步迁移为：
 
-`原始 txt/json -> 导入脚本 -> SQLite -> API -> 前端`
+`原始 txt/json（文本/数据文件） -> 导入脚本 -> SQLite（轻量数据库） -> API（接口） -> 前端`
 
 同时保留 `data/` 目录作为导入源、快照或导出格式，而不是长期作为运行时主存储。
 
-## 为什么先选 SQLite
+## 为什么先选 SQLite（轻量数据库）
 
-现阶段项目更适合 SQLite，而不是 PostgreSQL：
+现阶段项目更适合 SQLite（轻量数据库），而不是 PostgreSQL（大型数据库服务）：
 
 - 单文件数据库，适合本地开发
 - 无需单独部署数据库服务
 - 支持事务、索引、联表查询
-- 后续可平滑迁移到 PostgreSQL
+- 后续可平滑迁移到 PostgreSQL（大型数据库服务）
 - 和当前 Vite 本地中间件模式兼容，落地成本最低
 
 数据库文件建议位置：
@@ -33,7 +47,7 @@
 
 ### 1. 经典与条文
 
-#### `books`
+#### `books（书目表）`
 
 - `id` TEXT PRIMARY KEY
 - `name` TEXT NOT NULL
@@ -41,7 +55,7 @@
 - `created_at` TEXT NOT NULL
 - `updated_at` TEXT NOT NULL
 
-#### `chapters`
+#### `chapters（章节表）`
 
 - `id` TEXT PRIMARY KEY
 - `book_id` TEXT NOT NULL
@@ -54,7 +68,7 @@
 
 - `INDEX idx_chapters_book_id_sort_order (book_id, sort_order)`
 
-#### `clauses`
+#### `clauses（条文表）`
 
 - `id` TEXT PRIMARY KEY
 - `book_id` TEXT NOT NULL
@@ -80,7 +94,7 @@
 
 ### 2. 关键词
 
-#### `keywords`
+#### `keywords（关键词表）`
 
 - `id` INTEGER PRIMARY KEY AUTOINCREMENT
 - `name` TEXT NOT NULL UNIQUE
@@ -94,7 +108,7 @@
 - `normalized_name` 用于去重，例如去除多余空格
 - 如果你坚持“选中原文原样写入”，那前台展示继续用 `name`
 
-#### `clause_keywords`
+#### `clause_keywords（条文关键词关系表）`
 
 - `id` INTEGER PRIMARY KEY AUTOINCREMENT
 - `clause_id` TEXT NOT NULL

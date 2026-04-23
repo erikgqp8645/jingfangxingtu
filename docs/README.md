@@ -1,8 +1,22 @@
 # 文档目录
 
+## 术语对照
+
+为了让不懂英文的用户也能看懂，下文常见英文词按下面理解：
+
+- `README（说明首页）`
+- `JSON（数据文件格式）`
+- `TXT（文本文件）`
+- `SQLite（轻量数据库）`
+- `Windows（微软视窗系统）`
+
 这个目录是项目的文档首页。
 
 如果你不知道该看哪份文档，就从这里开始。
+
+如果你只想先记住一句话，请记住：
+
+`先看总说明，再看新手手册，最后按你手头的具体任务去翻专项手册。`
 
 ---
 
@@ -103,7 +117,11 @@
 1. [项目交接清单.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\项目交接清单.md)
 2. [新手数据维护手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\新手数据维护手册.md)
 3. [关键词维护操作手册.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\关键词维护操作手册.md)
-### 我想打包 Windows 桌面版，或者想知道安装后数据放在哪里
+
+---
+
+### 我想打包 Windows（微软视窗系统）桌面版，或者想知道安装后数据放在哪里
+
 看：
 
 - [桌面版打包与维护手册.md](C:/Users/hxst01/Documents/aicoding/jingfangxingtu/docs/桌面版打包与维护手册.md)
