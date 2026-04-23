@@ -1,0 +1,26 @@
+[
+  {
+    "sourceName": "黄帝内经素问",
+    "fileBaseName": "437-黄帝内经素问",
+    "category": "内经",
+    "jsonExists": true,
+    "txtExists": true,
+    "status": "ok"
+  },
+  {
+    "sourceName": "伤寒寻源",
+    "fileBaseName": "467-伤寒寻源",
+    "category": "伤寒寻源",
+    "jsonExists": true,
+    "txtExists": true,
+    "status": "ok"
+  },
+  {
+    "sourceName": "金匮要略",
+    "fileBaseName": "468-金匮要略",
+    "category": "金匮",
+    "jsonExists": true,
+    "txtExists": true,
+    "status": "ok"
+  }
+]

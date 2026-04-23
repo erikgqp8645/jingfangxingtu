@@ -1,0 +1,14 @@
+{
+  "books": 3,
+  "configuredClauses": 1265,
+  "clauseFiles": 1265,
+  "missingClauseFiles": 0,
+  "orphanClauseFiles": 0,
+  "invalidClauseJsonFiles": 0,
+  "fieldIssueClauses": 0,
+  "noKeywordClauses": 1189,
+  "lowKeywordDensityClauses": 19,
+  "highKeywordDensityClauses": 0,
+  "genericKeywordHits": 0,
+  "duplicateKeywordHits": 0
+}

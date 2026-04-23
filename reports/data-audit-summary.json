@@ -1,0 +1,56 @@
+{
+  "clause": {
+    "books": 3,
+    "configuredClauses": 1265,
+    "clauseFiles": 1265,
+    "missingClauseFiles": 0,
+    "orphanClauseFiles": 0,
+    "invalidClauseJsonFiles": 0,
+    "fieldIssueClauses": 0,
+    "noKeywordClauses": 1189,
+    "lowKeywordDensityClauses": 19,
+    "highKeywordDensityClauses": 0,
+    "genericKeywordHits": 0,
+    "duplicateKeywordHits": 0
+  },
+  "clauseRelations": {
+    "books": 3,
+    "configuredClauses": 1265,
+    "relationSources": 3,
+    "clausesWithKeywords": 76,
+    "clausesWithHits": 76,
+    "zeroHitClauses": 0,
+    "keywordsChecked": 355,
+    "keywordsWithoutHit": 0,
+    "jsonHitCount": 222,
+    "txtHitCount": 4070
+  },
+  "relationSources": {
+    "configuredSources": 3,
+    "jsonFiles": 3,
+    "txtFiles": 3,
+    "healthySources": 3,
+    "txtOnlySources": 0,
+    "jsonOnlySources": 0,
+    "missingAllSources": 0,
+    "orphanJsonFiles": 0,
+    "orphanTxtFiles": 0,
+    "duplicateFileBaseNames": 0
+  },
+  "keywords": {
+    "totalKeywordOccurrences": 355,
+    "uniqueKeywords": 301,
+    "weakKeywordCount": 0,
+    "lengthIssueCount": 6,
+    "similarKeywordGroups": 0
+  },
+  "relationFragments": {
+    "sourcesChecked": 3,
+    "fragmentCount": 521,
+    "duplicateFragmentGroups": 51,
+    "lengthIssueCount": 212,
+    "emptyFragmentCount": 0,
+    "jsonFragmentCount": 203,
+    "txtFragmentCount": 318
+  }
+}

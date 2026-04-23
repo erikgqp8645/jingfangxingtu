@@ -1,0 +1,12 @@
+{
+  "configuredSources": 3,
+  "jsonFiles": 3,
+  "txtFiles": 3,
+  "healthySources": 3,
+  "txtOnlySources": 0,
+  "jsonOnlySources": 0,
+  "missingAllSources": 0,
+  "orphanJsonFiles": 0,
+  "orphanTxtFiles": 0,
+  "duplicateFileBaseNames": 0
+}

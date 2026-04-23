@@ -1,0 +1,250 @@
+[
+  {
+    "bookId": "jingui",
+    "bookName": "《金匮要略》",
+    "clauseId": "jingui-02-1",
+    "title": "金匮要略 第1条",
+    "filePath": "data/经典/金匮要略/jingui-02-1.json",
+    "keywordCount": 1,
+    "level": "low",
+    "keywords": [
+      "痉"
+    ]
+  },
+  {
+    "bookId": "jingui",
+    "bookName": "《金匮要略》",
+    "clauseId": "jingui-02-2",
+    "title": "金匮要略 第2条",
+    "filePath": "data/经典/金匮要略/jingui-02-2.json",
+    "keywordCount": 3,
+    "level": "low",
+    "keywords": [
+      "柔痉",
+      "发热汗出",
+      "不恶寒"
+    ]
+  },
+  {
+    "bookId": "jingui",
+    "bookName": "《金匮要略》",
+    "clauseId": "jingui-02-3",
+    "title": "金匮要略 第3条",
+    "filePath": "data/经典/金匮要略/jingui-02-3.json",
+    "keywordCount": 3,
+    "level": "low",
+    "keywords": [
+      "脉沉而细",
+      "痉",
+      "难治"
+    ]
+  },
+  {
+    "bookId": "jingui",
+    "bookName": "《金匮要略》",
+    "clauseId": "jingui-02-4",
+    "title": "金匮要略 第4条",
+    "filePath": "data/经典/金匮要略/jingui-02-4.json",
+    "keywordCount": 2,
+    "level": "low",
+    "keywords": [
+      "发汗太多",
+      "致痉"
+    ]
+  },
+  {
+    "bookId": "jingui",
+    "bookName": "《金匮要略》",
+    "clauseId": "jingui-02-5",
+    "title": "金匮要略 第5条",
+    "filePath": "data/经典/金匮要略/jingui-02-5.json",
+    "keywordCount": 3,
+    "level": "low",
+    "keywords": [
+      "风病",
+      "下之则痉",
+      "拘急"
+    ]
+  },
+  {
+    "bookId": "jingui",
+    "bookName": "《金匮要略》",
+    "clauseId": "jingui-02-8",
+    "title": "金匮要略 第8条",
+    "filePath": "data/经典/金匮要略/jingui-02-8.json",
+    "keywordCount": 3,
+    "level": "low",
+    "keywords": [
+      "暴腹胀大",
+      "伏弦",
+      "痉"
+    ]
+  },
+  {
+    "bookId": "jingui",
+    "bookName": "《金匮要略》",
+    "clauseId": "jingui-05-1",
+    "title": "金匮要略 第1条",
+    "filePath": "data/经典/金匮要略/jingui-05-1.json",
+    "keywordCount": 1,
+    "level": "low",
+    "keywords": [
+      "不遂"
+    ]
+  },
+  {
+    "bookId": "jingui",
+    "bookName": "《金匮要略》",
+    "clauseId": "jingui-05-5",
+    "title": "金匮要略 第5条",
+    "filePath": "data/经典/金匮要略/jingui-05-5.json",
+    "keywordCount": 3,
+    "level": "low",
+    "keywords": [
+      "趺阳脉浮而滑",
+      "谷气实",
+      "汗自出"
+    ]
+  },
+  {
+    "bookId": "jingui",
+    "bookName": "《金匮要略》",
+    "clauseId": "jingui-01-10",
+    "title": "金匮要略 第10条",
+    "filePath": "data/经典/金匮要略/jingui-01-10.json",
+    "keywordCount": 3,
+    "level": "low",
+    "keywords": [
+      "厥阳独行",
+      "有阳无阴",
+      "厥阳"
+    ]
+  },
+  {
+    "bookId": "jingui",
+    "bookName": "《金匮要略》",
+    "clauseId": "jingui-20-8",
+    "title": "金匮要略 第8条",
+    "filePath": "data/经典/金匮要略/jingui-20-8.json",
+    "keywordCount": 1,
+    "level": "low",
+    "keywords": [
+      "恶寒"
+    ]
+  },
+  {
+    "bookId": "shanghan",
+    "bookName": "《伤寒论》",
+    "clauseId": "1",
+    "title": "伤寒论 第1条",
+    "filePath": "data/经典/伤寒论/1.json",
+    "keywordCount": 1,
+    "level": "low",
+    "keywords": [
+      "恶寒"
+    ]
+  },
+  {
+    "bookId": "shanghan",
+    "bookName": "《伤寒论》",
+    "clauseId": "9",
+    "title": "伤寒论 第9条",
+    "filePath": "data/经典/伤寒论/9.json",
+    "keywordCount": 2,
+    "level": "low",
+    "keywords": [
+      "太阳病",
+      "欲解"
+    ]
+  },
+  {
+    "bookId": "shanghan",
+    "bookName": "《伤寒论》",
+    "clauseId": "10",
+    "title": "伤寒论 第10条",
+    "filePath": "data/经典/伤寒论/10.json",
+    "keywordCount": 1,
+    "level": "low",
+    "keywords": [
+      "表解"
+    ]
+  },
+  {
+    "bookId": "shanghan",
+    "bookName": "《伤寒论》",
+    "clauseId": "11",
+    "title": "伤寒论 第11条",
+    "filePath": "data/经典/伤寒论/11.json",
+    "keywordCount": 1,
+    "level": "low",
+    "keywords": [
+      "身大热"
+    ]
+  },
+  {
+    "bookId": "shanghan",
+    "bookName": "《伤寒论》",
+    "clauseId": "13",
+    "title": "伤寒论 第13条",
+    "filePath": "data/经典/伤寒论/13.json",
+    "keywordCount": 1,
+    "level": "low",
+    "keywords": [
+      "头痛"
+    ]
+  },
+  {
+    "bookId": "shanghan",
+    "bookName": "《伤寒论》",
+    "clauseId": "17",
+    "title": "伤寒论 第17条",
+    "filePath": "data/经典/伤寒论/17.json",
+    "keywordCount": 3,
+    "level": "low",
+    "keywords": [
+      "酒客",
+      "桂枝汤",
+      "呕"
+    ]
+  },
+  {
+    "bookId": "shanghan",
+    "bookName": "《伤寒论》",
+    "clauseId": "19",
+    "title": "伤寒论 第19条",
+    "filePath": "data/经典/伤寒论/19.json",
+    "keywordCount": 3,
+    "level": "low",
+    "keywords": [
+      "桂枝汤",
+      "吐",
+      "衄血"
+    ]
+  },
+  {
+    "bookId": "shanghan",
+    "bookName": "《伤寒论》",
+    "clauseId": "22",
+    "title": "伤寒论 第22条",
+    "filePath": "data/经典/伤寒论/22.json",
+    "keywordCount": 3,
+    "level": "low",
+    "keywords": [
+      "微恶寒",
+      "附子",
+      "桂枝去芍药加附子汤"
+    ]
+  },
+  {
+    "bookId": "shanghan",
+    "bookName": "《伤寒论》",
+    "clauseId": "46",
+    "title": "伤寒论 第46条",
+    "filePath": "data/经典/伤寒论/46.json",
+    "keywordCount": 1,
+    "level": "low",
+    "keywords": [
+      "衄"
+    ]
+  }
+]
