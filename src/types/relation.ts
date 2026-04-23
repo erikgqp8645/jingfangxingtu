@@ -37,6 +37,45 @@ export interface BookCatalogItem {
   chapters: BookChapter[];
 }
 
+export interface SyncStatus {
+  ok: boolean;
+  lastSyncAt: string | null;
+  hasSyncRecord: boolean;
+  isStale?: boolean;
+  latestDataUpdateAt?: string | null;
+  latestDataFile?: string | null;
+  stepCount?: number;
+}
+
+export interface SyncRuntimeStatus {
+  isRunning: boolean;
+  startedAt: string | null;
+}
+
+export interface SyncRunResponse {
+  ok: boolean;
+  status: 'completed' | 'failed' | 'running';
+  startedAt: string | null;
+  finishedAt?: string | null;
+  message?: string;
+}
+
+export interface SystemStatus {
+  ok: boolean;
+  appVersion: string;
+  nodeEnv: string;
+  syncStatus: SyncStatus;
+  syncRuntime?: SyncRuntimeStatus;
+  database: {
+    books: number;
+    chapters: number;
+    clauses: number;
+    keywords: number;
+    relationSources: number;
+    relationEntries: number;
+  };
+}
+
 export interface KnowledgeSourceConfig {
   sourceName: string;
   fileBaseName: string;

@@ -1,6 +1,7 @@
 import express from 'express';
 import fs from 'node:fs';
 import path from 'node:path';
+import {spawn} from 'node:child_process';
 import {createServer} from 'node:http';
 import {fileURLToPath} from 'node:url';
 import {initSchema, normalizeKeyword, openDatabase} from '../shared/db-core.js';
@@ -8,8 +9,11 @@ import {resolveFromAppRoot} from '../shared/runtime-paths.js';
 
 const moduleDir = path.dirname(fileURLToPath(import.meta.url));
 const dataRoot = resolveFromAppRoot('data');
+const syncStatusFile = resolveFromAppRoot('storage', 'sync-status.json');
+const packageFile = resolveFromAppRoot('package.json');
 const catalogFile = path.join(dataRoot, 'jingdianconfig.json');
 const relationConfigFile = path.join(dataRoot, 'guanlianjiexiconfig.json');
+let activeSyncRun = null;
 
 function ensureInsideRoot(file, root) {
   const relToRoot = path.relative(root, file);
@@ -18,6 +22,26 @@ function ensureInsideRoot(file, root) {
 
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
+}
+
+function walkFiles(dir, bucket = []) {
+  if (!fs.existsSync(dir) || !fs.statSync(dir).isDirectory()) {
+    return bucket;
+  }
+
+  for (const entry of fs.readdirSync(dir, {withFileTypes: true})) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      walkFiles(fullPath, bucket);
+      continue;
+    }
+
+    if (entry.isFile()) {
+      bucket.push(fullPath);
+    }
+  }
+
+  return bucket;
 }
 
 function loadBooksCatalog() {
@@ -185,6 +209,160 @@ function buildRelationsPayload() {
   });
 }
 
+function loadSyncStatus() {
+  const dataFiles = [
+    catalogFile,
+    relationConfigFile,
+    ...walkFiles(path.join(dataRoot, '经典')),
+    ...walkFiles(path.join(dataRoot, '关联解析')),
+  ].filter(file => fs.existsSync(file) && fs.statSync(file).isFile());
+
+  const latestDataFile = dataFiles.reduce(
+    (latest, file) => {
+      const mtimeMs = fs.statSync(file).mtimeMs;
+      if (mtimeMs <= latest.mtimeMs) return latest;
+      return {file, mtimeMs};
+    },
+    {file: '', mtimeMs: 0},
+  );
+
+  if (!fs.existsSync(syncStatusFile) || !fs.statSync(syncStatusFile).isFile()) {
+    return {
+      ok: true,
+      lastSyncAt: null,
+      hasSyncRecord: false,
+      isStale: latestDataFile.mtimeMs > 0,
+      latestDataUpdateAt: latestDataFile.mtimeMs > 0 ? new Date(latestDataFile.mtimeMs).toISOString() : null,
+      latestDataFile: latestDataFile.file ? path.relative(dataRoot, latestDataFile.file).replace(/\\/g, '/') : null,
+    };
+  }
+
+  const status = readJson(syncStatusFile);
+  const lastSyncAt = typeof status?.lastSyncAt === 'string' ? status.lastSyncAt : null;
+  const lastSyncMs = lastSyncAt ? new Date(lastSyncAt).getTime() : 0;
+  const isStale = latestDataFile.mtimeMs > 0 && (!lastSyncMs || latestDataFile.mtimeMs > lastSyncMs);
+
+  return {
+    ok: true,
+    lastSyncAt,
+    hasSyncRecord: !!lastSyncAt,
+    isStale,
+    latestDataUpdateAt: latestDataFile.mtimeMs > 0 ? new Date(latestDataFile.mtimeMs).toISOString() : null,
+    latestDataFile: latestDataFile.file ? path.relative(dataRoot, latestDataFile.file).replace(/\\/g, '/') : null,
+    stepCount: typeof status?.stepCount === 'number' ? status.stepCount : 0,
+  };
+}
+
+function loadPackageVersion() {
+  if (!fs.existsSync(packageFile) || !fs.statSync(packageFile).isFile()) {
+    return 'unknown';
+  }
+
+  const pkg = readJson(packageFile);
+  return typeof pkg?.version === 'string' ? pkg.version : 'unknown';
+}
+
+function loadSystemStatus() {
+  const db = openDatabase();
+
+  try {
+    initSchema(db);
+    const stats = db.prepare(`
+      SELECT
+        (SELECT COUNT(*) FROM books) AS books,
+        (SELECT COUNT(*) FROM chapters) AS chapters,
+        (SELECT COUNT(*) FROM clauses) AS clauses,
+        (SELECT COUNT(*) FROM keywords) AS keywords,
+        (SELECT COUNT(*) FROM relation_sources) AS relation_sources,
+        (SELECT COUNT(*) FROM relation_entries) AS relation_entries
+    `).get();
+
+    return {
+      ok: true,
+      appVersion: loadPackageVersion(),
+      nodeEnv: process.env.NODE_ENV || 'development',
+      syncStatus: loadSyncStatus(),
+      syncRuntime: {
+        isRunning: !!activeSyncRun,
+        startedAt: activeSyncRun?.startedAt || null,
+      },
+      database: {
+        books: Number(stats?.books || 0),
+        chapters: Number(stats?.chapters || 0),
+        clauses: Number(stats?.clauses || 0),
+        keywords: Number(stats?.keywords || 0),
+        relationSources: Number(stats?.relation_sources || 0),
+        relationEntries: Number(stats?.relation_entries || 0),
+      },
+    };
+  } finally {
+    db.close();
+  }
+}
+
+function runDatabaseSync() {
+  if (activeSyncRun) {
+    return activeSyncRun.promise;
+  }
+
+  const startedAt = new Date().toISOString();
+  const command = process.platform === 'win32' ? (process.env.ComSpec || 'cmd.exe') : 'npm';
+  const args =
+    process.platform === 'win32'
+      ? ['/d', '/s', '/c', 'npm run db:sync']
+      : ['run', 'db:sync'];
+
+  let stdout = '';
+  let stderr = '';
+
+  const promise = new Promise((resolve, reject) => {
+    const child = spawn(command, args, {
+      cwd: resolveFromAppRoot(),
+      env: process.env,
+      shell: false,
+      windowsHide: true,
+    });
+
+    child.stdout?.on('data', chunk => {
+      stdout += chunk.toString();
+    });
+
+    child.stderr?.on('data', chunk => {
+      stderr += chunk.toString();
+    });
+
+    child.once('error', error => {
+      reject(error);
+    });
+
+    child.once('close', code => {
+      if (code === 0) {
+        resolve({
+          ok: true,
+          status: 'completed',
+          startedAt,
+          finishedAt: new Date().toISOString(),
+          message: '同步完成',
+        });
+        return;
+      }
+
+      reject(
+        new Error(
+          stderr.trim() ||
+            stdout.trim() ||
+            `同步失败，退出码 ${code ?? 'unknown'}`,
+        ),
+      );
+    });
+  }).finally(() => {
+    activeSyncRun = null;
+  });
+
+  activeSyncRun = {startedAt, promise};
+  return promise;
+}
+
 function updateClauseKeywords({dataFile, keyword, mode}) {
   const file = dataUrlToFile(dataFile);
   if (!file || !fs.existsSync(file) || !fs.statSync(file).isFile()) {
@@ -328,6 +506,51 @@ export function createLocalApp({staticDir} = {}) {
       sendJson(res, 200, buildRelationsPayload());
     } catch (error) {
       sendJson(res, 500, {ok: false, error: error instanceof Error ? error.message : 'Unknown error'});
+    }
+  });
+
+  app.get('/api/sync/status', (_req, res) => {
+    try {
+      sendJson(res, 200, loadSyncStatus());
+    } catch (error) {
+      sendJson(res, 500, {ok: false, error: error instanceof Error ? error.message : 'Unknown error'});
+    }
+  });
+
+  app.get('/api/system/status', (_req, res) => {
+    try {
+      sendJson(res, 200, loadSystemStatus());
+    } catch (error) {
+      sendJson(res, 500, {ok: false, error: error instanceof Error ? error.message : 'Unknown error'});
+    }
+  });
+
+  app.post('/api/sync/run', async (_req, res) => {
+    if (activeSyncRun) {
+      sendJson(res, 409, {
+        ok: false,
+        status: 'running',
+        startedAt: activeSyncRun.startedAt,
+        message: '已有同步任务正在执行，请稍候再试。',
+      });
+      return;
+    }
+
+    let startedAt = null;
+
+    try {
+      const syncPromise = runDatabaseSync();
+      startedAt = activeSyncRun?.startedAt || null;
+      const result = await syncPromise;
+      sendJson(res, 200, result);
+    } catch (error) {
+      sendJson(res, 500, {
+        ok: false,
+        status: 'failed',
+        startedAt,
+        finishedAt: new Date().toISOString(),
+        message: error instanceof Error ? error.message : 'Unknown error',
+      });
     }
   });
 

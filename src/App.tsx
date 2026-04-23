@@ -9,6 +9,7 @@ import {GraphView} from './components/GraphView';
 import {ClauseDetail} from './components/ClauseDetail';
 import {PluginPanel} from './components/PluginPanel';
 import {SearchResults} from './components/SearchResults';
+import {SystemStatusModal} from './components/SystemStatusModal';
 import {prefetchKnowledgeBase, resolveClauseRelations, searchKnowledgeBase} from './lib/searchUtils';
 import {buildRelationGraph} from './lib/relationGraph';
 import type {
@@ -17,15 +18,34 @@ import type {
   ClauseListItem,
   KeywordRemoveResponse,
   KeywordSaveResponse,
+  SyncRunResponse,
+  SyncStatus,
+  SystemStatus,
   VisibleNodeTypes,
 } from './types/relation';
+
+async function parseJsonResponse<T>(response: Response): Promise<T> {
+  const text = await response.text();
+
+  try {
+    return JSON.parse(text) as T;
+  } catch (error) {
+    const preview = text.slice(0, 80).replace(/\s+/g, ' ').trim();
+    throw new Error(preview ? `接口没有返回 JSON：${preview}` : '接口没有返回 JSON');
+  }
+}
+
+async function fetchApiJson<T>(input: RequestInfo | URL, init?: RequestInit): Promise<T> {
+  const response = await fetch(input, init);
+  return parseJsonResponse<T>(response);
+}
 
 async function loadClauseData(clauseId?: string | null): Promise<ClauseData | null> {
   if (!clauseId) return null;
   try {
     const response = await fetch(`/api/clauses/${encodeURIComponent(clauseId)}`);
     if (!response.ok) return null;
-    return await response.json();
+    return await parseJsonResponse<ClauseData>(response);
   } catch (error) {
     console.error(`Failed to load clause data: ${clauseId}`, error);
     return null;
@@ -43,6 +63,11 @@ function findFirstValidClauseId(book?: BookCatalogItem) {
 
 export default function App() {
   const [books, setBooks] = useState<BookCatalogItem[]>([]);
+  const [syncStatus, setSyncStatus] = useState<SyncStatus | null>(null);
+  const [systemStatus, setSystemStatus] = useState<SystemStatus | null>(null);
+  const [isSystemStatusOpen, setIsSystemStatusOpen] = useState(false);
+  const [isSyncRunning, setIsSyncRunning] = useState(false);
+  const [syncMessage, setSyncMessage] = useState<string | null>(null);
   const [activeBookId, setActiveBookId] = useState('shanghan');
   const [activeClauseId, setActiveClauseId] = useState('265');
   const [searchQuery, setSearchQuery] = useState('');
@@ -58,9 +83,70 @@ export default function App() {
   const lastSyncedClauseIdRef = useRef<string | null>(null);
   const lastClauseKeywordsRef = useRef<string[]>([]);
 
+  const syncStatusLabel = useMemo(() => {
+    if (!syncStatus?.hasSyncRecord || !syncStatus.lastSyncAt) {
+      return '未记录';
+    }
+
+    const date = new Date(syncStatus.lastSyncAt);
+    if (Number.isNaN(date.getTime())) {
+      return syncStatus.lastSyncAt;
+    }
+
+    return date.toLocaleString('zh-CN', {hour12: false});
+  }, [syncStatus]);
+
+  const syncStateText = useMemo(() => {
+    if (!syncStatus?.hasSyncRecord) {
+      return '未同步';
+    }
+
+    return syncStatus.isStale ? '可能未同步' : '已同步';
+  }, [syncStatus]);
+
+  const refreshStatuses = async () => {
+    const [syncData, systemData] = await Promise.all([
+      fetch('/api/sync/status')
+        .then(async r => (r.ok ? await parseJsonResponse<SyncStatus>(r) : null))
+        .catch(() => null),
+      fetch('/api/system/status')
+        .then(async r => (r.ok ? await parseJsonResponse<SystemStatus>(r) : null))
+        .catch(() => null),
+    ]);
+
+    setSyncStatus(syncData);
+    setSystemStatus(systemData);
+  };
+
+  const refreshClauseData = async (clauseId?: string | null) => {
+    if (!clauseId) return;
+
+    const data = await loadClauseData(clauseId);
+    if (!data) return;
+
+    setBooks(prev =>
+      prev.map(book => ({
+        ...book,
+        chapters: book.chapters.map(chapter => ({
+          ...chapter,
+          clauses: chapter.clauses.map(clause => (clause.id === clauseId ? {...clause, data} : clause)),
+        })),
+      })),
+    );
+  };
+
   useEffect(() => {
-    Promise.all([fetch('/api/books').then(r => r.json()), prefetchKnowledgeBase()])
-      .then(([data]) => {
+    Promise.all([
+      fetchApiJson<BookCatalogItem[]>('/api/books'),
+      fetch('/api/sync/status')
+        .then(async r => (r.ok ? await parseJsonResponse<SyncStatus>(r) : null))
+        .catch(() => null),
+      fetch('/api/system/status')
+        .then(async r => (r.ok ? await parseJsonResponse<SystemStatus>(r) : null))
+        .catch(() => null),
+      prefetchKnowledgeBase(),
+    ])
+      .then(([data, syncData, systemData]) => {
         const loadedBooks: BookCatalogItem[] = data.map((book: any) => ({
           ...book,
           chapters: (book.chapters || []).map((chapter: any) => ({
@@ -79,6 +165,8 @@ export default function App() {
           setActiveBookId(loadedBooks[0].id);
           setActiveClauseId(findFirstValidClauseId(loadedBooks[0]));
         }
+        setSyncStatus(syncData);
+        setSystemStatus(systemData);
         setIsLoading(false);
       })
       .catch(error => {
@@ -267,7 +355,9 @@ export default function App() {
       }),
     });
 
-    const result = (await response.json()) as KeywordSaveResponse & {error?: string};
+    const result = (await parseJsonResponse<KeywordSaveResponse & {error?: string}>(response)) as KeywordSaveResponse & {
+      error?: string;
+    };
     if (!response.ok || !result.ok) {
       throw new Error(result.error || '关键词保存失败');
     }
@@ -302,7 +392,9 @@ export default function App() {
       }),
     });
 
-    const result = (await response.json()) as KeywordRemoveResponse & {error?: string};
+    const result = (await parseJsonResponse<KeywordRemoveResponse & {error?: string}>(response)) as KeywordRemoveResponse & {
+      error?: string;
+    };
     if (!response.ok || !result.ok) {
       throw new Error(result.error || '关键词删除失败');
     }
@@ -320,6 +412,32 @@ export default function App() {
     return result.removed;
   };
 
+  const handleRunSync = async () => {
+    setIsSyncRunning(true);
+    setSyncMessage('正在同步数据，请稍候...');
+
+    try {
+      const response = await fetch('/api/sync/run', {
+        method: 'POST',
+      });
+      const result = (await parseJsonResponse<SyncRunResponse & {error?: string}>(response)) as SyncRunResponse & {
+        error?: string;
+      };
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.message || result.error || '同步失败');
+      }
+
+      await Promise.all([refreshStatuses(), refreshClauseData(activeClauseId)]);
+      setSyncMessage(result.message || '同步完成，状态已刷新。');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : '同步失败';
+      setSyncMessage(`同步失败：${message}`);
+    } finally {
+      setIsSyncRunning(false);
+    }
+  };
+
   if (isLoading) {
     return <div className="flex h-screen items-center justify-center bg-paper text-ink">Loading Relations...</div>;
   }
@@ -328,10 +446,17 @@ export default function App() {
     <div className="flex flex-col h-screen w-full bg-paper overflow-hidden text-ink relative">
       <header className="h-[70px] border-b border-divider flex items-center justify-between px-10 bg-paper/80 shrink-0">
         <div className="text-[22px] font-bold tracking-[2px] text-sage border-l-4 border-clay pl-3">经方关系图 · JINGFANG RELATIONS</div>
-        <div className="flex gap-5 text-sm text-muted">
+        <div className="flex gap-5 text-sm text-muted items-center">
           <span>当前经典: {activeBook?.name}</span>
           <span>关系来源: 关键词命中</span>
           <span>用户: 中医爱好者</span>
+          <button
+            type="button"
+            onClick={() => setIsSystemStatusOpen(true)}
+            className="px-3 py-1.5 border border-divider rounded-md text-ink hover:border-sage transition-colors bg-card"
+          >
+            系统状态
+          </button>
         </div>
       </header>
 
@@ -430,9 +555,20 @@ export default function App() {
 
       <footer className="h-[40px] border-t border-divider px-10 flex items-center text-[11px] text-muted bg-paper shrink-0">
         <span className="mr-5">● 系统已连接: {books.length} 部经典</span>
+        <span className="mr-5">● 同步状态: {syncStateText}</span>
+        <span className="mr-5">● 最近同步: {syncStatusLabel}</span>
         <span className="mr-5">● 当前关键词: {currentData ? `${selectedKeywords.length} / ${currentData.keywords.length}` : '0 / 0'}</span>
         <span>● 当前关联命中: {currentData ? `${visibleSelectedRelationHits.length} / ${visibleRelationHits.length}` : '0 / 0'}</span>
       </footer>
+
+      <SystemStatusModal
+        status={systemStatus}
+        isOpen={isSystemStatusOpen}
+        isSyncRunning={isSyncRunning}
+        syncMessage={syncMessage}
+        onRunSync={handleRunSync}
+        onClose={() => setIsSystemStatusOpen(false)}
+      />
     </div>
   );
 }
