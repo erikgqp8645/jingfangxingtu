@@ -105,7 +105,7 @@
 
 如果你要对外发布桌面版 Release（发布版本），再看：
 
-- [releases-desktop-v0.1.0.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\releases-desktop-v0.1.0.md)
+- [releases-desktop-v0.1.1.md](C:\Users\hxst01\Documents\aicoding\jingfangxingtu\docs\releases-desktop-v0.1.1.md)
 
 ---
 
