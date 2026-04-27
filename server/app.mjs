@@ -691,6 +691,20 @@ export function createLocalApp({staticDir} = {}) {
     }
   });
 
+  app.use((error, req, res, next) => {
+    if (!req.path.startsWith('/api/')) {
+      next(error);
+      return;
+    }
+
+    if (error instanceof SyntaxError && 'body' in error) {
+      sendJson(res, 400, {ok: false, error: 'Invalid JSON body'});
+      return;
+    }
+
+    sendJson(res, 500, {ok: false, error: error instanceof Error ? error.message : 'Unknown error'});
+  });
+
   app.use('/data', express.static(dataRoot, {fallthrough: false}));
 
   if (staticDir) {
