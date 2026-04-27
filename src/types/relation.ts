@@ -82,11 +82,20 @@ export interface KnowledgeSourceConfig {
   category?: string;
 }
 
+export interface RelationSourceInfo {
+  sourceName: string;
+  fileBaseName: string;
+  category?: string;
+  hasJson: boolean;
+  hasTxt: boolean;
+}
+
 export interface RelationHit {
   id: string;
   keyword: string;
   keywords?: string[];
   sourceName: string;
+  fileBaseName: string;
   category: string;
   title: string;
   content: string;
