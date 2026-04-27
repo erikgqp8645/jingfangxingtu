@@ -10,3 +10,4 @@ coverage/
 storage/*.db
 storage/*.sqlite
 !storage/.gitkeep
+data/关联解析/张弛-金贵要略.txt

@@ -13,6 +13,11 @@ const syncStatusFile = resolveFromAppRoot('storage', 'sync-status.json');
 const packageFile = resolveFromAppRoot('package.json');
 const catalogFile = path.join(dataRoot, 'jingdianconfig.json');
 const relationConfigFile = path.join(dataRoot, 'guanlianjiexiconfig.json');
+const CLASSICS_DIR = '\u7ecf\u5178';
+const RELATIONS_DIR = '\u5173\u8054\u89e3\u6790';
+const PIANMING_TAG = '<\u7bc7\u540d>';
+const ALT_PIANMING_TAG = '\u3010\u7bc7\u540d\u3011';
+const SHUXING_LABEL = '\u5c5e\u6027\uff1a';
 let activeSyncRun = null;
 
 function ensureInsideRoot(file, root) {
