@@ -1,9 +1,4 @@
-import type {
-  KnowledgeSourceConfig,
-  RelationHit,
-  RelationSourceInfo,
-  SearchResult,
-} from '../types/relation';
+import type {KnowledgeSourceConfig, RelationHit, SearchResult} from '../types/relation';
 
 type StructuredEntry = {
   title?: string;
@@ -23,10 +18,6 @@ type LoadedSource = {
   jsonEntries: LoadedEntry[];
   txtEntries: LoadedEntry[];
 };
-
-const RELATIONS_DIR = '/data/关联解析';
-const PIANMING_SPLIT_PATTERN = /<篇名>|【篇名】/;
-const SHUXING_PATTERN = /属性[：:]\s*([\s\S]+)/;
 
 let loadedConfigs: KnowledgeSourceConfig[] = [];
 let loadedJsonFiles: Record<string, Record<string, StructuredEntry[]>> = {};
@@ -69,7 +60,7 @@ function dedupeAndSortHits(hits: RelationHit[]) {
   const merged = new Map<string, RelationHit>();
 
   hits.forEach(hit => {
-    const key = [hit.fileBaseName, hit.category, hit.title, hit.content, hit.matchType].join('||');
+    const key = [hit.sourceName, hit.category, hit.title, hit.content, hit.matchType].join('||');
     const existing = merged.get(key);
 
     if (!existing) {
@@ -89,7 +80,7 @@ function dedupeAndSortHits(hits: RelationHit[]) {
 }
 
 function parseTxtEntries(txtContent: string): LoadedEntry[] {
-  const segments = txtContent.split(PIANMING_SPLIT_PATTERN);
+  const segments = txtContent.split(/<篇名>|【篇名】?/);
   const entries: LoadedEntry[] = [];
 
   segments.forEach((segment, index) => {
@@ -98,7 +89,7 @@ function parseTxtEntries(txtContent: string): LoadedEntry[] {
 
     const titleMatch = trimmed.match(/([^\n]+)/);
     const title = titleMatch ? titleMatch[1].trim() : `片段 ${index + 1}`;
-    const attrMatch = trimmed.match(SHUXING_PATTERN);
+    const attrMatch = trimmed.match(/属性[：:]([\s\S]+)/);
     const content = attrMatch ? attrMatch[1].trim() : trimmed;
 
     if (!content) return;
@@ -145,16 +136,6 @@ function hydrateLoadedSourcesFromFiles() {
   loadedSources = nextSources;
 }
 
-export function getKnowledgeSourceInfos(): RelationSourceInfo[] {
-  return loadedSources.map(source => ({
-    sourceName: source.sourceName,
-    fileBaseName: source.fileBaseName,
-    category: source.category,
-    hasJson: source.jsonEntries.length > 0,
-    hasTxt: source.txtEntries.length > 0,
-  }));
-}
-
 export async function prefetchKnowledgeBase() {
   if (isReady) return;
 
@@ -163,11 +144,6 @@ export async function prefetchKnowledgeBase() {
       const apiRes = await fetch('/api/relations/index');
       if (apiRes.ok) {
         loadedSources = await apiRes.json();
-        loadedConfigs = loadedSources.map(source => ({
-          sourceName: source.sourceName,
-          fileBaseName: source.fileBaseName,
-          category: source.category,
-        }));
         isReady = true;
         return;
       }
@@ -180,14 +156,14 @@ export async function prefetchKnowledgeBase() {
       const baseName = config.fileBaseName;
 
       try {
-        const jsonRes = await fetch(`${RELATIONS_DIR}/${baseName}.json`);
+        const jsonRes = await fetch(`/data/关联解析/${baseName}.json`);
         if (jsonRes.ok) {
           loadedJsonFiles[baseName] = await jsonRes.json();
         }
       } catch {}
 
       try {
-        const txtRes = await fetch(`${RELATIONS_DIR}/${baseName}.txt`);
+        const txtRes = await fetch(`/data/关联解析/${baseName}.txt`);
         if (txtRes.ok) {
           loadedTxtFiles[baseName] = await txtRes.text();
         }
@@ -201,7 +177,11 @@ export async function prefetchKnowledgeBase() {
   }
 }
 
-function resolveJsonHits(source: LoadedSource, config: KnowledgeSourceConfig, keyword: string) {
+function resolveJsonHits(
+  source: LoadedSource,
+  config: KnowledgeSourceConfig,
+  keyword: string,
+) {
   return source.jsonEntries
     .map((item, index) => ({item, index}))
     .filter(({item}) => item.keyword === keyword && !!item.content)
@@ -209,7 +189,6 @@ function resolveJsonHits(source: LoadedSource, config: KnowledgeSourceConfig, ke
       id: makeHitId([source.fileBaseName, keyword, 'json', String(index)]),
       keyword,
       sourceName: source.sourceName,
-      fileBaseName: source.fileBaseName,
       category: normalizeCategory(config),
       title: item.title || keyword,
       content: item.content,
@@ -217,7 +196,11 @@ function resolveJsonHits(source: LoadedSource, config: KnowledgeSourceConfig, ke
     }));
 }
 
-function resolveTxtHits(source: LoadedSource, config: KnowledgeSourceConfig, keyword: string) {
+function resolveTxtHits(
+  source: LoadedSource,
+  config: KnowledgeSourceConfig,
+  keyword: string,
+) {
   return source.txtEntries
     .map((entry, index) => ({entry, index}))
     .filter(({entry}) => entry.content.includes(keyword))
@@ -225,7 +208,6 @@ function resolveTxtHits(source: LoadedSource, config: KnowledgeSourceConfig, key
       id: makeHitId([source.fileBaseName, keyword, 'txt', String(index)]),
       keyword,
       sourceName: source.sourceName,
-      fileBaseName: source.fileBaseName,
       category: normalizeCategory(config),
       title: entry.title,
       content: excerpt(entry.content, keyword),
@@ -233,16 +215,11 @@ function resolveTxtHits(source: LoadedSource, config: KnowledgeSourceConfig, key
     }));
 }
 
-export function resolveClauseRelations(keywords: string[], allowedSourceBaseNames?: string[]): RelationHit[] {
+export function resolveClauseRelations(keywords: string[]): RelationHit[] {
   const dedupedKeywords = Array.from(new Set(keywords.map(keyword => keyword.trim()).filter(Boolean)));
-  const allowedSet = allowedSourceBaseNames?.length ? new Set(allowedSourceBaseNames) : null;
   const hits: RelationHit[] = [];
 
   for (const source of loadedSources) {
-    if (allowedSet && !allowedSet.has(source.fileBaseName)) {
-      continue;
-    }
-
     const config: KnowledgeSourceConfig = {
       sourceName: source.sourceName,
       fileBaseName: source.fileBaseName,

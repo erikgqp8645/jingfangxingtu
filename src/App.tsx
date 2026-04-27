@@ -10,12 +10,7 @@ import {ClauseDetail} from './components/ClauseDetail';
 import {PluginPanel} from './components/PluginPanel';
 import {SearchResults} from './components/SearchResults';
 import {SystemStatusModal} from './components/SystemStatusModal';
-import {
-  getKnowledgeSourceInfos,
-  prefetchKnowledgeBase,
-  resolveClauseRelations,
-  searchKnowledgeBase,
-} from './lib/searchUtils';
+import {prefetchKnowledgeBase, resolveClauseRelations, searchKnowledgeBase} from './lib/searchUtils';
 import {buildRelationGraph} from './lib/relationGraph';
 import type {
   BookCatalogItem,
@@ -23,7 +18,6 @@ import type {
   ClauseListItem,
   KeywordRemoveResponse,
   KeywordSaveResponse,
-  RelationSourceInfo,
   SyncRunResponse,
   SyncStatus,
   SystemStatus,
@@ -81,8 +75,6 @@ export default function App() {
   const [isClauseLoading, setIsClauseLoading] = useState(false);
   const [selectedHitIds, setSelectedHitIds] = useState<string[]>([]);
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
-  const [availableSources, setAvailableSources] = useState<RelationSourceInfo[]>([]);
-  const [enabledSourceBaseNames, setEnabledSourceBaseNames] = useState<string[]>([]);
   const [visibleNodeTypes, setVisibleNodeTypes] = useState<VisibleNodeTypes>({
     clause: true,
     keyword: true,
@@ -155,7 +147,6 @@ export default function App() {
       prefetchKnowledgeBase(),
     ])
       .then(([data, syncData, systemData]) => {
-        const loadedSources = getKnowledgeSourceInfos();
         const loadedBooks: BookCatalogItem[] = data.map((book: any) => ({
           ...book,
           chapters: (book.chapters || []).map((chapter: any) => ({
@@ -174,8 +165,6 @@ export default function App() {
           setActiveBookId(loadedBooks[0].id);
           setActiveClauseId(findFirstValidClauseId(loadedBooks[0]));
         }
-        setAvailableSources(loadedSources);
-        setEnabledSourceBaseNames(loadedSources.map(source => source.fileBaseName));
         setSyncStatus(syncData);
         setSystemStatus(systemData);
         setIsLoading(false);
@@ -240,24 +229,9 @@ export default function App() {
     (activeBook?.id === fallbackBook?.id ? fallbackClauseItem?.dataFile : null) ||
     null;
   const effectiveKeywords = currentData ? currentData.keywords.filter(keyword => selectedKeywords.includes(keyword)) : [];
-  const relationHits = currentData ? resolveClauseRelations(effectiveKeywords, enabledSourceBaseNames) : [];
+  const relationHits = currentData ? resolveClauseRelations(effectiveKeywords) : [];
   const searchResults = searchKnowledgeBase(searchQuery);
   const isSearching = searchQuery.trim().length > 0;
-
-  useEffect(() => {
-    if (availableSources.length === 0) return;
-
-    setEnabledSourceBaseNames(prev => {
-      if (prev.length === 0) {
-        return availableSources.map(source => source.fileBaseName);
-      }
-
-      const availableSet = new Set(availableSources.map(source => source.fileBaseName));
-      const next = prev.filter(fileBaseName => availableSet.has(fileBaseName));
-
-      return next.length === 0 ? availableSources.map(source => source.fileBaseName) : next;
-    });
-  }, [availableSources]);
 
   const recommendedHitIds = useMemo(() => {
     const seenSources = new Set<string>();
@@ -340,31 +314,17 @@ export default function App() {
   };
 
   const handleSelectSource = (sourceName: string) => {
-    const sourceHitIds = relationHits.filter(hit => hit.fileBaseName === sourceName).map(hit => hit.id);
+    const sourceHitIds = relationHits.filter(hit => hit.sourceName === sourceName).map(hit => hit.id);
     setSelectedHitIds(prev => Array.from(new Set([...prev, ...sourceHitIds])));
   };
 
   const handleClearSource = (sourceName: string) => {
-    const sourceHitIds = new Set(relationHits.filter(hit => hit.fileBaseName === sourceName).map(hit => hit.id));
+    const sourceHitIds = new Set(relationHits.filter(hit => hit.sourceName === sourceName).map(hit => hit.id));
     setSelectedHitIds(prev => prev.filter(id => !sourceHitIds.has(id)));
   };
 
   const handleResetRecommended = () => {
     setSelectedHitIds(recommendedHitIds);
-  };
-
-  const handleToggleSourceEnabled = (fileBaseName: string) => {
-    setEnabledSourceBaseNames(prev =>
-      prev.includes(fileBaseName) ? prev.filter(item => item !== fileBaseName) : [...prev, fileBaseName],
-    );
-  };
-
-  const handleEnableAllSources = () => {
-    setEnabledSourceBaseNames(availableSources.map(source => source.fileBaseName));
-  };
-
-  const handleDisableAllSources = () => {
-    setEnabledSourceBaseNames([]);
   };
 
   const handleToggleNodeType = (type: keyof VisibleNodeTypes) => {
@@ -581,12 +541,7 @@ export default function App() {
             relationHits={visibleRelationHits}
             selectedHitIds={selectedHitIds}
             sourceVisible={visibleNodeTypes.source}
-            availableSources={availableSources}
-            enabledSourceBaseNames={enabledSourceBaseNames}
             onToggleHit={handleToggleHit}
-            onToggleSourceEnabled={handleToggleSourceEnabled}
-            onEnableAllSources={handleEnableAllSources}
-            onDisableAllSources={handleDisableAllSources}
             onSelectSource={handleSelectSource}
             onClearSource={handleClearSource}
             onResetRecommended={handleResetRecommended}
