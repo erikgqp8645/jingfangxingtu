@@ -7,13 +7,14 @@ const downloadsDir = path.join(process.env.USERPROFILE || 'C:\\Users\\hxst01', '
 const outputDir = path.join(rootDir, 'external', 'normalized');
 const outputFile = path.join(outputDir, 'jingui-jiaoban-normalized.txt');
 
+const PIANMING_TAG = '<\u7bc7\u540d>';
+const MULU_TAG = '<\u76ee\u5f55>';
+const SHUXING_LABEL = '\u5c5e\u6027\uff1a';
+
 function cleanParagraph(value) {
   return value
     .replace(/\r/g, '')
     .replace(/[\u0000\u200B-\u200D\uFEFF]/g, '')
-    .replace(/[ \t]+/g, ' ')
-    .replace(/ +([，。；：！？）》」』、])/g, '$1')
-    .replace(/([《「『（]) +/g, '$1')
     .trim();
 }
 
@@ -29,54 +30,61 @@ function isSectionHeading(value) {
 }
 
 function isLectureHeading(value) {
-  return /^第[一二三四五六七八九十百零〇]+讲/.test(value);
+  return /^\u7b2c[\u4e00\u4e8c\u4e09\u56db\u4e94\u516d\u4e03\u516b\u4e5d\u5341\u767e\u96f6\u3007]+\u8bb2/.test(value);
 }
 
 function isSubHeading(value) {
-  return /^[◎●•]\s*/.test(value);
+  return /^[\u25ce\u25cf\u2022]\s*/.test(value);
 }
 
 async function resolveSourceDocx() {
   const entries = await readdir(downloadsDir, {withFileTypes: true});
-  const candidates = entries
-    .filter(entry => entry.isFile() && entry.name.endsWith('.docx') && entry.name.includes('金匮要略'))
+  const docxFiles = entries
+    .filter(entry => entry.isFile() && entry.name.toLowerCase().endsWith('.docx'))
     .map(entry => path.join(downloadsDir, entry.name))
     .sort();
 
-  if (candidates.length === 0) {
-    throw new Error(`No docx file containing 金匮要略 was found in ${downloadsDir}`);
+  if (docxFiles.length === 0) {
+    throw new Error(`No docx file was found in ${downloadsDir}`);
   }
 
-  return candidates[0];
+  return docxFiles[0];
 }
 
 function buildNormalizedText(paragraphs) {
-  const title = paragraphs[0] || '金匮要略精校版';
-  const lines = [`[TITLE] ${title}`, ''];
+  const title = paragraphs[0] || '';
+  const lines = [`${PIANMING_TAG}${title}`, ''];
   let sectionCount = 0;
   let lectureCount = 0;
   let subHeadingCount = 0;
   let bodyCount = 0;
+  let hasOpenLecture = false;
 
   for (let index = 1; index < paragraphs.length; index += 1) {
     const paragraph = paragraphs[index];
 
     if (isSectionHeading(paragraph)) {
-      lines.push(`[SECTION] ${paragraph}`);
+      if (hasOpenLecture) {
+        lines.push('');
+      }
+      lines.push(`${MULU_TAG}${paragraph}`);
       lines.push('');
       sectionCount += 1;
+      hasOpenLecture = false;
       continue;
     }
 
     if (isLectureHeading(paragraph)) {
-      lines.push(`[LECTURE] ${paragraph}`);
+      lines.push(`${PIANMING_TAG}${paragraph}`);
+      lines.push(SHUXING_LABEL);
       lines.push('');
       lectureCount += 1;
+      hasOpenLecture = true;
       continue;
     }
 
     if (isSubHeading(paragraph)) {
-      lines.push(`[SUBHEADING] ${paragraph.replace(/^[◎●•]\s*/, '')}`);
+      lines.push(paragraph);
       lines.push('');
       subHeadingCount += 1;
       continue;
