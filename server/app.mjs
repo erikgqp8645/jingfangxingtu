@@ -214,6 +214,68 @@ function buildRelationsPayload() {
   });
 }
 
+function sanitizeFileBaseName(value) {
+  return String(value || '')
+    .trim()
+    .replace(/\.[^.]+$/, '')
+    .replace(/[\\/:*?"<>|]+/g, '-')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function saveRelationSource({sourceName, fileBaseName, category, content}) {
+  const cleanSourceName = String(sourceName || '').trim();
+  const cleanFileBaseName = sanitizeFileBaseName(fileBaseName);
+  const cleanCategory = String(category || '').trim();
+  const cleanContent = String(content || '').replace(/^\uFEFF/, '').trim();
+
+  if (!cleanSourceName) {
+    throw new Error('Missing sourceName');
+  }
+
+  if (!cleanFileBaseName) {
+    throw new Error('Missing fileBaseName');
+  }
+
+  if (!cleanContent) {
+    throw new Error('Missing file content');
+  }
+
+  const relationDir = path.join(dataRoot, RELATIONS_DIR);
+  const targetFile = path.join(relationDir, `${cleanFileBaseName}.txt`);
+  if (!ensureInsideRoot(targetFile, relationDir)) {
+    throw new Error('Invalid target file path');
+  }
+
+  fs.mkdirSync(relationDir, {recursive: true});
+  fs.writeFileSync(targetFile, `${cleanContent}\n`, 'utf8');
+
+  const configs = fs.existsSync(relationConfigFile) ? readJson(relationConfigFile) : [];
+  const nextConfigs = Array.isArray(configs) ? [...configs] : [];
+  const existingIndex = nextConfigs.findIndex(item => item?.fileBaseName === cleanFileBaseName);
+  const nextEntry = {
+    sourceName: cleanSourceName,
+    fileBaseName: cleanFileBaseName,
+    ...(cleanCategory ? {category: cleanCategory} : {}),
+  };
+
+  if (existingIndex >= 0) {
+    nextConfigs[existingIndex] = nextEntry;
+  } else {
+    nextConfigs.push(nextEntry);
+  }
+
+  fs.writeFileSync(relationConfigFile, `${JSON.stringify(nextConfigs, null, 2)}\n`, 'utf8');
+
+  return {
+    sourceName: cleanSourceName,
+    fileBaseName: cleanFileBaseName,
+    category: cleanCategory || undefined,
+    dataFile: `/data/${RELATIONS_DIR}/${encodeURIComponent(cleanFileBaseName)}.txt`,
+    configUpdated: true,
+  };
+}
+
 function loadSyncStatus() {
   const dataFiles = [
     catalogFile,
@@ -492,7 +554,7 @@ function sendJson(res, status, body) {
 
 export function createLocalApp({staticDir} = {}) {
   const app = express();
-  app.use(express.json({limit: '1mb'}));
+  app.use(express.json({limit: '10mb'}));
 
   app.get('/api/health', (_req, res) => {
     sendJson(res, 200, {ok: true});
@@ -556,6 +618,20 @@ export function createLocalApp({staticDir} = {}) {
         finishedAt: new Date().toISOString(),
         message: error instanceof Error ? error.message : 'Unknown error',
       });
+    }
+  });
+
+  app.post('/api/relation-sources/add', (req, res) => {
+    try {
+      const sourceName = typeof req.body?.sourceName === 'string' ? req.body.sourceName : '';
+      const fileBaseName = typeof req.body?.fileBaseName === 'string' ? req.body.fileBaseName : '';
+      const category = typeof req.body?.category === 'string' ? req.body.category : '';
+      const content = typeof req.body?.content === 'string' ? req.body.content : '';
+
+      const result = saveRelationSource({sourceName, fileBaseName, category, content});
+      sendJson(res, 200, {ok: true, ...result});
+    } catch (error) {
+      sendJson(res, 400, {ok: false, error: error instanceof Error ? error.message : 'Unknown error'});
     }
   });
 

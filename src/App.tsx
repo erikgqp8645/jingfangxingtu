@@ -10,13 +10,19 @@ import {ClauseDetail} from './components/ClauseDetail';
 import {PluginPanel} from './components/PluginPanel';
 import {SearchResults} from './components/SearchResults';
 import {SystemStatusModal} from './components/SystemStatusModal';
-import {prefetchKnowledgeBase, resolveClauseRelations, searchKnowledgeBase} from './lib/searchUtils';
+import {
+  invalidateKnowledgeBaseCache,
+  prefetchKnowledgeBase,
+  resolveClauseRelations,
+  searchKnowledgeBase,
+} from './lib/searchUtils';
 import {buildRelationGraph} from './lib/relationGraph';
 import type {
   BookCatalogItem,
   ClauseData,
   ClauseListItem,
   KeywordRemoveResponse,
+  RelationSourceSaveResponse,
   KeywordSaveResponse,
   SyncRunResponse,
   SyncStatus,
@@ -438,6 +444,34 @@ export default function App() {
     }
   };
 
+  const handleAddRelationSource = async (payload: {
+    sourceName: string;
+    fileBaseName: string;
+    category: string;
+    content: string;
+  }) => {
+    const response = await fetch('/api/relation-sources/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const result = (await parseJsonResponse<RelationSourceSaveResponse & {ok: boolean; error?: string}>(
+      response,
+    )) as RelationSourceSaveResponse & {ok: boolean; error?: string};
+
+    if (!response.ok || !result.ok) {
+      throw new Error(result.error || '添加关联解析文件失败');
+    }
+
+    invalidateKnowledgeBaseCache();
+    await prefetchKnowledgeBase();
+    await refreshStatuses();
+    setSyncMessage(`关联解析文件已加入：${result.sourceName}`);
+  };
+
   if (isLoading) {
     return <div className="flex h-screen items-center justify-center bg-paper text-ink">Loading Relations...</div>;
   }
@@ -567,6 +601,7 @@ export default function App() {
         isSyncRunning={isSyncRunning}
         syncMessage={syncMessage}
         onRunSync={handleRunSync}
+        onAddRelationSource={handleAddRelationSource}
         onClose={() => setIsSystemStatusOpen(false)}
       />
     </div>

@@ -25,6 +25,14 @@ let loadedTxtFiles: Record<string, string> = {};
 let loadedSources: LoadedSource[] = [];
 let isReady = false;
 
+export function invalidateKnowledgeBaseCache() {
+  loadedConfigs = [];
+  loadedJsonFiles = {};
+  loadedTxtFiles = {};
+  loadedSources = [];
+  isReady = false;
+}
+
 function normalizeCategory(config: KnowledgeSourceConfig) {
   return config.category || `《${config.sourceName}》`;
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo, useState} from 'react';
 import type {SystemStatus} from '../types/relation';
 
 interface SystemStatusModalProps {
@@ -7,6 +7,12 @@ interface SystemStatusModalProps {
   isSyncRunning: boolean;
   syncMessage: string | null;
   onRunSync: () => Promise<void>;
+  onAddRelationSource: (payload: {
+    sourceName: string;
+    fileBaseName: string;
+    category: string;
+    content: string;
+  }) => Promise<void>;
   onClose: () => void;
 }
 
@@ -59,16 +65,72 @@ export const SystemStatusModal: React.FC<SystemStatusModalProps> = ({
   isSyncRunning,
   syncMessage,
   onRunSync,
+  onAddRelationSource,
   onClose,
 }) => {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [sourceName, setSourceName] = useState('');
+  const [fileBaseName, setFileBaseName] = useState('');
+  const [category, setCategory] = useState('金匮');
+  const [isSavingSource, setIsSavingSource] = useState(false);
+  const [sourceMessage, setSourceMessage] = useState<string | null>(null);
+
+  const syncPresentation = useMemo(() => resolveSyncPresentation(status), [status]);
+
   if (!isOpen) return null;
 
-  const syncPresentation = resolveSyncPresentation(status);
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null;
+    setSelectedFile(file);
+    setSourceMessage(null);
+
+    if (!file) return;
+
+    const nextBaseName = file.name.replace(/\.[^.]+$/, '').trim();
+    if (!sourceName.trim()) {
+      setSourceName(nextBaseName);
+    }
+    if (!fileBaseName.trim()) {
+      setFileBaseName(nextBaseName);
+    }
+  };
+
+  const handleSaveSource = async () => {
+    if (!selectedFile) {
+      setSourceMessage('请先选择一个 TXT 文件。');
+      return;
+    }
+
+    if (!sourceName.trim() || !fileBaseName.trim()) {
+      setSourceMessage('请填写来源名称和文件基础名。');
+      return;
+    }
+
+    setIsSavingSource(true);
+    setSourceMessage('正在添加关联解析文件...');
+
+    try {
+      const content = await selectedFile.text();
+      await onAddRelationSource({
+        sourceName: sourceName.trim(),
+        fileBaseName: fileBaseName.trim(),
+        category: category.trim(),
+        content,
+      });
+      setSourceMessage('添加完成，来源配置已更新。');
+      setSelectedFile(null);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : '添加失败';
+      setSourceMessage(`添加失败：${message}`);
+    } finally {
+      setIsSavingSource(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 px-6" onClick={onClose}>
       <div
-        className="w-full max-w-3xl overflow-hidden rounded-2xl border border-divider bg-paper shadow-2xl"
+        className="w-full max-w-4xl overflow-hidden rounded-2xl border border-divider bg-paper shadow-2xl"
         onClick={event => event.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-divider bg-card px-6 py-4">
@@ -110,6 +172,74 @@ export const SystemStatusModal: React.FC<SystemStatusModalProps> = ({
               <div className="mt-2 text-xs opacity-80">本次同步开始时间：{formatDateTime(status.syncRuntime.startedAt)}</div>
             ) : null}
             {syncMessage ? <div className="mt-3 font-medium">{syncMessage}</div> : null}
+          </div>
+
+          <div className="rounded-xl border border-divider bg-card p-4">
+            <div className="mb-3 font-bold text-clay">添加关联解析文件</div>
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              <div className="md:col-span-2">
+                <label className="mb-1 block text-xs text-muted">选择 TXT 文件</label>
+                <input
+                  type="file"
+                  accept=".txt,text/plain"
+                  onChange={handleFileChange}
+                  className="block w-full rounded-md border border-divider bg-paper px-3 py-2 text-sm"
+                />
+                <div className="mt-1 text-xs text-muted">
+                  {selectedFile ? `已选择：${selectedFile.name}` : '未选择文件'}
+                </div>
+              </div>
+
+              <div>
+                <label className="mb-1 block text-xs text-muted">sourceName（来源名称）</label>
+                <input
+                  type="text"
+                  value={sourceName}
+                  onChange={event => setSourceName(event.target.value)}
+                  className="w-full rounded-md border border-divider bg-paper px-3 py-2 text-sm"
+                  placeholder="例如：张弛-金贵要略"
+                />
+              </div>
+
+              <div>
+                <label className="mb-1 block text-xs text-muted">fileBaseName（文件基础名）</label>
+                <input
+                  type="text"
+                  value={fileBaseName}
+                  onChange={event => setFileBaseName(event.target.value)}
+                  className="w-full rounded-md border border-divider bg-paper px-3 py-2 text-sm"
+                  placeholder="例如：张弛-金贵要略"
+                />
+              </div>
+
+              <div>
+                <label className="mb-1 block text-xs text-muted">category（分类）</label>
+                <input
+                  type="text"
+                  value={category}
+                  onChange={event => setCategory(event.target.value)}
+                  className="w-full rounded-md border border-divider bg-paper px-3 py-2 text-sm"
+                  placeholder="例如：金匮"
+                />
+              </div>
+
+              <div className="flex items-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    void handleSaveSource();
+                  }}
+                  disabled={isSavingSource}
+                  className="w-full rounded-md border border-divider bg-paper px-3 py-2 text-sm text-ink transition-colors hover:border-sage disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {isSavingSource ? '保存中...' : '添加文件并写入配置'}
+                </button>
+              </div>
+            </div>
+            <div className="mt-2 text-xs text-muted">
+              保存后会自动把文件写入 `data/关联解析`，并更新 `guanlianjiexiconfig.json`。
+            </div>
+            {sourceMessage ? <div className="mt-3 text-sm font-medium">{sourceMessage}</div> : null}
           </div>
 
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">

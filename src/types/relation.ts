@@ -60,6 +60,15 @@ export interface SyncRunResponse {
   message?: string;
 }
 
+export interface RelationSourceSaveResponse {
+  ok: boolean;
+  sourceName: string;
+  fileBaseName: string;
+  category?: string;
+  dataFile: string;
+  configUpdated: boolean;
+}
+
 export interface SystemStatus {
   ok: boolean;
   appVersion: string;
