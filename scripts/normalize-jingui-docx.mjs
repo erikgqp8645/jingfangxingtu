@@ -6,10 +6,12 @@ const rootDir = process.cwd();
 const downloadsDir = path.join(process.env.USERPROFILE || 'C:\\Users\\hxst01', 'Downloads');
 const outputDir = path.join(rootDir, 'external', 'normalized');
 const outputFile = path.join(outputDir, 'jingui-jiaoban-normalized.txt');
+const requestedSourcePath = process.argv[2];
 
 const PIANMING_TAG = '<\u7bc7\u540d>';
 const MULU_TAG = '<\u76ee\u5f55>';
 const SHUXING_LABEL = '\u5c5e\u6027\uff1a';
+const PREFERRED_BASENAME = '金匮要略精校版';
 
 function cleanParagraph(value) {
   return value
@@ -38,6 +40,12 @@ function isSubHeading(value) {
 }
 
 async function resolveSourceDocx() {
+  if (requestedSourcePath) {
+    const explicitPath = path.resolve(requestedSourcePath);
+    await readFile(explicitPath);
+    return explicitPath;
+  }
+
   const entries = await readdir(downloadsDir, {withFileTypes: true});
   const docxFiles = entries
     .filter(entry => entry.isFile() && entry.name.toLowerCase().endsWith('.docx'))
@@ -46,6 +54,11 @@ async function resolveSourceDocx() {
 
   if (docxFiles.length === 0) {
     throw new Error(`No docx file was found in ${downloadsDir}`);
+  }
+
+  const preferredFile = docxFiles.find(file => path.parse(file).name === PREFERRED_BASENAME);
+  if (preferredFile) {
+    return preferredFile;
   }
 
   return docxFiles[0];
